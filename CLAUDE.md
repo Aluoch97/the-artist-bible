@@ -231,3 +231,14 @@ Guardrails that keep it consistent with the non-negotiables:
 * **Privacy:** nothing is stored except a daily neuron total and a hashed per-person counter that expires. The UI requires explicit consent, offers redaction, and shows exactly what will be sent. The app must keep working fully with the function absent.
 * **Setup (Cloudflare dashboard, Pages project > Settings > Bindings):** add Workers AI as `AI`; create a KV namespace and bind it as `BUDGET`.
 * Tests: `functions/api/review-contract.ts` exports its handlers so they can be exercised with a fake `AI` and `BUDGET`.
+
+---
+
+## 9. Pinned decisions (open, not started)
+* **AI review capacity / accounts (pinned 2026-11-25).** The AI contract review runs on Workers AI's shared free pool (~10,000 neurons/day account-wide). The function caps itself at 6,000/day and 3 reviews per person, which is roughly 10-20 large reviews/day. **Accounts would not add capacity**; they would only change who gets the slots. Options discussed, none chosen:
+  1. *More capacity, no accounts:* use a smaller model (Llama 3.1 8B uses ~6x fewer neurons, ~60-90 free reviews/day) and cache repeat contracts. Stays $0 and login-free; lower quality.
+  2. *Pay per use, no accounts:* Cloudflare Workers Paid, ~$0.004 per review on the 70B model (~$13/month at 100/day) with a hard monthly cap built in. No longer $0.
+  3. *Optional accounts:* reuse the NuRenaissance login (`nrnszn-app` has an accounts system) for per-person limits and cross-device sync. Tools stay usable signed out. Large build; requires updating the privacy policy and the "nothing leaves your device" promise.
+  4. *Option 1 now, accounts later* if people ask to sync across devices.
+  Recommendation was option 1 (or 4). Revisit when the owner decides.
+* **Not yet done:** a real end-to-end AI review has not been run on the live site (only the safety limits and screens were tested with a stand-in). First live review should be checked for quality, and prompts tuned if needed.
