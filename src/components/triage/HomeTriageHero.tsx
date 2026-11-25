@@ -1,4 +1,4 @@
-import { ArrowUpRight, BookOpen, CalendarCheck, ChevronRight, CircleDollarSign, FileSearch, FileSignature, ShieldAlert } from 'lucide-react';
+import { ArrowUpRight, BookOpen, Calculator, CalendarCheck, ChevronRight, CircleDollarSign, FileSearch, FileSignature, ShieldAlert } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLocalProgress } from '../../hooks/useLocalProgress';
@@ -186,7 +186,7 @@ export function HomeTriageHero() {
       </section>
 
       <section aria-labelledby="learn-title" className="mt-10">
-        <h2 id="learn-title" className="mb-3 font-display text-xl font-bold">Learn the basics</h2>
+        <h2 id="learn-title" className="mb-3 font-display text-xl font-bold">More tools and guides</h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <Link to="/guides" className="flex items-start gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-accent/70">
             <BookOpen className="mt-0.5 h-6 w-6 shrink-0 text-accent" aria-hidden="true" />
@@ -202,7 +202,14 @@ export function HomeTriageHero() {
               <span className="text-[15px] text-muted">Got a contract or a DM that feels off? Decode it here.</span>
             </span>
           </Link>
-          <Link to="/contract" className="flex items-start gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-accent/70 sm:col-span-2 lg:col-span-1">
+          <Link to="/streams" className="flex items-start gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-accent/70">
+            <Calculator className="mt-0.5 h-6 w-6 shrink-0 text-accent" aria-hidden="true" />
+            <span>
+              <span className="block font-bold">Streaming earnings</span>
+              <span className="text-[15px] text-muted">See roughly what your streams pay. A range, not a promise.</span>
+            </span>
+          </Link>
+          <Link to="/contract" className="flex items-start gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-accent/70 sm:col-span-2 lg:col-span-3">
             <FileSearch className="mt-0.5 h-6 w-6 shrink-0 text-accent" aria-hidden="true" />
             <span>
               <span className="block font-bold">Contract check</span>

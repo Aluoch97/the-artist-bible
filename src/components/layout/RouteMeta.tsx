@@ -16,6 +16,8 @@ const STATIC: Record<string, Meta> = {
   '/red-flags': { title: 'Red flags', description: 'Contract traps and scams in plain English: 360 deals, perpetual ownership, pay-for-play playlisting and hidden fees.' },
   '/contract': { title: 'Contract check', description: 'Add a contract and see which parts to worry about. Read on your device; optional AI review in plain English.' },
   '/words': { title: 'Music words', description: 'Plain-English meanings for PRO, IPI, ISRC, DSP, recoupment and every other word you will meet in the music business.' },
+  '/tools': { title: 'Tools', description: 'Free tools for independent artists: split sheet builder, streaming earnings estimate, contract check and distributor cost compare. All run on your device.' },
+  '/streams': { title: 'Streaming earnings estimate', description: 'Type in your stream counts and see a rough range of what they pay on Spotify, Apple Music, Amazon Music, YouTube Music and Tidal. Free, private, on your device.' },
   '/about': { title: 'About', description: 'What The Artist Bible is, who it is for, how to install it on your phone, and how to reach us.' },
   '/privacy': { title: 'Privacy policy', description: 'What The Artist Bible stores on your device, what it never collects, and the one optional feature that sends text away.' },
   '/terms': { title: 'Terms of use', description: 'The ground rules for using The Artist Bible: educational information only, AI can be wrong, and who created it.' },

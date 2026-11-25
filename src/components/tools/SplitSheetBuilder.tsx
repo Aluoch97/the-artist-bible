@@ -12,6 +12,7 @@ import { DateInput } from '../ui/DateInput';
 import { Input } from '../ui/input';
 import { HelpButton } from '../ui/Term';
 import { StepHeading } from '../ui/StepHeading';
+import { BackToTools } from '../ui/BackToTools';
 import { ToolHeader } from '../ui/ToolHeader';
 import { TwoHundredPercent } from './TwoHundredPercent';
 
@@ -142,6 +143,7 @@ export function SplitSheetBuilder() {
 
   return (
     <section>
+      <BackToTools />
       <ToolHeader
         title="Split sheet"
         description="Settle who owns what, in writing, before anyone leaves the studio. It takes about two minutes."

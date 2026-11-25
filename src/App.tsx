@@ -6,11 +6,13 @@ import { RouteMeta } from './components/layout/RouteMeta';
 import { HomeTriageHero } from './components/triage/HomeTriageHero';
 import { ReleaseCalculator } from './components/tools/ReleaseCalculator';
 import { RoyaltyAudit } from './components/tools/RoyaltyAudit';
+import { StreamingCalculator } from './components/tools/StreamingCalculator';
 import { SplitSheetBuilder } from './components/tools/SplitSheetBuilder';
 import { ChapterPage } from './pages/ChapterPage';
 import { AboutPage } from './pages/AboutPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { TermsPage } from './pages/TermsPage';
+import { ToolsPage } from './pages/ToolsPage';
 import { LearnPage } from './pages/LearnPage';
 import { NotFound } from './pages/NotFound';
 
@@ -39,6 +41,8 @@ export default function App() {
         <Route path="/audit" element={<RoyaltyAudit />} />
         <Route path="/release" element={<ReleaseCalculator />} />
         <Route path="/split-sheet" element={<SplitSheetBuilder />} />
+        <Route path="/tools" element={<ToolsPage />} />
+        <Route path="/streams" element={<StreamingCalculator />} />
         <Route path="/red-flags" element={<LearnPage section="red-flags" />} />
         <Route path="/guides" element={<LearnPage section="guides" />} />
         <Route path="/contract" element={<LearnPage section="contract" />} />

@@ -78,6 +78,11 @@ export interface IndustryData {
   /** Extra steps shown only for that release type. */
   releaseTypeSteps: Partial<Record<ReleaseType, ReleaseMilestone[]>>;
   resources: ResourceLink[];
+  streamingRates: {
+    reviewed: string; // YYYY-MM
+    note: string;
+    platforms: { id: string; name: string; low: number; high: number }[];
+  };
 }
 
 /* ---------- Red flag glossary (src/data/red-flags.json) ---------- */

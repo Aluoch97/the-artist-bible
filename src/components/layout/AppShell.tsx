@@ -1,4 +1,4 @@
-import { BookOpen, CalendarCheck, CircleDollarSign, Download, FileSignature, Save, Home } from 'lucide-react';
+import { BookOpen, CalendarCheck, CircleDollarSign, Download, Save, Home, Wrench } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useState, type ReactNode } from 'react';
 import { GlossaryDialog } from '../ui/Term';
@@ -24,7 +24,7 @@ const TABS: Tab[] = [
   { to: '/release', label: 'Release', icon: CalendarCheck },
   { to: '/audit', label: 'Get Paid', icon: CircleDollarSign },
   { to: '/', label: 'Home', icon: Home, home: true },
-  { to: '/split-sheet', label: 'Splits', icon: FileSignature },
+  { to: '/tools', label: 'Tools', icon: Wrench, also: ['/split-sheet', '/streams'] },
   { to: '/guides', label: 'Learn', icon: BookOpen, also: ['/red-flags', '/contract'] },
 ];
 

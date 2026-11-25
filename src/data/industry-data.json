@@ -159,5 +159,41 @@
         "label": "Lock the track order, album-level metadata and cover art"
       }
     ]
+  },
+  "streamingRates": {
+    "reviewed": "2026-11",
+    "note": "Platforms do not publish per-stream rates. These are rough ranges based on third-party reports and vary by country, plan type and month.",
+    "platforms": [
+      {
+        "id": "spotify",
+        "name": "Spotify",
+        "low": 0.003,
+        "high": 0.005
+      },
+      {
+        "id": "apple",
+        "name": "Apple Music",
+        "low": 0.007,
+        "high": 0.01
+      },
+      {
+        "id": "amazon",
+        "name": "Amazon Music",
+        "low": 0.004,
+        "high": 0.0088
+      },
+      {
+        "id": "youtube",
+        "name": "YouTube Music",
+        "low": 0.0007,
+        "high": 0.0071
+      },
+      {
+        "id": "tidal",
+        "name": "Tidal",
+        "low": 0.012,
+        "high": 0.015
+      }
+    ]
   }
 }

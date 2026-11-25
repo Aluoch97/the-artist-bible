@@ -111,6 +111,15 @@
       "automated": false,
       "humanCheckedOn": "2026-11",
       "howToCheck": "Sign in to or read about ASCAP Member Access and confirm the live-performance reporting feature (ASCAP OnStage) still exists and still requires registered songs."
+    },
+    {
+      "id": "streaming_rate_ranges",
+      "statement": "Per-stream payout ranges in the streaming estimator are rough third-party estimates; platforms do not publish them.",
+      "appliesTo": "streamingRates",
+      "url": "https://www.statista.com/chart/26100/average-amount-of-streams-needed-to-reach-payout-of-dollar1/",
+      "automated": false,
+      "humanCheckedOn": "2026-11",
+      "howToCheck": "Search for current per-stream payout estimates for Spotify, Apple Music, Amazon Music, YouTube Music and Tidal from several independent sources. Confirm the low-high ranges in streamingRates still cover them, and that no platform has started publishing official per-stream rates."
     }
   ]
 }

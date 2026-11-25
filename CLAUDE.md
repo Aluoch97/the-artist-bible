@@ -257,3 +257,9 @@ Two themes, both warm and built around the logo: **dark** (warm brown, the origi
 Glass-and-gradient look inspired by modern course apps, in the logo's colors: a soft ambient glow behind every screen, translucent frosted cards (`--surface` is a translucent token; use `--surface-solid` where something must be opaque), a floating glass pill tab bar with a raised Home button, colorful pastel gradient cards with dark text for the three main starting points, and a hero where the logo artwork breaks out of its card. Headings use **Manrope** (a modern sans); body text uses Inter. The Release page has a "week strip" of circles, one per plan step, that jumps to each step.
 * Floating bars use mostly-opaque `--glass` so they stay readable where `backdrop-filter` is unsupported.
 * Visually hidden helper text inside scrolling rows must sit inside a `relative` ancestor, or it can widen the whole page on phones.
+
+---
+
+## 12. Tools tab and streaming estimate (added after v1)
+* The fourth tab is **Tools** (`/tools`, `src/pages/ToolsPage.tsx`). It lists every interactive helper; add new tools to the `TOOLS` array there and give their page a `<BackToTools />` link. The tab also stays highlighted on `/split-sheet` and `/streams` (see `also:` in `AppShell.tsx`).
+* **Streaming earnings estimate** (`/streams`) uses per-stream ranges from `streamingRates` in `src/data/industry-data.json`. Platforms don't publish these, so they are third-party estimates: keep them as ranges, keep the "range, not a promise" wording, and re-check them with the human-checked claim `streaming_rate_ranges`.
