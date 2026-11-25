@@ -1,0 +1,42 @@
+{
+  "name": "the-artist-bible",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Free, ad-free, offline-first PWA of plain-English guides and studio utilities for independent recording artists.",
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host",
+    "check-links": "node scripts/check-links.mjs"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "jspdf": "^4.2.1",
+    "lucide-react": "^1.80.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-router-dom": "^7.18.7",
+    "tailwind-merge": "^3.7.1"
+  },
+  "devDependencies": {
+    "@mdx-js/rollup": "^3.1.1",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.5",
+    "@types/mdx": "^2.0.14",
+    "@types/node": "^26.6.10",
+    "@types/react": "^19.3.3",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "remark-frontmatter": "^5.0.0",
+    "remark-gfm": "^4.0.1",
+    "remark-mdx-frontmatter": "^6.0.0",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vite-plugin-pwa": "^2.0.0",
+    "workbox-window": "^7.4.1"
+  }
+}

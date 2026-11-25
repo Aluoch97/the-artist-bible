@@ -1,0 +1,93 @@
+/** Strict types shared across the app. Persisted state shape matches CLAUDE.md §6. */
+
+export type ReleaseType = 'single' | 'ep' | 'album';
+
+export const COLLABORATOR_ROLES = ['Producer', 'Songwriter', 'Vocalist/Artist', 'Engineer'] as const;
+export type CollaboratorRole = (typeof COLLABORATOR_ROLES)[number];
+
+export interface Collaborator {
+  id: string;
+  name: string;
+  role: string;
+  ipi?: string;
+  masterPct: number;
+  publishingPct: number;
+}
+
+export interface SavedRelease {
+  id: string;
+  title: string;
+  type: ReleaseType;
+  releaseDate: string; // YYYY-MM-DD
+  completedMilestoneIds: string[];
+}
+
+export interface SplitSheetDraft {
+  songTitle: string;
+  sessionDate: string;
+  collaborators: Collaborator[];
+}
+
+export interface ArtistBibleState {
+  version: 1;
+  completedAuditIds: string[];
+  activeRelease: SavedRelease | null;
+  splitSheetDraft: SplitSheetDraft;
+}
+
+/* ---------- Volatile industry data (src/data/industry-data.json) ---------- */
+
+export interface RoyaltyEntity {
+  id: string;
+  name: string;
+  category: string;
+  cost: string;
+  officialUrl: string;
+  secondaryUrl?: string;
+  whyItMatters: string;
+  steps: string[];
+}
+
+export interface ReleaseMilestone {
+  id: string;
+  weeksOut: number;
+  label: string;
+}
+
+export interface ResourceLink {
+  id: string;
+  label: string;
+  url: string;
+}
+
+export interface IndustryData {
+  lastVerified: string; // YYYY-MM
+  site: { githubRepo: string };
+  royaltyEntities: RoyaltyEntity[];
+  releaseMilestones: ReleaseMilestone[];
+  resources: ResourceLink[];
+}
+
+/* ---------- Red flag glossary (src/data/red-flags.json) ---------- */
+
+export type RedFlagCategory = 'Contract' | 'Distribution' | 'Streaming Scam' | 'Scam';
+
+export interface RedFlag {
+  id: string;
+  term: string;
+  category: RedFlagCategory;
+  severity: 'high' | 'medium';
+  aliases: string[];
+  plainEnglish: string;
+  whyItHurts: string;
+  whatToDo: string[];
+  lookFor: string[];
+}
+
+/* ---------- MDX chapters ---------- */
+
+export interface ChapterFrontmatter {
+  title: string;
+  summary: string;
+  lastVerified: string; // YYYY-MM
+}

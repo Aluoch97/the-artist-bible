@@ -1,0 +1,74 @@
+{
+  "lastVerified": "2026-11",
+  "site": {
+    "githubRepo": "https://github.com/Aluoch97/the-artist-bible"
+  },
+  "royaltyEntities": [
+    {
+      "id": "pro_ascap_bmi",
+      "name": "PRO Registration (ASCAP or BMI)",
+      "category": "Performance Royalties",
+      "cost": "$0 (BMI Writer) / $50 (ASCAP Writer)",
+      "officialUrl": "https://www.bmi.com",
+      "secondaryUrl": "https://www.ascap.com",
+      "whyItMatters": "Collects songwriter and publisher performance royalties when your music is streamed, broadcast, or performed live.",
+      "steps": [
+        "Choose one PRO (ASCAP or BMI—never register the same songs with both).",
+        "Register as a Songwriter first; set up a Publisher entity when ready to claim the full 200%.",
+        "Save your IPI/CAE number—you will need it for split sheets and The MLC."
+      ]
+    },
+    {
+      "id": "the_mlc",
+      "name": "The MLC (Mechanical Licensing Collective)",
+      "category": "Digital Mechanical Royalties",
+      "cost": "$0 (100% Free)",
+      "officialUrl": "https://www.themlc.com",
+      "whyItMatters": "Collects U.S. digital audio mechanical royalties from Spotify, Apple Music, and DSPs that your distributor does NOT collect.",
+      "steps": [
+        "Create a free Member account at themlc.com.",
+        "Connect your PRO IPI number and claim your catalog using your ISRC/ISWC codes."
+      ]
+    },
+    {
+      "id": "soundexchange",
+      "name": "SoundExchange",
+      "category": "Digital Radio Performance",
+      "cost": "$0 (100% Free)",
+      "officialUrl": "https://www.soundexchange.com",
+      "whyItMatters": "Collects neighboring rights / digital performance royalties from Pandora, SiriusXM, and webcasters.",
+      "steps": [
+        "Register as both Featured Artist and Sound Recording Copyright Owner (if independent).",
+        "Submit your ISRCs to claim historical and ongoing royalties."
+      ]
+    },
+    {
+      "id": "artist_profiles",
+      "name": "DSP Artist Profiles (Spotify & Apple Music)",
+      "category": "Analytics & Pitching",
+      "cost": "$0 (100% Free)",
+      "officialUrl": "https://artists.spotify.com",
+      "secondaryUrl": "https://artists.apple.com",
+      "whyItMatters": "Required to pitch unreleased music to editorial playlists and customize your artist profile.",
+      "steps": [
+        "Claim your profile immediately after uploading your first release to your distributor.",
+        "Pitch unreleased tracks at least 21 days before release day."
+      ]
+    }
+  ],
+  "releaseMilestones": [
+    { "id": "masters_art", "weeksOut": 6, "label": "Finalize 24-bit WAV masters, 3000x3000px cover art, and lyrics" },
+    { "id": "distributor_upload", "weeksOut": 4, "label": "Upload to distributor & lock in ISRC/UPC codes" },
+    { "id": "editorial_pitch", "weeksOut": 3, "label": "Submit Spotify for Artists & Amazon Music editorial pitch (hard deadline)" },
+    { "id": "pro_mlc_reg", "weeksOut": 2, "label": "Register song splits with PRO (ASCAP/BMI) and The MLC" },
+    { "id": "presave_epk", "weeksOut": 1, "label": "Launch pre-save link, finalize EPK, and schedule teaser clips" },
+    { "id": "release_day", "weeksOut": 0, "label": "Release Day: Submit ISRCs to SoundExchange & push primary CTA" }
+  ],
+  "resources": [
+    {
+      "id": "copyright_office",
+      "label": "U.S. Copyright Office",
+      "url": "https://www.copyright.gov"
+    }
+  ]
+}
