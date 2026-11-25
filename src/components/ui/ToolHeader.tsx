@@ -9,8 +9,8 @@ interface ToolHeaderProps {
 export function ToolHeader({ title, description, children }: ToolHeaderProps) {
   return (
     <header className="mb-6">
-      <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{title}</h1>
-      <p className="mt-2 max-w-2xl text-muted">{description}</p>
+      <h1 className="font-display text-3xl font-bold leading-tight tracking-tight sm:text-4xl">{title}</h1>
+      <p className="mt-2 max-w-xl text-lg text-muted">{description}</p>
       {children}
     </header>
   );

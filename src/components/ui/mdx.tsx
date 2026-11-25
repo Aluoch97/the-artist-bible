@@ -11,8 +11,8 @@ import { ExternalLink } from './ExternalLink';
 
 function Callout({ title, children }: { title?: string; children: ReactNode }) {
   return (
-    <aside className="not-prose my-6 rounded-xl border border-accent/40 bg-accent/10 p-4 text-sm">
-      <p className="mb-1 flex items-center gap-2 font-semibold text-accent">
+    <aside className="not-prose my-6 rounded-2xl border border-gold/40 bg-gold/10 p-4 text-[15px]">
+      <p className="mb-1 flex items-center gap-2 font-bold text-gold">
         <Info className="h-4 w-4" aria-hidden="true" /> {title ?? 'Heads up'}
       </p>
       <div className="space-y-2 text-fg [&_p]:m-0">{children}</div>
@@ -53,8 +53,8 @@ function Milestones() {
   return (
     <ol className="not-prose my-6 space-y-2">
       {list.map((m) => (
-        <li key={m.id} className="flex gap-3 rounded-lg border border-border bg-surface p-3 text-sm">
-          <span className="w-16 shrink-0 font-mono font-semibold text-accent">{m.weeksOut === 0 ? 'Day 0' : `-${m.weeksOut} wk`}</span>
+        <li key={m.id} className="flex gap-3 rounded-xl border border-border bg-surface p-3 text-[15px]">
+          <span className="w-16 shrink-0 font-bold tabular-nums text-accent">{m.weeksOut === 0 ? 'Day 0' : `-${m.weeksOut} wk`}</span>
           <span>{m.label}</span>
         </li>
       ))}

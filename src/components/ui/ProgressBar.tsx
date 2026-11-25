@@ -17,10 +17,7 @@ export function ProgressBar({ value, label, className }: ProgressBarProps) {
       aria-valuenow={pct}
       className={cn('h-2.5 w-full overflow-hidden rounded-full bg-surface-2', className)}
     >
-      <div
-        className={cn('h-full rounded-full transition-[width] duration-500', pct === 100 ? 'bg-good' : 'bg-accent')}
-        style={{ width: `${pct}%` }}
-      />
+      <div className="h-full rounded-full bg-accent transition-[width] duration-500" style={{ width: `${pct}%` }} />
     </div>
   );
 }

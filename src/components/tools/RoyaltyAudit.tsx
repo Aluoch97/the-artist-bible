@@ -7,7 +7,7 @@ import type { RoyaltyEntity } from '../../types/bible';
 import { Badge } from '../ui/badge';
 import { Card } from '../ui/card';
 import { ExternalLink } from '../ui/ExternalLink';
-import { ProgressBar } from '../ui/ProgressBar';
+import { ProgressRing } from '../ui/ProgressRing';
 import { ToolHeader } from '../ui/ToolHeader';
 
 /** Anything with no non-zero dollar amount is shown as "$0 Free". Mixed pricing shows the full text. */
@@ -21,8 +21,8 @@ function AuditCard({ entity, done, onToggle }: { entity: RoyaltyEntity; done: bo
   const panelId = `audit-steps-${entity.id}`;
 
   return (
-    <Card className={cn('overflow-hidden transition-colors', done && 'border-good/40')}>
-      <div className="flex items-start gap-3 p-4">
+    <Card className={cn('overflow-hidden transition-colors', done && 'border-accent/50')}>
+      <div className="flex items-start gap-4 p-4 sm:p-5">
         <button
           type="button"
           role="checkbox"
@@ -30,41 +30,44 @@ function AuditCard({ entity, done, onToggle }: { entity: RoyaltyEntity; done: bo
           aria-label={`Mark "${entity.name}" as ${done ? 'not done' : 'done'}`}
           onClick={onToggle}
           className={cn(
-            'mt-0.5 flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-md border-2 transition-colors',
-            done ? 'border-good bg-good text-accent-fg' : 'border-muted hover:border-fg',
+            'mt-0.5 grid h-9 w-9 shrink-0 cursor-pointer place-items-center rounded-full border-2 transition-colors active:scale-95',
+            done ? 'border-accent bg-accent text-accent-fg' : 'border-muted/70 hover:border-accent',
           )}
         >
-          {done && <Check className="h-4 w-4" strokeWidth={3} aria-hidden="true" />}
+          {done && <Check className="h-5 w-5" strokeWidth={3} aria-hidden="true" />}
         </button>
 
         <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <h3 className="text-base font-semibold">{entity.name}</h3>
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <h3 className="text-lg font-bold leading-snug">{entity.name}</h3>
             <CostBadge cost={entity.cost} />
           </div>
-          <p className="mt-0.5 font-mono text-xs uppercase tracking-wide text-muted">{entity.category}</p>
-          <p className="mt-2 text-sm text-muted">{entity.whyItMatters}</p>
+          <p className="mt-0.5 text-sm font-semibold text-muted">{entity.category}</p>
+          <p className="mt-2 text-[15px]">{entity.whyItMatters}</p>
 
           <button
             type="button"
             aria-expanded={open}
             aria-controls={panelId}
             onClick={() => setOpen((o) => !o)}
-            className="mt-3 flex cursor-pointer items-center gap-1 text-sm font-semibold text-accent"
+            className="mt-3 flex min-h-11 cursor-pointer items-center gap-1 text-[15px] font-bold text-accent"
           >
-            {open ? 'Hide steps' : 'Show steps'}
-            <ChevronDown className={cn('h-4 w-4 transition-transform', open && 'rotate-180')} aria-hidden="true" />
+            {open ? 'Hide the steps' : 'How do I set this up?'}
+            <ChevronDown className={cn('h-5 w-5 transition-transform', open && 'rotate-180')} aria-hidden="true" />
           </button>
 
           {open && (
-            <div id={panelId} className="mt-3 space-y-4">
-              <ol className="list-decimal space-y-2 pl-5 text-sm marker:font-mono marker:text-muted">
-                {entity.steps.map((step) => (
-                  <li key={step}>{step}</li>
+            <div id={panelId} className="mt-1 space-y-4">
+              <ol className="space-y-3">
+                {entity.steps.map((step, i) => (
+                  <li key={step} className="flex gap-3 text-[15px]">
+                    <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-surface-2 text-xs font-bold text-muted">{i + 1}</span>
+                    <span>{step}</span>
+                  </li>
                 ))}
               </ol>
-              <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
-                <ExternalLink href={entity.officialUrl}>Official site</ExternalLink>
+              <div className="flex flex-wrap gap-x-5 gap-y-2 text-[15px] font-semibold">
+                <ExternalLink href={entity.officialUrl}>Go to the official site</ExternalLink>
                 {entity.secondaryUrl && <ExternalLink href={entity.secondaryUrl}>Alternate site</ExternalLink>}
               </div>
             </div>
@@ -89,25 +92,23 @@ export function RoyaltyAudit({ embedded = false }: { embedded?: boolean }) {
   const { done, total, percent } = useRoyaltyReadiness();
 
   return (
-    <section aria-labelledby={embedded ? undefined : 'audit-title'} className={embedded ? 'not-prose my-8' : undefined}>
+    <section className={embedded ? 'not-prose my-8' : undefined}>
       {!embedded && (
-        <div id="audit-title">
-          <ToolHeader
-            title="Royalty Setup Audit"
-            description="Four free-to-join registrations decide whether you actually get paid. Check off what you have already set up."
-          />
-        </div>
+        <ToolHeader
+          title="Get paid what you're owed"
+          description="Money from your music is collected by four different groups. Tick off the ones you've already joined."
+        />
       )}
 
-      <Card className="mb-5 p-4">
-        <div className="mb-2 flex items-baseline justify-between gap-3">
-          <span className="text-sm font-semibold">Royalty Readiness</span>
-          <span className="font-mono text-sm tabular-nums" aria-live="polite">
-            {percent}% · {done}/{total} complete
-          </span>
+      <Card className="mb-5 flex items-center gap-4 p-4 sm:p-5">
+        <ProgressRing value={percent} label="Royalty readiness" />
+        <div>
+          <p className="text-sm font-semibold text-muted">Royalty Readiness</p>
+          <p className="font-display text-2xl font-bold" aria-live="polite">{done} of {total} set up</p>
+          <p className="mt-0.5 text-sm text-muted">
+            {percent === 100 ? 'All set. Re-check when you release new music.' : 'Start with any one. They are all free to check.'}
+          </p>
         </div>
-        <ProgressBar value={percent} label="Royalty readiness" />
-        {percent === 100 && <p className="mt-2 text-sm text-good">Everything is set up. Re-check when you release new music.</p>}
       </Card>
 
       <div className="space-y-3">
