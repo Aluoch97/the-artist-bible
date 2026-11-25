@@ -35,7 +35,7 @@ export function LearnPage({ section }: { section: LearnSection }) {
         }
       />
 
-      <nav aria-label="Learn sections" className="no-print mb-6 grid grid-cols-4 gap-1 rounded-full border border-border bg-surface p-1">
+      <nav aria-label="Learn sections" className="no-print mb-6 grid grid-cols-4 gap-0.5 rounded-full border border-border bg-surface p-1">
         {SECTIONS.map(({ id, label, to, icon: Icon }) => {
           const active = id === section;
           return (
@@ -45,11 +45,11 @@ export function LearnPage({ section }: { section: LearnSection }) {
               replace
               aria-current={active ? 'page' : undefined}
               className={cn(
-                'flex h-11 items-center justify-center gap-1.5 rounded-full text-sm font-bold transition-colors sm:gap-2 sm:text-[15px]',
+                'flex h-11 min-w-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-1 text-[13px] font-bold transition-colors min-[400px]:text-sm sm:gap-2 sm:text-[15px]',
                 active ? 'bg-accent text-accent-fg' : 'text-muted hover:text-fg',
               )}
             >
-              <Icon className="hidden h-4 w-4 min-[360px]:block" aria-hidden="true" /> {label}
+              <Icon className="hidden h-4 w-4 min-[470px]:block" aria-hidden="true" /> {label}
             </Link>
           );
         })}

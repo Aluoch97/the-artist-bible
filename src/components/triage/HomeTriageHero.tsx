@@ -140,7 +140,7 @@ export function HomeTriageHero() {
         </Link>
       )}
 
-      <div className="grid gap-4">
+      <div className="grid gap-4 lg:grid-cols-3">
         <TriageCard
           to="/release"
           title="I'm about to drop a song"
@@ -187,12 +187,12 @@ export function HomeTriageHero() {
 
       <section aria-labelledby="learn-title" className="mt-10">
         <h2 id="learn-title" className="mb-3 font-display text-xl font-bold">Learn the basics</h2>
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <Link to="/guides" className="flex items-start gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-accent/70">
             <BookOpen className="mt-0.5 h-6 w-6 shrink-0 text-accent" aria-hidden="true" />
             <span>
               <span className="block font-bold">Guides</span>
-              <span className="text-[15px] text-muted">Six short guides, from your first release to getting paid.</span>
+              <span className="text-[15px] text-muted">Seven short guides, from your first release to getting paid.</span>
             </span>
           </Link>
           <Link to="/red-flags" className="flex items-start gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-pink/70">
@@ -202,7 +202,7 @@ export function HomeTriageHero() {
               <span className="text-[15px] text-muted">Got a contract or a DM that feels off? Decode it here.</span>
             </span>
           </Link>
-          <Link to="/contract" className="flex items-start gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-accent/70 sm:col-span-2">
+          <Link to="/contract" className="flex items-start gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-accent/70 sm:col-span-2 lg:col-span-1">
             <FileSearch className="mt-0.5 h-6 w-6 shrink-0 text-accent" aria-hidden="true" />
             <span>
               <span className="block font-bold">Contract check</span>

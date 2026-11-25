@@ -12,7 +12,7 @@ const STATIC: Record<string, Meta> = {
   '/release': { title: 'Plan your release', description: 'Pick your release day and get a dated, step-by-step checklist, plus a link you can text to your team.' },
   '/audit': { title: 'Get paid what you are owed', description: 'A checklist of the four free sign-ups that collect your music royalties: PRO, The MLC, SoundExchange and artist profiles.' },
   '/split-sheet': { title: 'Split sheet builder', description: 'Agree who owns what before you leave the studio. Split the recording and the song, then download a PDF or copy a text summary.' },
-  '/guides': { title: 'Guides', description: 'Six short, plain-English guides for independent artists: getting started, rights, distribution, royalties and rollout.' },
+  '/guides': { title: 'Guides', description: 'Seven short, plain-English guides for independent artists: getting started, rights, distribution, royalties, working outside the U.S. and rollout.' },
   '/red-flags': { title: 'Red flags', description: 'Contract traps and scams in plain English: 360 deals, perpetual ownership, pay-for-play playlisting and hidden fees.' },
   '/contract': { title: 'Contract check', description: 'Add a contract and see which parts to worry about. Read on your device; optional AI review in plain English.' },
   '/words': { title: 'Music words', description: 'Plain-English meanings for PRO, IPI, ISRC, DSP, recoupment and every other word you will meet in the music business.' },

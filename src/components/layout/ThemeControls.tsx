@@ -30,17 +30,17 @@ export function ThemeChoice() {
   return (
     <fieldset className="not-prose">
       <legend className="sr-only">Appearance</legend>
-      <div className="grid grid-cols-3 gap-1 rounded-full border border-border bg-surface p-1">
+      <div className="grid grid-cols-[1.7fr_1fr_1fr] gap-1 rounded-full border border-border bg-surface p-1">
         {OPTIONS.map(({ value, label, icon: Icon }) => (
           <label
             key={value}
             className={cn(
-              'flex h-11 cursor-pointer items-center justify-center gap-1.5 rounded-full px-2 text-sm font-bold transition-colors has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-gold',
+              'flex h-11 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-2 text-sm font-bold transition-colors has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-gold',
               pref === value ? 'bg-accent text-accent-fg' : 'text-muted hover:text-fg',
             )}
           >
             <input type="radio" name="theme" value={value} checked={pref === value} onChange={() => setPref(value)} className="sr-only" />
-            <Icon className="h-4 w-4 shrink-0" aria-hidden="true" /> <span>{label}</span>
+            <Icon className="hidden h-4 w-4 shrink-0 min-[400px]:block" aria-hidden="true" /> <span>{label}</span>
           </label>
         ))}
       </div>

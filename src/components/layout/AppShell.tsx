@@ -105,7 +105,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       <GlossaryDialog />
 
-      <main id="main" className="mx-auto [overflow-wrap:anywhere] w-full max-w-3xl flex-1 px-4 pb-[calc(var(--tab-h)+2.5rem)] pt-6 sm:pt-8">
+      <main id="main" className={cn('mx-auto w-full flex-1 px-4 pb-[calc(var(--tab-h)+2.5rem)] pt-6 [overflow-wrap:anywhere] sm:pt-8', pathname === '/' ? 'max-w-3xl lg:max-w-5xl' : 'max-w-3xl')}>
         {children}
       </main>
 

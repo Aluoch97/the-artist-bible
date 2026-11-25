@@ -3,6 +3,7 @@ import { Info } from 'lucide-react';
 import type { AnchorHTMLAttributes, ReactNode, TableHTMLAttributes } from 'react';
 import { Link } from 'react-router-dom';
 import { industryData } from '../../data';
+import { DistributorCompare } from '../tools/DistributorCompare';
 import { RedFlagDecoder } from '../tools/RedFlagDecoder';
 import { RoyaltyAudit } from '../tools/RoyaltyAudit';
 import { TwoHundredPercent } from '../tools/TwoHundredPercent';
@@ -87,6 +88,7 @@ export const mdxComponents: MDXComponents = {
   ResourceLink,
   Milestones,
   TwoHundredPercent,
+  DistributorCompare,
   RoyaltyAudit: () => <RoyaltyAudit embedded headingLevel={3} />,
   RedFlagDecoder: () => <RedFlagDecoder embedded className="my-8" headingLevel={3} />,
 };
