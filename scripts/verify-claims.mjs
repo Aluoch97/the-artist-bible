@@ -48,10 +48,12 @@ async function get(url) {
   } catch (e) {
     r = { status: 0, html: '', finalUrl: url, via: 'fetch', error: String(e?.cause?.code ?? e?.message ?? e) };
   }
-  if (useBrowser && (r.status === 0 || looksBlocked(r.status, strip(r.html)))) {
+  // Some sites answer bots with a fake 404, so a 404 is re-checked in a real browser before it is called gone.
+  if (useBrowser && (r.status === 0 || r.status === 404 || looksBlocked(r.status, strip(r.html)))) {
     try {
       const b = await browserGet(url);
-      if (b.status && !looksBlocked(b.status, strip(b.html))) return b;
+      if (b.status && b.status < 400 && !looksBlocked(b.status, strip(b.html))) return b;
+      if (b.status === 404 || b.status === 410) return b; // genuinely missing in a real browser too
       r = { ...r, browserStatus: b.status };
     } catch (e) {
       r = { ...r, browserError: String(e?.message ?? e).split('\n')[0] };
