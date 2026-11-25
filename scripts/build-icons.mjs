@@ -12,7 +12,7 @@ import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 import sharp from 'sharp';
 
 const arg = (name, fallback) => process.argv.find((a) => a.startsWith(`--${name}=`))?.split('=')[1] ?? fallback;
-const BG = arg('bg', '#0e0b16');
+const BG = arg('bg', '#17100c');
 const root = (p) => new URL(`../${p}`, import.meta.url).pathname;
 const srcPath = ['design/logo.svg', 'design/logo.png'].map(root).find(existsSync);
 if (!srcPath) {

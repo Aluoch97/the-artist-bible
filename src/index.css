@@ -17,14 +17,15 @@
   src: url('../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-wght-normal.woff2') format('woff2-variations');
 }
 
-/* Same dark shell as the other NuRenaissance apps; Artist Bible's own accent is "signal green". */
+/* Artist Bible's own look: warm brown shell and the logo's orange. Success states stay green. */
 :root {
-  --bg: #0e0b16;
-  --surface: #171225;
-  --surface-2: #211b30;
-  --border: #2f2742;
-  --fg: #f4f1fb;
-  --muted: #b0a6c9;
+  /* Warm dark brown with peach undertones, drawn from the logo's wood and amber tones. */
+  --bg: #17100c;
+  --surface: #221914;
+  --surface-2: #2d211a;
+  --border: #43322a;
+  --fg: #fcefe3;
+  --muted: #cdb39d;
   --accent: #f08a3c; /* from the logo's guitar orange, lifted slightly for the dark UI */
   --accent-fg: #1c0f05;
   --gold: #f3c46b; /* the cymbal amber */
