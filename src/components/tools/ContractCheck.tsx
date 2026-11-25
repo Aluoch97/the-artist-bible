@@ -292,12 +292,13 @@ export function ContractCheck() {
   const [fileNote, setFileNote] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [dragging, setDragging] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const findings = useMemo(() => (scanned ? scanContract(scanned) : []), [scanned]);
 
-  async function onFile(file: File | undefined) {
+  async function onFile(file: File | undefined, extra = 0) {
     if (!file) return;
     setBusy(true);
     setError('');
@@ -308,7 +309,7 @@ export function ContractCheck() {
     if (!r.ok) return setError(r.error);
     setText(r.text);
     setScanned(null);
-    setFileNote(`Read "${file.name}" on this device.${r.note ? ' ' + r.note : ''}`);
+    setFileNote(`Read "${file.name}" on this device.${r.note ? ' ' + r.note : ''}${extra > 0 ? ` Only the first file was read; ${extra} other${extra === 1 ? ' was' : 's were'} ignored.` : ''}`);
   }
 
   function check() {
@@ -323,31 +324,77 @@ export function ContractCheck() {
     setError('');
   }
 
+  // Accept a file dropped anywhere on this screen. Without this, a missed drop makes the browser open the file and leave the app.
+  // Dragging plain text (no files) is left alone so it can still be dropped into the text box.
+  const onFileRef = useRef(onFile);
+  onFileRef.current = onFile;
+  useEffect(() => {
+    const hasFiles = (e: DragEvent) => Array.from(e.dataTransfer?.types ?? []).includes('Files');
+    let depth = 0;
+    const enter = (e: DragEvent) => { if (!hasFiles(e)) return; e.preventDefault(); depth++; setDragging(true); };
+    const over = (e: DragEvent) => { if (!hasFiles(e)) return; e.preventDefault(); if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy'; };
+    const leave = (e: DragEvent) => { if (!hasFiles(e)) return; depth = Math.max(0, depth - 1); if (depth === 0) setDragging(false); };
+    const drop = (e: DragEvent) => {
+      if (!hasFiles(e)) return;
+      e.preventDefault();
+      depth = 0;
+      setDragging(false);
+      const files = Array.from(e.dataTransfer?.files ?? []);
+      void onFileRef.current(files[0], Math.max(0, files.length - 1));
+    };
+    window.addEventListener('dragenter', enter);
+    window.addEventListener('dragover', over);
+    window.addEventListener('dragleave', leave);
+    window.addEventListener('drop', drop);
+    return () => {
+      window.removeEventListener('dragenter', enter);
+      window.removeEventListener('dragover', over);
+      window.removeEventListener('dragleave', leave);
+      window.removeEventListener('drop', drop);
+    };
+  }, []);
+
   const hasText = text.trim().length >= 40;
 
   return (
     <div>
       <p className="mb-6 flex gap-2 rounded-2xl border border-border bg-surface p-3 text-[15px]">
         <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
-        <span>Your file is read <strong>on this device</strong>. Nothing is uploaded or saved. The only time any text leaves your phone is if you choose the optional AI review below and agree to it.</span>
+        <span>Your file is read <strong>on this device</strong>. Nothing is uploaded or saved. The only time any text leaves your device is if you choose the optional AI review below and agree to it.</span>
       </p>
 
       <StepHeading n={1} title="Add your contract" hint="PDF, Word (.docx) or text file. Or paste the text." />
       <Card className="space-y-4 p-4 sm:p-5">
-        <div className="flex flex-wrap gap-2">
-          <input ref={fileRef} id="contract-file" aria-label="Choose a contract file" tabIndex={-1} type="file" accept=".pdf,.docx,.txt,.md,application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document" className="sr-only" onChange={(e) => onFile(e.target.files?.[0])} />
-          <Button variant="primary" onClick={() => fileRef.current?.click()} disabled={busy}>
-            {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Upload className="h-4 w-4" aria-hidden="true" />}
-            {busy ? 'Reading…' : 'Choose a file'}
-          </Button>
-          <Button onClick={() => { setText(SAMPLE_CONTRACT); setScanned(null); setFileNote('Loaded a made-up example. It is not a real contract.'); setError(''); }}>
-            <FileText className="h-4 w-4" aria-hidden="true" /> Try an example
-          </Button>
-          {text && (
-            <Button variant="ghost" onClick={clearAll}>
-              <Trash2 className="h-4 w-4" aria-hidden="true" /> Clear
+        <div
+          data-dropzone
+          className={cn('rounded-2xl border-2 border-dashed p-5 text-center transition-colors', dragging ? 'border-accent bg-accent/10' : 'border-border')}
+        >
+          <Upload className={cn('mx-auto h-7 w-7', dragging ? 'text-accent' : 'text-muted')} aria-hidden="true" />
+          <p className="mt-2 font-bold" aria-live="polite">
+            {dragging ? 'Drop it to read it' : (
+              <>
+                <span className="hidden [@media(pointer:fine)]:inline">Drag a contract here, or </span>
+                <span className="[@media(pointer:fine)]:hidden">Add a contract: </span>
+                choose a file
+              </>
+            )}
+          </p>
+          <p className="mt-0.5 text-sm text-muted">PDF, Word (.docx) or text. Read on this device only.</p>
+          <div className="mt-3 flex flex-wrap justify-center gap-2">
+            <input ref={fileRef} id="contract-file" aria-label="Choose a contract file" tabIndex={-1} type="file" accept=".pdf,.docx,.txt,.md,application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document" className="sr-only" onChange={(e) => onFile(e.target.files?.[0])} />
+            <Button variant="primary" onClick={() => fileRef.current?.click()} disabled={busy}>
+              {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Upload className="h-4 w-4" aria-hidden="true" />}
+              {busy ? 'Reading…' : 'Choose a file'}
             </Button>
-          )}
+            <Button onClick={() => { setText(SAMPLE_CONTRACT); setScanned(null); setFileNote('Loaded a made-up example. It is not a real contract.'); setError(''); }}>
+              <FileText className="h-4 w-4" aria-hidden="true" /> Try an example
+            </Button>
+            {text && (
+              <Button variant="ghost" onClick={clearAll}>
+                <Trash2 className="h-4 w-4" aria-hidden="true" /> Clear
+              </Button>
+            )}
+          </div>
         </div>
         <div role="status" aria-live="polite">
           {fileNote && <p className="flex gap-2 text-sm text-accent"><Check className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" /> {fileNote}</p>}
