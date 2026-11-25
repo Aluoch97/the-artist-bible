@@ -6,8 +6,8 @@
     "drift": 0,
     "gone": 0,
     "blocked": 0,
-    "error": 5,
-    "humanDue": 6,
+    "error": 10,
+    "humanDue": 1,
     "problems": 0,
     "unverified": 11,
     "allVerified": false
@@ -55,48 +55,48 @@
     },
     {
       "id": "bmi_writer_fee",
-      "statement": "Joining BMI as a songwriter costs $0.",
-      "url": "https://www.bmi.com/",
-      "kind": "human",
-      "status": "human-due",
-      "detail": "never checked by a person"
+      "statement": "Joining BMI as a songwriter or composer is free.",
+      "url": "https://www.bmi.com/faq/entry/what_is_the_fee_to_join_as_a_songwriter",
+      "kind": "auto",
+      "status": "error",
+      "detail": "ENOTFOUND"
     },
     {
       "id": "ascap_writer_fee",
-      "statement": "ASCAP's current writer membership fee. The app says 'check current fee' until you confirm the number.",
-      "url": "https://www.ascap.com/",
-      "kind": "human",
-      "status": "human-due",
-      "detail": "never checked by a person"
+      "statement": "Joining ASCAP as a songwriter is free. (ASCAP calls the fee waiver temporary, so this is worth watching.)",
+      "url": "https://www.ascap.com/about-us/why-join-ascap-general",
+      "kind": "auto",
+      "status": "error",
+      "detail": "ENOTFOUND"
     },
     {
       "id": "mlc_free",
       "statement": "Joining The MLC as a member is free.",
-      "url": "https://www.themlc.com/",
-      "kind": "human",
-      "status": "human-due",
-      "detail": "never checked by a person"
+      "url": "https://blog.themlc.com/resources/does-it-cost-anything-to-become-a-member-of-the-mlc",
+      "kind": "auto",
+      "status": "error",
+      "detail": "ENOTFOUND"
     },
     {
       "id": "soundexchange_free",
       "statement": "Registering with SoundExchange is free.",
-      "url": "https://www.soundexchange.com/",
-      "kind": "human",
-      "status": "human-due",
-      "detail": "never checked by a person"
+      "url": "https://www.soundexchange.com/frequently-asked-questions/",
+      "kind": "auto",
+      "status": "error",
+      "detail": "ENOTFOUND"
     },
     {
       "id": "spotify_pitch_window",
-      "statement": "Editorial pitches to Spotify must be submitted before release day, and earlier is better (we suggest 3 to 4 weeks).",
-      "url": "https://artists.spotify.com/",
-      "kind": "human",
-      "status": "human-due",
-      "detail": "never checked by a person"
+      "statement": "Spotify needs editorial pitches at least 7 days before release (and suggests about 2 weeks); we plan for 3 weeks.",
+      "url": "https://support.spotify.com/us/artists/article/pitching-music-to-playlist-editors/",
+      "kind": "auto",
+      "status": "error",
+      "detail": "ENOTFOUND"
     },
     {
       "id": "one_pro_only",
-      "statement": "A songwriter should register with only one PRO, never the same songs with two.",
-      "url": "https://www.bmi.com/",
+      "statement": "A songwriter is normally affiliated with one PRO at a time, and the same songs are not registered with two.",
+      "url": "https://www.bmi.com/faq/category/joining",
       "kind": "human",
       "status": "human-due",
       "detail": "never checked by a person"

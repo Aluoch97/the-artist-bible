@@ -38,57 +38,52 @@
     },
     {
       "id": "bmi_writer_fee",
-      "statement": "Joining BMI as a songwriter costs $0.",
+      "statement": "Joining BMI as a songwriter or composer is free.",
       "appliesTo": "royaltyEntities.pro_ascap_bmi.cost",
-      "url": "https://www.bmi.com/",
-      "automated": false,
-      "humanCheckedOn": null,
-      "howToCheck": "Open bmi.com, go to the songwriter/composer join page, and confirm there is no application fee."
+      "url": "https://www.bmi.com/faq/entry/what_is_the_fee_to_join_as_a_songwriter",
+      "pattern": "no (application )?fees?|no annual dues|free of charge|is free|free to join",
+      "note": "BMI FAQ: \"What is the fee to join as a songwriter or composer?\""
     },
     {
       "id": "ascap_writer_fee",
-      "statement": "ASCAP's current writer membership fee. The app says 'check current fee' until you confirm the number.",
+      "statement": "Joining ASCAP as a songwriter is free. (ASCAP calls the fee waiver temporary, so this is worth watching.)",
       "appliesTo": "royaltyEntities.pro_ascap_bmi.cost",
-      "url": "https://www.ascap.com/",
-      "automated": false,
-      "humanCheckedOn": null,
-      "howToCheck": "Open ascap.com, find the writer membership page, and note the fee. Then update the cost text in industry-data.json."
+      "url": "https://www.ascap.com/about-us/why-join-ascap-general",
+      "pattern": "free",
+      "note": "ASCAP page titled \"Join ASCAP for Free\"; $50 applies to publisher-only memberships."
     },
     {
       "id": "mlc_free",
       "statement": "Joining The MLC as a member is free.",
       "appliesTo": "royaltyEntities.the_mlc.cost",
-      "url": "https://www.themlc.com/",
-      "automated": false,
-      "humanCheckedOn": null,
-      "howToCheck": "On themlc.com, find the membership / FAQ page and confirm there is no cost to register."
+      "url": "https://blog.themlc.com/resources/does-it-cost-anything-to-become-a-member-of-the-mlc",
+      "pattern": "no cost|not cost|free|does not charge",
+      "note": "The MLC FAQ: \"Does it cost anything to become a Member of The MLC?\""
     },
     {
       "id": "soundexchange_free",
       "statement": "Registering with SoundExchange is free.",
       "appliesTo": "royaltyEntities.soundexchange.cost",
-      "url": "https://www.soundexchange.com/",
-      "automated": false,
-      "humanCheckedOn": null,
-      "howToCheck": "On soundexchange.com, find the registration / FAQ page and confirm there is no registration fee."
+      "url": "https://www.soundexchange.com/frequently-asked-questions/",
+      "pattern": "free to register|no (cost|fee)|free of charge|registration is free|it'?s free|free",
+      "note": "SoundExchange FAQ"
     },
     {
       "id": "spotify_pitch_window",
-      "statement": "Editorial pitches to Spotify must be submitted before release day, and earlier is better (we suggest 3 to 4 weeks).",
+      "statement": "Spotify needs editorial pitches at least 7 days before release (and suggests about 2 weeks); we plan for 3 weeks.",
       "appliesTo": "releaseMilestones.editorial_pitch; royaltyEntities.artist_profiles.steps",
-      "url": "https://artists.spotify.com/",
-      "automated": false,
-      "humanCheckedOn": null,
-      "howToCheck": "In Spotify for Artists help, read 'Pitching music to playlist editors' and confirm the timing advice still matches."
+      "url": "https://support.spotify.com/us/artists/article/pitching-music-to-playlist-editors/",
+      "pattern": "(at least|minimum of) (7|seven) days|7 days (before|prior|in advance|ahead)|seven days",
+      "note": "Spotify support article \"Pitching music to Spotify playlist editors\""
     },
     {
       "id": "one_pro_only",
-      "statement": "A songwriter should register with only one PRO, never the same songs with two.",
+      "statement": "A songwriter is normally affiliated with one PRO at a time, and the same songs are not registered with two.",
       "appliesTo": "royaltyEntities.pro_ascap_bmi.steps",
-      "url": "https://www.bmi.com/",
+      "url": "https://www.bmi.com/faq/category/joining",
       "automated": false,
       "humanCheckedOn": null,
-      "howToCheck": "Confirm with BMI or ASCAP guidance that a writer can only belong to one PRO at a time."
+      "howToCheck": "Read BMI's and ASCAP's membership terms and confirm a writer can belong to only one PRO at a time. This one is not stated plainly on a single page, so a person has to confirm it."
     }
   ]
 }

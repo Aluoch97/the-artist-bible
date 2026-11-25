@@ -7,10 +7,13 @@ import { Button } from '../ui/button';
 type Status = { kind: 'idle' } | { kind: 'error'; message: string } | { kind: 'ready'; file: File; state: ArtistBibleState } | { kind: 'done'; message: string };
 
 function describe(s: ArtistBibleState): string {
+  const releases = s.savedReleases.length + (s.activeRelease ? 1 : 0);
+  const songs = s.savedSplitSheets.length + 1;
+  const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? '' : 's'}`;
   const parts = [
     `${s.completedAuditIds.length} royalty step${s.completedAuditIds.length === 1 ? '' : 's'} done`,
     s.activeRelease ? `release "${s.activeRelease.title || 'Untitled'}" (${s.activeRelease.releaseDate})` : 'no active release',
-    `split sheet with ${s.splitSheetDraft.collaborators.length} collaborator${s.splitSheetDraft.collaborators.length === 1 ? '' : 's'}`,
+    `${plural(releases, 'release')} and ${plural(songs, 'song')} in total`,
   ];
   return parts.join(' · ');
 }

@@ -1,15 +1,15 @@
 import { ArrowRight, BookOpen, CalendarCheck, ChevronRight, CircleDollarSign, FileSignature, ShieldAlert } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { industryData } from '../../data';
 import { useLocalProgress } from '../../hooks/useLocalProgress';
 import { formatLongDate } from '../../lib/dates';
-import { nextMilestone, relativeDays } from '../../lib/release';
+import { nextMilestone, planRelease, relativeDays } from '../../lib/release';
 import { splitStatus } from '../../lib/splitSheet';
 import { cn } from '../../lib/utils';
 import { Card } from '../ui/card';
 import { ProgressBar } from '../ui/ProgressBar';
 import { useRoyaltyReadiness } from '../tools/RoyaltyAudit';
+import { IosInstallTip } from './IosInstallTip';
 
 interface TriageCard {
   to: string;
@@ -31,9 +31,10 @@ export function HomeTriageHero() {
 
   const release = state.activeRelease;
   const next = nextMilestone(release);
-  const milestoneIds = new Set(industryData.releaseMilestones.map((m) => m.id));
-  const releaseDone = release ? release.completedMilestoneIds.filter((id) => milestoneIds.has(id)).length : 0;
-  const releaseTotal = industryData.releaseMilestones.length;
+  const plan = release ? planRelease(release.releaseDate, release.type) : [];
+  const releaseDone = release ? plan.filter((m) => release.completedMilestoneIds.includes(m.id)).length : 0;
+  const releaseTotal = plan.length;
+  const shelved = state.savedReleases.length;
 
   const draft = state.splitSheetDraft;
   const splitsOk = splitStatus(draft.collaborators, 'masterPct').ok && splitStatus(draft.collaborators, 'publishingPct').ok;
@@ -46,7 +47,10 @@ export function HomeTriageHero() {
           What are you <span className="text-accent">working on?</span>
         </h1>
         <p className="mt-3 text-lg text-muted">Pick one. Everything here is free and works offline.</p>
+        <p className="mt-2 text-sm text-muted">Made for artists releasing music in the U.S. Royalty details follow U.S. organizations; other countries have their own.</p>
       </section>
+
+      <IosInstallTip />
 
       {next && release && (
         <Link
@@ -95,7 +99,7 @@ export function HomeTriageHero() {
             <span>
               <span className="block text-sm text-muted">Release plan</span>
               <span className="font-semibold">
-                {release ? `${release.title || 'Untitled'}: ${releaseDone} of ${releaseTotal} steps done` : 'Nothing planned yet'}
+                {release ? `${release.title || 'Untitled'}: ${releaseDone} of ${releaseTotal} steps done${shelved ? ` (+${shelved} saved)` : ''}` : 'Nothing planned yet'}
               </span>
             </span>
             <ChevronRight className="h-5 w-5 shrink-0 text-muted" aria-hidden="true" />
@@ -104,7 +108,7 @@ export function HomeTriageHero() {
             <span>
               <span className="block text-sm text-muted">Split sheet</span>
               <span className="font-semibold">
-                {hasDraft ? `${draft.songTitle.trim() || 'Untitled'}: ${splitsOk ? 'splits add up' : 'not adding up yet'}` : 'No draft yet'}
+                {hasDraft ? `${draft.songTitle.trim() || 'Untitled'}: ${splitsOk ? 'splits add up' : 'not adding up yet'}${state.savedSplitSheets.length ? ` (+${state.savedSplitSheets.length} saved)` : ''}` : 'No draft yet'}
               </span>
             </span>
             <ChevronRight className="h-5 w-5 shrink-0 text-muted" aria-hidden="true" />

@@ -1,24 +1,100 @@
+import type { jsPDF } from 'jspdf';
 import type { SplitSheetDraft } from '../types/bible';
 import { formatISOForDisplay, todayISO } from './dates';
 import { fmtPct, sumPct } from './splitSheet';
 
-/** jsPDF's built-in fonts only cover Latin-1; replace anything else so output isn't garbled. */
-function safe(text: string): string {
-  return text.replace(/[^\x20-\x7E -ÿ]/g, '?');
-}
+/* jsPDF's built-in fonts only cover Latin-1. Names are the whole point of a split sheet, so anything
+   outside Latin-1 (Ł, Cyrillic, Chinese, Arabic, emoji…) is drawn with the phone's own fonts onto a
+   canvas and placed in the PDF as a picture. Plain text stays real, selectable text. */
+
+const LATIN1 = /^[\x20-\x7E -ÿ]*$/;
+const SCALE = 4; // canvas pixels per PDF point, for crisp text
+const FONT_STACK = `system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Noto Sans CJK SC", "Hiragino Sans", "Apple Color Emoji", "Noto Color Emoji", Arial, sans-serif`;
+
+type Doc = jsPDF;
 
 function fileSlug(title: string): string {
   const slug = title
+    .normalize('NFKD')
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
   return slug || 'untitled';
 }
 
+interface TextOpts {
+  size: number;
+  bold?: boolean;
+  /** Maximum width in points (the picture path shrinks or trims to fit). */
+  maxW?: number;
+  align?: 'left' | 'right';
+}
+
+/** Draw one line. Returns the width used in points. */
+function line(doc: Doc, str: string, x: number, y: number, o: TextOpts): number {
+  if (LATIN1.test(str)) {
+    doc.setFont('helvetica', o.bold ? 'bold' : 'normal');
+    doc.setFontSize(o.size);
+    doc.text(str, x, y, o.align ? { align: o.align } : undefined);
+    return doc.getTextWidth(str);
+  }
+
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    // No canvas available: fall back to a visible placeholder rather than silently dropping a name.
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(o.size);
+    doc.text(str.replace(/[^\x20-\x7E -ÿ]/g, '?'), x, y);
+    return 0;
+  }
+  const font = (sizePt: number) => `${o.bold ? '700 ' : ''}${sizePt * SCALE}px ${FONT_STACK}`;
+  let size = o.size;
+  let text = str;
+  ctx.font = font(size);
+  const maxPx = (o.maxW ?? Number.POSITIVE_INFINITY) * SCALE;
+  // Shrink up to 30%, then trim with an ellipsis.
+  while (ctx.measureText(text).width > maxPx && size > o.size * 0.7) {
+    size -= 0.5;
+    ctx.font = font(size);
+  }
+  if (ctx.measureText(text).width > maxPx) {
+    while (text.length > 1 && ctx.measureText(text + '…').width > maxPx) text = text.slice(0, -1);
+    text += '…';
+  }
+  const w = Math.ceil(ctx.measureText(text).width);
+  const h = Math.ceil(size * 1.5 * SCALE);
+  canvas.width = Math.max(1, w + 4);
+  canvas.height = h;
+  const c2 = canvas.getContext('2d')!;
+  c2.font = font(size);
+  c2.fillStyle = '#000';
+  c2.textBaseline = 'alphabetic';
+  c2.fillText(text, 2, Math.round(size * 1.12 * SCALE));
+  const wPt = canvas.width / SCALE;
+  const hPt = canvas.height / SCALE;
+  const left = o.align === 'right' ? x - wPt : x;
+  doc.addImage(canvas.toDataURL('image/png'), 'PNG', left, y - size * 1.12, wPt, hPt);
+  return wPt;
+}
+
+/** Wrap Latin text across lines; non-Latin text is kept to one fitted line. Returns lines used. */
+function wrapped(doc: Doc, str: string, x: number, y: number, o: TextOpts & { maxW: number }, lineH: number): number {
+  if (LATIN1.test(str)) {
+    doc.setFont('helvetica', o.bold ? 'bold' : 'normal');
+    doc.setFontSize(o.size);
+    const lines = doc.splitTextToSize(str, o.maxW) as string[];
+    lines.forEach((l, i) => doc.text(l, x, y + i * lineH));
+    return lines.length;
+  }
+  line(doc, str, x, y, o);
+  return 1;
+}
+
 /** Builds and downloads the formal split sheet. jsPDF is loaded on demand to keep the first load small. */
 export async function downloadSplitSheetPdf(draft: SplitSheetDraft): Promise<void> {
-  const { jsPDF } = await import('jspdf');
-  const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+  const { jsPDF: PDF } = await import('jspdf');
+  const doc = new PDF({ unit: 'pt', format: 'letter' });
   const pageW = doc.internal.pageSize.getWidth();
   const pageH = doc.internal.pageSize.getHeight();
   const margin = 54;
@@ -32,22 +108,19 @@ export async function downloadSplitSheetPdf(draft: SplitSheetDraft): Promise<voi
     }
   };
 
-  const title = safe(draft.songTitle.trim() || 'Untitled');
+  const title = draft.songTitle.trim() || 'Untitled';
 
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(20);
-  doc.text('SPLIT SHEET AGREEMENT', margin, y);
+  line(doc, 'SPLIT SHEET AGREEMENT', margin, y, { size: 20, bold: true });
   y += 26;
-
-  doc.setFontSize(12);
-  doc.setFont('helvetica', 'normal');
-  doc.text(`Song title: ${title}`, margin, y);
+  const used = line(doc, 'Song title: ', margin, y, { size: 12 });
+  line(doc, title, margin + used, y, { size: 12, maxW: contentW - used });
   y += 16;
-  doc.text(`Session date: ${safe(formatISOForDisplay(draft.sessionDate))}`, margin, y);
+  line(doc, `Session date: ${formatISOForDisplay(draft.sessionDate)}`, margin, y, { size: 12 });
   y += 16;
-  doc.text(`Date generated: ${formatISOForDisplay(todayISO())}`, margin, y);
+  line(doc, `Date generated: ${formatISOForDisplay(todayISO())}`, margin, y, { size: 12 });
   y += 22;
 
+  doc.setFont('helvetica', 'normal');
   doc.setFontSize(10);
   const intro = doc.splitTextToSize(
     'The undersigned collaborators agree that ownership of the master recording and of the musical composition ' +
@@ -65,43 +138,33 @@ export async function downloadSplitSheetPdf(draft: SplitSheetDraft): Promise<voi
     { label: 'Master %', x: margin + 350, w: 60 },
     { label: 'Publishing %', x: margin + 420, w: 72 },
   ];
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(10);
-  cols.forEach((c) => doc.text(c.label, c.x, y));
+  cols.forEach((c) => line(doc, c.label, c.x, y, { size: 10, bold: true }));
   y += 5;
   doc.setLineWidth(0.8);
   doc.line(margin, y, margin + contentW, y);
   y += 14;
 
-  doc.setFont('helvetica', 'normal');
   for (const c of draft.collaborators) {
-    const nameLines = doc.splitTextToSize(safe(c.name.trim() || 'Unnamed'), cols[0]!.w) as string[];
-    const ipiLines = doc.splitTextToSize(safe(c.ipi?.trim() || '-'), cols[2]!.w) as string[];
-    const rowLines = Math.max(nameLines.length, ipiLines.length, 1);
-    ensure(rowLines * 13 + 6);
-    doc.text(nameLines, cols[0]!.x, y);
-    doc.text(safe(c.role), cols[1]!.x, y);
-    doc.text(ipiLines, cols[2]!.x, y);
-    doc.text(fmtPct(c.masterPct), cols[3]!.x, y);
-    doc.text(fmtPct(c.publishingPct), cols[4]!.x, y);
-    y += rowLines * 13 + 4;
+    ensure(36);
+    const nameLines = wrapped(doc, c.name.trim() || 'Unnamed', cols[0]!.x, y, { size: 10, maxW: cols[0]!.w }, 13);
+    const ipiLines = wrapped(doc, c.ipi?.trim() || '-', cols[2]!.x, y, { size: 10, maxW: cols[2]!.w }, 13);
+    line(doc, c.role, cols[1]!.x, y, { size: 10, maxW: cols[1]!.w });
+    line(doc, fmtPct(c.masterPct), cols[3]!.x, y, { size: 10 });
+    line(doc, fmtPct(c.publishingPct), cols[4]!.x, y, { size: 10 });
+    y += Math.max(nameLines, ipiLines, 1) * 13 + 4;
   }
   ensure(30);
   doc.line(margin, y, margin + contentW, y);
   y += 14;
-  doc.setFont('helvetica', 'bold');
-  doc.text('TOTAL', cols[0]!.x, y);
-  doc.text(fmtPct(sumPct(draft.collaborators, 'masterPct')), cols[3]!.x, y);
-  doc.text(fmtPct(sumPct(draft.collaborators, 'publishingPct')), cols[4]!.x, y);
+  line(doc, 'TOTAL', cols[0]!.x, y, { size: 10, bold: true });
+  line(doc, fmtPct(sumPct(draft.collaborators, 'masterPct')), cols[3]!.x, y, { size: 10, bold: true });
+  line(doc, fmtPct(sumPct(draft.collaborators, 'publishingPct')), cols[4]!.x, y, { size: 10, bold: true });
   y += 30;
 
   // Signatures
   ensure(60);
-  doc.setFontSize(12);
-  doc.text('Signatures', margin, y);
+  line(doc, 'Signatures', margin, y, { size: 12, bold: true });
   y += 10;
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(10);
   for (const c of draft.collaborators) {
     ensure(54);
     y += 28;
@@ -109,13 +172,15 @@ export async function downloadSplitSheetPdf(draft: SplitSheetDraft): Promise<voi
     doc.line(margin, y, margin + 280, y);
     doc.line(margin + 310, y, margin + 430, y);
     y += 12;
-    doc.text(`${safe(c.name.trim() || 'Unnamed')} (${safe(c.role)})`, margin, y);
-    doc.text('Date', margin + 310, y);
+    const nameW = line(doc, c.name.trim() || 'Unnamed', margin, y, { size: 10, maxW: 220 });
+    line(doc, ` (${c.role})`, margin + nameW, y, { size: 10 });
+    line(doc, 'Date', margin + 310, y, { size: 10 });
     y += 6;
   }
 
   y += 18;
   ensure(60);
+  doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
   doc.setTextColor(90);
   const note = doc.splitTextToSize(

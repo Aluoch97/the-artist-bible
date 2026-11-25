@@ -86,8 +86,10 @@ function StackedBar({ rows, keyName, label }: { rows: Collaborator[]; keyName: '
 }
 
 export function SplitSheetBuilder() {
-  const { state, updateSplitSheet } = useLocalProgress();
+  const { state, updateSplitSheet, startNewSplitSheet, openSplitSheet, deleteSavedSplitSheet } = useLocalProgress();
   const draft = state.splitSheetDraft;
+  const saved = state.savedSplitSheets;
+  const songLabel = (d: { songTitle: string }) => d.songTitle.trim() || 'Untitled song';
   const rows = draft.collaborators;
   const master = splitStatus(rows, 'masterPct');
   const pub = splitStatus(rows, 'publishingPct');
@@ -139,6 +141,31 @@ export function SplitSheetBuilder() {
         title="Split sheet"
         description="Settle who owns what, in writing, before anyone leaves the studio. It takes about two minutes."
       />
+
+      {(saved.length > 0 || state.splitSheetDraft.songTitle.trim() !== '') && (
+        <div className="no-print mb-5">
+          <p className="mb-2 text-sm font-bold text-muted">Your songs</p>
+          <div className="flex flex-wrap gap-2">
+            <span aria-current="true" className="inline-flex h-11 items-center rounded-full bg-accent px-4 text-sm font-bold text-accent-fg">{songLabel(draft)}</span>
+            {saved.map((d) => (
+              <span key={d.id} className="inline-flex items-center rounded-full border border-border bg-surface">
+                <button type="button" onClick={() => openSplitSheet(d.id)} className="h-11 cursor-pointer rounded-l-full pl-4 pr-2 text-sm font-bold text-fg hover:text-accent">{songLabel(d)}</button>
+                <button
+                  type="button"
+                  aria-label={`Remove ${songLabel(d)}`}
+                  onClick={() => { if (window.confirm(`Remove "${songLabel(d)}" from this device?`)) deleteSavedSplitSheet(d.id); }}
+                  className="grid h-11 w-10 cursor-pointer place-items-center rounded-r-full text-muted hover:text-bad"
+                >
+                  <Trash2 className="h-4 w-4" aria-hidden="true" />
+                </button>
+              </span>
+            ))}
+            <button type="button" onClick={startNewSplitSheet} className="inline-flex h-11 cursor-pointer items-center gap-1.5 rounded-full border border-dashed border-muted px-4 text-sm font-bold text-muted hover:border-accent hover:text-accent">
+              <Plus className="h-4 w-4" aria-hidden="true" /> New song
+            </button>
+          </div>
+        </div>
+      )}
 
       <details className="group rounded-2xl border border-border bg-surface px-4 py-3">
         <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 font-bold [&::-webkit-details-marker]:hidden">
@@ -269,6 +296,9 @@ export function SplitSheetBuilder() {
           {copied === 'fail' && <span className="text-bad">Your browser blocked copying. Use Download PDF instead.</span>}
           {pdfError && <span className="text-bad">{pdfError}</span>}
         </p>
+        <Button variant="ghost" size="sm" className="mt-3" onClick={startNewSplitSheet}>
+          <Plus className="h-4 w-4" aria-hidden="true" /> Start another song
+        </Button>
         <p className="mt-2 text-xs text-muted">The PDF has signature lines. The text summary is for group chats. This records what everyone agreed and is not legal advice. Your draft is saved on this device only.</p>
       </Card>
     </section>

@@ -23,6 +23,8 @@ export interface SavedRelease {
 }
 
 export interface SplitSheetDraft {
+  /** Added after v1 launch; older saves get one on load. */
+  id: string;
   songTitle: string;
   sessionDate: string;
   collaborators: Collaborator[];
@@ -33,6 +35,9 @@ export interface ArtistBibleState {
   completedAuditIds: string[];
   activeRelease: SavedRelease | null;
   splitSheetDraft: SplitSheetDraft;
+  /** Earlier releases and songs kept on the shelf. Additive: v1 backups without these still load. */
+  savedReleases: SavedRelease[];
+  savedSplitSheets: SplitSheetDraft[];
 }
 
 /* ---------- Volatile industry data (src/data/industry-data.json) ---------- */
@@ -65,6 +70,8 @@ export interface IndustryData {
   site: { githubRepo: string; url: string };
   royaltyEntities: RoyaltyEntity[];
   releaseMilestones: ReleaseMilestone[];
+  /** Extra steps shown only for that release type. */
+  releaseTypeSteps: Partial<Record<ReleaseType, ReleaseMilestone[]>>;
   resources: ResourceLink[];
 }
 

@@ -13,10 +13,15 @@ import { LearnPage } from './pages/LearnPage';
 import { NotFound } from './pages/NotFound';
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   useEffect(() => {
+    if (hash) {
+      // Jump to a section like /about#install once the page has rendered.
+      requestAnimationFrame(() => document.getElementById(hash.slice(1))?.scrollIntoView());
+      return;
+    }
     window.scrollTo(0, 0);
-  }, [pathname]);
+  }, [pathname, hash]);
   return null;
 }
 

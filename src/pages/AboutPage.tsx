@@ -11,6 +11,17 @@ export function AboutPage() {
         <h2>What this is</h2>
         <p>The Artist Bible is a free, independent project: plain-English guides and a few tools (release planner, royalty checklist, split sheet, red-flag decoder) for independent recording artists. It is not a law firm, a label, a distributor or a financial adviser.</p>
 
+        <h2>Who it&apos;s for</h2>
+        <p>The royalty, PRO, mechanical and neighboring-rights information here describes the <strong>United States</strong>. If you release music elsewhere, your country has its own collection societies and rules, though the split-sheet and release tools still apply.</p>
+
+        <h2 id="install">Install it on your phone</h2>
+        <ul>
+          <li><strong>iPhone or iPad:</strong> tap the Share button in your browser, then <strong>Add to Home Screen</strong>.</li>
+          <li><strong>Android (Chrome):</strong> tap <strong>Install</strong> at the top of the app, or open the browser menu and choose <strong>Install app</strong>.</li>
+          <li><strong>Computer (Chrome or Edge):</strong> click the install icon in the address bar.</li>
+        </ul>
+        <p>Once installed it opens full screen and works offline. Your saved work lives on the device, and browsers can clear saved data for sites you haven&apos;t installed, so download a backup now and then (the backup button, top right).</p>
+
         <h2>Privacy</h2>
         <ul>
           <li><strong>No accounts, no ads, no tracking.</strong> The app has no analytics, no advertising, no cookies and no third-party scripts or fonts.</li>

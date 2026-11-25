@@ -1,5 +1,5 @@
 import { industryData } from '../data';
-import type { ReleaseMilestone, SavedRelease } from '../types/bible';
+import type { ReleaseMilestone, ReleaseType, SavedRelease } from '../types/bible';
 import { addDays, daysBetween, parseISODate, todayISO } from './dates';
 
 export interface PlannedMilestone extends ReleaseMilestone {
@@ -8,12 +8,17 @@ export interface PlannedMilestone extends ReleaseMilestone {
   daysFromNow: number;
 }
 
+/** Steps for a release type: the shared steps plus any extras that type needs. */
+export function milestonesFor(type: ReleaseType): ReleaseMilestone[] {
+  return [...industryData.releaseMilestones, ...(industryData.releaseTypeSteps[type] ?? [])];
+}
+
 /** Milestones for a release date, earliest first, with exact due dates. */
-export function planRelease(releaseDate: string): PlannedMilestone[] {
+export function planRelease(releaseDate: string, type: ReleaseType = 'single'): PlannedMilestone[] {
   const target = parseISODate(releaseDate);
   const today = parseISODate(todayISO());
   if (!target || !today) return [];
-  return [...industryData.releaseMilestones]
+  return milestonesFor(type)
     .sort((a, b) => b.weeksOut - a.weeksOut)
     .map((m) => {
       const due = addDays(target, -m.weeksOut * 7);
@@ -24,7 +29,7 @@ export function planRelease(releaseDate: string): PlannedMilestone[] {
 /** First unfinished step of a saved release, or null if all are done. */
 export function nextMilestone(release: SavedRelease | null): PlannedMilestone | null {
   if (!release) return null;
-  return planRelease(release.releaseDate).find((m) => !release.completedMilestoneIds.includes(m.id)) ?? null;
+  return planRelease(release.releaseDate, release.type).find((m) => !release.completedMilestoneIds.includes(m.id)) ?? null;
 }
 
 export function relativeDays(n: number): string {

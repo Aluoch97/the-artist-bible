@@ -9,14 +9,14 @@
       "id": "pro_ascap_bmi",
       "name": "PRO Registration (ASCAP or BMI)",
       "category": "Performance Royalties",
-      "cost": "$0 (BMI Writer) / ASCAP: check current fee",
+      "cost": "$0 (BMI and ASCAP writer memberships)",
       "officialUrl": "https://www.bmi.com",
       "secondaryUrl": "https://www.ascap.com",
       "whyItMatters": "Collects songwriter and publisher performance royalties when your music is streamed, broadcast, or performed live.",
       "steps": [
-        "Choose one PRO (ASCAP or BMI—never register the same songs with both).",
-        "Register as a Songwriter first; set up a Publisher entity when you are ready to collect the publisher share of your performance royalties too.",
-        "Save your IPI/CAE number—you will need it for split sheets and The MLC."
+        "Choose one PRO (ASCAP or BMI). A writer is normally affiliated with one at a time, and the same songs are never registered with both.",
+        "Join as a Songwriter first. Set up a Publisher membership when you are ready to collect the publisher share of your performance royalties too (publisher memberships can carry a fee, so check the PRO's current terms).",
+        "Save your IPI/CAE number. You will need it for split sheets and The MLC."
       ]
     },
     {
@@ -53,7 +53,7 @@
       "whyItMatters": "Required to pitch unreleased music to editorial playlists and customize your artist profile.",
       "steps": [
         "Claim your profile immediately after uploading your first release to your distributor.",
-        "Pitch unreleased tracks as early as you can, ideally 3 to 4 weeks before release day."
+        "Pitch unreleased tracks before release day. Spotify's minimum is 7 days and it recommends 2 weeks, so plan for about 3 weeks to leave a buffer."
       ]
     }
   ],
@@ -71,7 +71,7 @@
     {
       "id": "editorial_pitch",
       "weeksOut": 3,
-      "label": "Submit your editorial pitch (Spotify for Artists, Amazon Music): earlier is better, and it must be before release day"
+      "label": "Submit your editorial pitch (Spotify for Artists, Amazon Music). Spotify needs at least 7 days and suggests 2 weeks; 3 weeks leaves a buffer"
     },
     {
       "id": "pro_mlc_reg",
@@ -95,5 +95,31 @@
       "label": "U.S. Copyright Office",
       "url": "https://www.copyright.gov"
     }
-  ]
+  ],
+  "releaseTypeSteps": {
+    "ep": [
+      {
+        "id": "every_track_ready",
+        "weeksOut": 7,
+        "label": "Every track mixed, mastered and credited, with a split sheet for each song"
+      }
+    ],
+    "album": [
+      {
+        "id": "every_track_ready",
+        "weeksOut": 9,
+        "label": "Every track mixed, mastered and credited, with a split sheet for each song"
+      },
+      {
+        "id": "lead_single",
+        "weeksOut": 8,
+        "label": "Choose a lead single and schedule it ahead of the album to build momentum"
+      },
+      {
+        "id": "track_order_art",
+        "weeksOut": 7,
+        "label": "Lock the track order, album-level metadata and cover art"
+      }
+    ]
+  }
 }

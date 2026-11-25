@@ -21,18 +21,27 @@ export function createCollaborator(overrides: Partial<Collaborator> = {}): Colla
   return { id: newId(), name: '', role: 'Songwriter', ipi: '', masterPct: 0, publishingPct: 0, ...overrides };
 }
 
+export function createSplitDraft(): SplitSheetDraft {
+  return {
+    id: newId(),
+    songTitle: '',
+    sessionDate: todayISO(),
+    collaborators: [createCollaborator({ role: 'Vocalist/Artist', masterPct: 100, publishingPct: 100 })],
+  };
+}
+
 export function defaultState(): ArtistBibleState {
   return {
     version: 1,
     completedAuditIds: [],
     activeRelease: null,
-    splitSheetDraft: {
-      songTitle: '',
-      sessionDate: todayISO(),
-      collaborators: [createCollaborator({ role: 'Vocalist/Artist', masterPct: 100, publishingPct: 100 })],
-    },
+    splitSheetDraft: createSplitDraft(),
+    savedReleases: [],
+    savedSplitSheets: [],
   };
 }
+
+const MAX_SAVED = 30;
 
 /* ----------------------------- validation ----------------------------- */
 
@@ -50,44 +59,64 @@ const pct = (v: unknown): number => {
 const strArray = (v: unknown): string[] =>
   Array.isArray(v) ? [...new Set(v.filter((x): x is string => typeof x === 'string').map((x) => x.slice(0, 100)))] : [];
 
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+function cleanRelease(r: unknown): SavedRelease | null {
+  if (!isObject(r) || !RELEASE_TYPES.includes(r.type as ReleaseType) || !DATE_RE.test(str(r.releaseDate))) return null;
+  return {
+    id: str(r.id) || newId(),
+    title: str(r.title),
+    type: r.type as ReleaseType,
+    releaseDate: str(r.releaseDate),
+    completedMilestoneIds: strArray(r.completedMilestoneIds),
+  };
+}
+
+function cleanDraft(s: unknown): SplitSheetDraft | null {
+  if (!isObject(s)) return null;
+  const rows = Array.isArray(s.collaborators)
+    ? s.collaborators.filter(isObject).slice(0, 50).map((c) => ({
+        id: str(c.id) || newId(),
+        name: str(c.name),
+        role: str(c.role, 60) || 'Songwriter',
+        ipi: str(c.ipi, 40),
+        masterPct: pct(c.masterPct),
+        publishingPct: pct(c.publishingPct),
+      }))
+    : [];
+  return {
+    id: str(s.id) || newId(),
+    songTitle: str(s.songTitle),
+    sessionDate: DATE_RE.test(str(s.sessionDate)) ? str(s.sessionDate) : todayISO(),
+    collaborators: rows.length > 0 ? rows : createSplitDraft().collaborators,
+  };
+}
+
+function cleanList<T extends { id: string }>(raw: unknown, clean: (v: unknown) => T | null): T[] {
+  if (!Array.isArray(raw)) return [];
+  const seen = new Set<string>();
+  const out: T[] = [];
+  for (const item of raw.slice(0, MAX_SAVED)) {
+    const c = clean(item);
+    if (c && !seen.has(c.id)) {
+      seen.add(c.id);
+      out.push(c);
+    }
+  }
+  return out;
+}
+
 /** Returns a clean state, or null if `raw` isn't a v1 Artist Bible state. */
 export function sanitizeState(raw: unknown): ArtistBibleState | null {
   if (!isObject(raw) || raw.version !== 1) return null;
-  const base = defaultState();
-
-  let activeRelease: SavedRelease | null = null;
-  const r = raw.activeRelease;
-  if (isObject(r) && RELEASE_TYPES.includes(r.type as ReleaseType) && /^\d{4}-\d{2}-\d{2}$/.test(str(r.releaseDate))) {
-    activeRelease = {
-      id: str(r.id) || newId(),
-      title: str(r.title),
-      type: r.type as ReleaseType,
-      releaseDate: str(r.releaseDate),
-      completedMilestoneIds: strArray(r.completedMilestoneIds),
-    };
-  }
-
-  let splitSheetDraft: SplitSheetDraft = base.splitSheetDraft;
-  const s = raw.splitSheetDraft;
-  if (isObject(s)) {
-    const rows = Array.isArray(s.collaborators)
-      ? s.collaborators.filter(isObject).slice(0, 50).map((c) => ({
-          id: str(c.id) || newId(),
-          name: str(c.name),
-          role: str(c.role, 60) || 'Songwriter',
-          ipi: str(c.ipi, 40),
-          masterPct: pct(c.masterPct),
-          publishingPct: pct(c.publishingPct),
-        }))
-      : [];
-    splitSheetDraft = {
-      songTitle: str(s.songTitle),
-      sessionDate: /^\d{4}-\d{2}-\d{2}$/.test(str(s.sessionDate)) ? str(s.sessionDate) : todayISO(),
-      collaborators: rows.length > 0 ? rows : base.splitSheetDraft.collaborators,
-    };
-  }
-
-  return { version: 1, completedAuditIds: strArray(raw.completedAuditIds), activeRelease, splitSheetDraft };
+  return {
+    version: 1,
+    completedAuditIds: strArray(raw.completedAuditIds),
+    activeRelease: cleanRelease(raw.activeRelease),
+    splitSheetDraft: cleanDraft(raw.splitSheetDraft) ?? createSplitDraft(),
+    savedReleases: cleanList(raw.savedReleases, cleanRelease),
+    savedSplitSheets: cleanList(raw.savedSplitSheets, cleanDraft),
+  };
 }
 
 /* ------------------------- module-level store -------------------------- */
@@ -219,6 +248,64 @@ export function updateSplitSheet(
   commit({ ...current, splitSheetDraft: next });
 }
 
+/* ---- several releases and songs ---- */
+
+const uniqueId = (taken: string[], id: string) => (taken.includes(id) ? newId() : id);
+
+/** Put the current release on the shelf and start a blank one. */
+export function startNewRelease(): void {
+  const cur = current.activeRelease;
+  commit({
+    ...current,
+    activeRelease: null,
+    savedReleases: cur
+      ? [{ ...cur, id: uniqueId(current.savedReleases.map((r) => r.id), cur.id) }, ...current.savedReleases].slice(0, MAX_SAVED)
+      : current.savedReleases,
+  });
+}
+
+/** Make a shelved release the current one (the current one goes on the shelf). */
+export function openRelease(id: string): void {
+  const target = current.savedReleases.find((r) => r.id === id);
+  if (!target) return;
+  const rest = current.savedReleases.filter((r) => r.id !== id);
+  const cur = current.activeRelease;
+  commit({
+    ...current,
+    activeRelease: target,
+    savedReleases: cur ? [{ ...cur, id: uniqueId([target.id, ...rest.map((r) => r.id)], cur.id) }, ...rest] : rest,
+  });
+}
+
+export function deleteSavedRelease(id: string): void {
+  commit({ ...current, savedReleases: current.savedReleases.filter((r) => r.id !== id) });
+}
+
+const hasContent = (d: SplitSheetDraft) =>
+  d.songTitle.trim() !== '' || d.collaborators.length > 1 || d.collaborators.some((c) => c.name.trim() !== '' || (c.ipi ?? '').trim() !== '');
+
+/** Put the current song on the shelf (if it has anything in it) and start a blank one. */
+export function startNewSplitSheet(): void {
+  const cur = current.splitSheetDraft;
+  commit({
+    ...current,
+    splitSheetDraft: createSplitDraft(),
+    savedSplitSheets: hasContent(cur) ? [cur, ...current.savedSplitSheets].slice(0, MAX_SAVED) : current.savedSplitSheets,
+  });
+}
+
+export function openSplitSheet(id: string): void {
+  const target = current.savedSplitSheets.find((d) => d.id === id);
+  if (!target) return;
+  const rest = current.savedSplitSheets.filter((d) => d.id !== id);
+  const cur = current.splitSheetDraft;
+  commit({ ...current, splitSheetDraft: target, savedSplitSheets: hasContent(cur) ? [cur, ...rest] : rest });
+}
+
+export function deleteSavedSplitSheet(id: string): void {
+  commit({ ...current, savedSplitSheets: current.savedSplitSheets.filter((d) => d.id !== id) });
+}
+
 export function resetAll(): void {
   commit(defaultState());
 }
@@ -231,6 +318,12 @@ const actions = {
   saveRelease,
   toggleReleaseMilestone,
   updateSplitSheet,
+  startNewRelease,
+  openRelease,
+  deleteSavedRelease,
+  startNewSplitSheet,
+  openSplitSheet,
+  deleteSavedSplitSheet,
   exportBackupJson,
   importBackupJson,
   parseBackupFile,

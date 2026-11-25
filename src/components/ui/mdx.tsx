@@ -58,6 +58,7 @@ function Milestones() {
           <span>{m.label}</span>
         </li>
       ))}
+      <li className="list-none text-sm text-muted">This is the plan for a single. EPs and albums add steps for finishing every track first; pick your type in the planner.</li>
     </ol>
   );
 }

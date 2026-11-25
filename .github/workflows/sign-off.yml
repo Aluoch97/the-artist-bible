@@ -1,0 +1,45 @@
+name: Sign off facts I checked
+
+# One-click: after you have personally read the official pages listed in the audit issue,
+# run this to record the date. It then re-runs the audit, which moves the app's
+# "Verified" date forward if everything else is already confirmed.
+
+on:
+  workflow_dispatch:
+    inputs:
+      claims:
+        description: 'Which facts you checked: "all" or ids separated by commas (see the audit issue)'
+        required: true
+        default: 'all'
+      i_checked:
+        description: 'Type YES to confirm you personally checked them'
+        required: true
+        default: ''
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  sign-off:
+    if: github.event.inputs.i_checked == 'YES'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Record the sign-off
+        env:
+          CLAIMS: ${{ github.event.inputs.claims }}
+        run: node scripts/sign-off.mjs "$CLAIMS"
+      - name: Commit
+        run: |
+          git config user.name "artist-bible-audit"
+          git config user.email "actions@users.noreply.github.com"
+          git commit -am "Human sign-off recorded by ${{ github.actor }}"
+          git push origin HEAD:${{ github.event.repository.default_branch }}
+      - name: Re-run the audit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run weekly-audit.yml --ref ${{ github.event.repository.default_branch }}

@@ -1,11 +1,11 @@
-import { AlertTriangle, CalendarCheck, Check, Link2, PartyPopper, Printer, RotateCcw } from 'lucide-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { AlertTriangle, CalendarCheck, Check, Link2, PartyPopper, Plus, Printer, Trash2 } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useLocalProgress } from '../../hooks/useLocalProgress';
+import { startNewRelease as startNewReleaseAction, useLocalProgress } from '../../hooks/useLocalProgress';
 import { copyText } from '../../lib/clipboard';
-import { daysBetween, formatLongDate, parseISODate, todayISO } from '../../lib/dates';
-import { planRelease, relativeDays } from '../../lib/release';
-import { cn } from '../../lib/utils';
+import { daysBetween, formatLongDate, formatISOForDisplay, parseISODate, todayISO } from '../../lib/dates';
+import { milestonesFor, planRelease, relativeDays } from '../../lib/release';
+import { cn, newId } from '../../lib/utils';
 import type { ReleaseType } from '../../types/bible';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
@@ -17,28 +17,29 @@ import { StepHeading } from '../ui/StepHeading';
 import { ToolHeader } from '../ui/ToolHeader';
 
 const TYPE_OPTIONS: { value: ReleaseType; label: string; tip: string }[] = [
-  { value: 'single', label: 'Single', tip: 'One song. The plan below fits it as written.' },
-  { value: 'ep', label: 'EP', tip: 'A few songs. Finish every master and credit sheet before the first step.' },
-  { value: 'album', label: 'Album', tip: 'Many songs. Consider starting earlier, since more tracks means more metadata and more splits to register.' },
+  { value: 'single', label: 'Single', tip: 'One song. This is the base plan.' },
+  { value: 'ep', label: 'EP', tip: 'A few songs. Adds a step to get every track and split sheet finished first.' },
+  { value: 'album', label: 'Album', tip: 'Many songs. Adds steps for finishing every track, a lead single and locking the track order.' },
 ];
 
 const isType = (v: string | null): v is ReleaseType => v === 'single' || v === 'ep' || v === 'album';
-const RELEASE_ID = 'active';
 const shortDate = (d: Date) => d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
 
-export function ReleaseCalculator() {
+function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boolean }) {
   const [params, setParams] = useSearchParams();
+  // A shared link only applies when the page was opened from it, never after switching releases inside the app.
+  const link = useRef(allowLink ? new URLSearchParams(params) : new URLSearchParams()).current;
   const { state, saveRelease, toggleReleaseMilestone } = useLocalProgress();
   const saved = state.activeRelease;
 
   // Initial form values: a shared link (URL params) wins over this device's saved release.
-  const [title, setTitle] = useState(() => params.get('title') ?? saved?.title ?? '');
+  const [title, setTitle] = useState(() => link.get('title') ?? saved?.title ?? '');
   const [type, setType] = useState<ReleaseType>(() => {
-    const p = params.get('type');
+    const p = link.get('type');
     return isType(p) ? p : (saved?.type ?? 'single');
   });
   const [date, setDate] = useState(() => {
-    const p = params.get('date');
+    const p = link.get('date');
     return p && parseISODate(p) ? p : (saved?.releaseDate ?? '');
   });
   const [copied, setCopied] = useState<'idle' | 'ok' | 'fail'>('idle');
@@ -48,7 +49,7 @@ export function ReleaseCalculator() {
 
   // Persist + mirror to the URL whenever the form changes.
   useEffect(() => {
-    const hydratedFromLink = firstRun.current && params.has('date');
+    const hydratedFromLink = firstRun.current && link.has('date');
     firstRun.current = false;
 
     if (targetDate) {
@@ -56,7 +57,7 @@ export function ReleaseCalculator() {
       if (!sameAsSaved) {
         // A different release from a shared link starts with a clean checklist.
         const keep = hydratedFromLink ? [] : (saved?.completedMilestoneIds ?? []);
-        saveRelease({ id: RELEASE_ID, title, type, releaseDate: date, completedMilestoneIds: keep });
+        saveRelease({ id: saved?.id ?? newId(), title, type, releaseDate: date, completedMilestoneIds: keep });
       }
     }
 
@@ -68,7 +69,7 @@ export function ReleaseCalculator() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [title, type, date]);
 
-  const milestones = useMemo(() => (targetDate ? planRelease(date) : []), [targetDate, date]);
+  const milestones = useMemo(() => (targetDate ? planRelease(date, type) : []), [targetDate, date, type]);
 
   const completed = saved && targetDate && saved.releaseDate === date ? saved.completedMilestoneIds : [];
   const canCheck = Boolean(saved && saved.releaseDate === date);
@@ -91,22 +92,11 @@ export function ReleaseCalculator() {
     window.setTimeout(() => setCopied('idle'), 2500);
   }
 
-  function startOver() {
-    setTitle('');
-    setType('single');
-    setDate('');
-    saveRelease(null);
-  }
-
   const typeTip = TYPE_OPTIONS.find((o) => o.value === type)?.tip;
+  const stepCount = milestonesFor(type).length;
 
   return (
-    <section>
-      <ToolHeader
-        title="Plan your release"
-        description="Pick the day your music comes out. We work backward and tell you what to do by when."
-      />
-
+    <>
       <Card className="no-print grid gap-5 p-4 sm:p-5">
         <div>
           <label htmlFor="rel-date" className="mb-1.5 block font-bold">When does it come out?</label>
@@ -132,7 +122,7 @@ export function ReleaseCalculator() {
               </label>
             ))}
           </div>
-          {typeTip && <p className="mt-2 text-sm text-muted">{typeTip}</p>}
+          {typeTip && <p className="mt-2 text-sm text-muted">{typeTip} ({stepCount} steps)</p>}
         </fieldset>
       </Card>
 
@@ -233,14 +223,86 @@ export function ReleaseCalculator() {
             <Button onClick={() => window.print()}>
               <Printer className="h-4 w-4" aria-hidden="true" /> Print / Save PDF
             </Button>
-            <Button variant="ghost" onClick={startOver}>
-              <RotateCcw className="h-4 w-4" aria-hidden="true" /> New release
+            <Button variant="ghost" onClick={onNew}>
+              <Plus className="h-4 w-4" aria-hidden="true" /> Start another release
             </Button>
           </div>
           <p className="sr-only" role="status">{copied === 'ok' ? 'Shareable link copied to clipboard' : ''}</p>
           <p className="mt-3 text-xs text-muted">Dates use your local time zone. Shared links carry only the title, type and date, never your checkmarks.</p>
         </div>
       )}
+    </>
+  );
+}
+
+/** Shelf of releases: switch between them, start another, or remove one. */
+function ReleasePicker({ onSwitch }: { onSwitch: (action: () => void) => void }) {
+  const { state, openRelease, startNewRelease, deleteSavedRelease } = useLocalProgress();
+  const { activeRelease, savedReleases } = state;
+  if (!activeRelease && savedReleases.length === 0) return null;
+  const label = (r: { title: string; releaseDate: string }) => `${r.title.trim() || 'Untitled'} · ${formatISOForDisplay(r.releaseDate).replace(/^\w+, /, '')}`;
+
+  return (
+    <div className="no-print mb-5">
+      <p className="mb-2 text-sm font-bold text-muted">Your releases</p>
+      <div className="flex flex-wrap gap-2">
+        {activeRelease ? (
+          <span aria-current="true" className="inline-flex h-11 items-center rounded-full bg-accent px-4 text-sm font-bold text-accent-fg">{label(activeRelease)}</span>
+        ) : (
+          <span aria-current="true" className="inline-flex h-11 items-center rounded-full bg-accent px-4 text-sm font-bold text-accent-fg">New release</span>
+        )}
+        {savedReleases.map((r) => (
+          <span key={r.id} className="inline-flex items-center rounded-full border border-border bg-surface">
+            <button type="button" onClick={() => onSwitch(() => openRelease(r.id))} className="h-11 cursor-pointer rounded-l-full pl-4 pr-2 text-sm font-bold text-fg hover:text-accent">
+              {label(r)}
+            </button>
+            <button
+              type="button"
+              aria-label={`Remove ${r.title.trim() || 'untitled'} release`}
+              onClick={() => { if (window.confirm(`Remove "${r.title.trim() || 'Untitled'}" from this device?`)) deleteSavedRelease(r.id); }}
+              className="grid h-11 w-10 cursor-pointer place-items-center rounded-r-full text-muted hover:text-bad"
+            >
+              <Trash2 className="h-4 w-4" aria-hidden="true" />
+            </button>
+          </span>
+        ))}
+        {activeRelease && (
+          <button type="button" onClick={() => onSwitch(startNewRelease)} className="inline-flex h-11 cursor-pointer items-center gap-1.5 rounded-full border border-dashed border-muted px-4 text-sm font-bold text-muted hover:border-accent hover:text-accent">
+            <Plus className="h-4 w-4" aria-hidden="true" /> New release
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function ReleaseCalculator() {
+  const [, setParams] = useSearchParams();
+  const [epoch, setEpoch] = useState(0);
+  const [switched, setSwitched] = useState(false);
+
+  // Switching releases clears the share-link params first, so the form loads the chosen release, not the old link.
+  const onSwitch = useCallback(
+    (action: () => void) => {
+      setParams(new URLSearchParams(), { replace: true });
+      requestAnimationFrame(() => {
+        action();
+        setSwitched(true);
+        setEpoch((e) => e + 1);
+      });
+    },
+    [setParams],
+  );
+
+  return (
+    <section>
+      <ToolHeader
+        title="Plan your release"
+        description="Pick the day your music comes out. We work backward and tell you what to do by when."
+      />
+      <ReleasePicker onSwitch={onSwitch} />
+      <ReleaseForm key={epoch} allowLink={!switched} onNew={() => onSwitch(startNewReleaseAction)} />
     </section>
   );
 }
+
