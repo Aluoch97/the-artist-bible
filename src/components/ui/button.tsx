@@ -3,19 +3,19 @@ import { forwardRef, type ButtonHTMLAttributes } from 'react';
 import { cn } from '../../lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold transition-colors disabled:pointer-events-none disabled:opacity-40 select-none cursor-pointer',
+  'inline-flex items-center justify-center gap-2 rounded-full text-[15px] font-bold transition-[filter,background-color,border-color,transform] active:scale-[0.97] disabled:pointer-events-none disabled:opacity-40 select-none cursor-pointer',
   {
     variants: {
       variant: {
-        primary: 'bg-accent text-accent-fg hover:brightness-110',
+        primary: 'bg-accent text-accent-fg hover:brightness-110 shadow-[0_4px_18px_rgba(62,224,143,0.25)]',
         secondary: 'bg-surface-2 text-fg border border-border hover:border-muted',
         ghost: 'text-muted hover:text-fg hover:bg-surface-2',
         danger: 'bg-transparent text-bad border border-bad/50 hover:bg-bad/10',
       },
       size: {
-        sm: 'h-9 px-3',
-        md: 'h-11 px-4',
-        icon: 'h-10 w-10',
+        sm: 'h-10 px-4 text-sm',
+        md: 'h-12 px-6',
+        icon: 'h-11 w-11',
       },
     },
     defaultVariants: { variant: 'secondary', size: 'md' },

@@ -53,13 +53,13 @@ export function BackupModal({ open, onClose }: { open: boolean; onClose: () => v
       onClose={onClose}
       onClick={(e) => { if (e.target === ref.current) onClose(); }}
       aria-labelledby="backup-title"
-      className="m-auto w-[min(32rem,calc(100vw-2rem))] rounded-2xl border border-border bg-surface p-0 text-fg backdrop:bg-black/70"
+      className="m-auto w-[min(32rem,calc(100vw-2rem))] rounded-3xl border border-border bg-surface p-0 text-fg backdrop:bg-black/75"
     >
       <div className="p-5">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h2 id="backup-title" className="text-lg font-bold">Backup &amp; Restore</h2>
-            <p className="mt-1 text-sm text-muted">Everything lives only in this browser. Save a file to move it to another device or keep a copy.</p>
+            <h2 id="backup-title" className="font-display text-2xl font-bold">Backup &amp; restore</h2>
+            <p className="mt-1 text-[15px] text-muted">Everything you enter lives only on this device. Save a file to keep a copy or move to a new phone.</p>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close"><X className="h-4 w-4" aria-hidden="true" /></Button>
         </div>
@@ -73,12 +73,12 @@ export function BackupModal({ open, onClose }: { open: boolean; onClose: () => v
 
         <div className="mt-5 space-y-5">
           <div>
-            <h3 className="mb-2 text-sm font-semibold">Export</h3>
+            <h3 className="mb-2 font-bold">Save a backup</h3>
             <Button variant="primary" onClick={() => exportBackupJson()}><Download className="h-4 w-4" aria-hidden="true" /> Download backup (.json)</Button>
           </div>
 
           <div>
-            <h3 className="mb-2 text-sm font-semibold">Import</h3>
+            <h3 className="mb-2 font-bold">Restore from a backup</h3>
             <input ref={fileRef} id="backup-file" type="file" accept="application/json,.json" className="sr-only" onChange={(e) => onPick(e.target.files?.[0])} />
             <Button onClick={() => fileRef.current?.click()}><Upload className="h-4 w-4" aria-hidden="true" /> Choose backup file</Button>
 
@@ -87,10 +87,10 @@ export function BackupModal({ open, onClose }: { open: boolean; onClose: () => v
                 <p className="flex items-start gap-2 text-bad"><AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" /> {status.message}</p>
               )}
               {status.kind === 'done' && (
-                <p className="flex items-start gap-2 text-good"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" /> {status.message}</p>
+                <p className="flex items-start gap-2 text-accent"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" /> {status.message}</p>
               )}
               {status.kind === 'ready' && (
-                <div className="rounded-lg border border-border bg-bg p-3">
+                <div className="rounded-xl border border-border bg-bg p-3">
                   <p className="text-muted">Found: {describe(status.state)}.</p>
                   <p className="mt-1 font-semibold text-warn">Restoring replaces what is saved on this device now.</p>
                   <div className="mt-3 flex gap-2">
@@ -103,7 +103,7 @@ export function BackupModal({ open, onClose }: { open: boolean; onClose: () => v
           </div>
 
           <div className="border-t border-border pt-4">
-            <h3 className="mb-2 text-sm font-semibold">Start fresh</h3>
+            <h3 className="mb-2 font-bold">Start fresh</h3>
             {confirmReset ? (
               <div className="flex flex-wrap items-center gap-2">
                 <span className="text-sm text-warn">Erase everything on this device?</span>
