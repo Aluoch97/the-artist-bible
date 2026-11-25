@@ -130,6 +130,16 @@ export function HomeTriageHero() {
         </Link>
       )}
 
+      {!release && done === 0 && !hasDraft && (
+        <Link to="/guides/start-here" className="mb-4 flex items-center justify-between gap-3 rounded-3xl border border-accent/50 bg-accent/10 p-4 backdrop-blur-sm transition-colors hover:bg-accent/15">
+          <span>
+            <span className="block font-bold">New to this? Start here</span>
+            <span className="text-[15px] text-muted">A short path from your first song to getting paid.</span>
+          </span>
+          <ChevronRight className="h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
+        </Link>
+      )}
+
       <div className="grid gap-4">
         <TriageCard
           to="/release"
@@ -143,7 +153,7 @@ export function HomeTriageHero() {
         <TriageCard
           to="/audit"
           title="I have music out. Am I missing money?"
-          hint="Four free sign-ups that collect the money you are owed."
+          hint="Four free sign-ups (U.S.) that collect the money you are owed."
           icon={CircleDollarSign}
           gradient={GRADIENTS.money}
           meta={`${done} of ${total} set up`}
@@ -182,7 +192,7 @@ export function HomeTriageHero() {
             <BookOpen className="mt-0.5 h-6 w-6 shrink-0 text-accent" aria-hidden="true" />
             <span>
               <span className="block font-bold">Guides</span>
-              <span className="text-[15px] text-muted">Five short guides, from owning your songs to rolling them out.</span>
+              <span className="text-[15px] text-muted">Six short guides, from your first release to getting paid.</span>
             </span>
           </Link>
           <Link to="/red-flags" className="flex items-start gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-pink/70">

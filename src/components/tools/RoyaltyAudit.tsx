@@ -102,7 +102,7 @@ export function RoyaltyAudit({ embedded = false, headingLevel = 2 }: { embedded?
       {!embedded && (
         <ToolHeader
           title="Get paid what you're owed"
-          description="Money from your music is collected by four different groups. Tick off the ones you've already joined. These are U.S. organizations; other countries have their own."
+          description="Money from your music is collected by four different groups. Tick off the ones you've already joined. These are U.S. organizations. If you're based outside the U.S., your country has its own versions."
         />
       )}
 
