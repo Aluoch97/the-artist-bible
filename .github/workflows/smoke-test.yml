@@ -1,0 +1,40 @@
+name: Smoke test the live site
+
+# Run on demand (Actions > Smoke test the live site > Run workflow) to confirm the live site and the
+# optional AI review endpoint are up. It never sends a contract, so it uses none of the AI allowance.
+
+on:
+  workflow_dispatch:
+    inputs:
+      site:
+        description: 'Site to test'
+        required: true
+        default: 'https://bible.nrnszn.com'
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      SITE: ${{ github.event.inputs.site }}
+    steps:
+      - name: Home page responds
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' "$SITE/")
+          echo "GET / -> $code"; test "$code" = 200
+      - name: Security headers present
+        run: |
+          curl -sI "$SITE/" | grep -iE '^(content-security-policy|strict-transport-security|x-content-type-options)' | cut -c1-90
+          curl -sI "$SITE/" | grep -qi '^content-security-policy'
+      - name: AI endpoint answers (GET reports on/off)
+        run: |
+          echo "--- GET /api/review-contract"; curl -s -i "$SITE/api/review-contract" | head -20
+          curl -s "$SITE/api/review-contract" | grep -q '"enabled"'
+      - name: AI endpoint refuses cross-site requests (no AI call is made)
+        run: |
+          code=$(curl -s -o /tmp/body -w '%{http_code}' -X POST -H 'content-type: application/json' -H 'origin: https://evil.example' -d '{"text":"x"}' "$SITE/api/review-contract")
+          echo "POST from another origin -> $code"; cat /tmp/body; echo
+          test "$code" = 403 || test "$code" = 503

@@ -30,6 +30,8 @@ export default defineConfig({
         // The PDF reader (Contract check) is big and rarely used: cache it the first time it is needed instead.
         runtimeCaching: [{ urlPattern: /\/assets\/pdf[.-].*\.m?js$/, handler: 'CacheFirst', options: { cacheName: 'pdf-reader', expiration: { maxEntries: 4 } } }],
         navigateFallback: 'index.html',
+        // Addresses under /api go to the server function, never to the offline app shell.
+        navigateFallbackDenylist: [/^\/api\//],
         cleanupOutdatedCaches: true,
       },
     }),
