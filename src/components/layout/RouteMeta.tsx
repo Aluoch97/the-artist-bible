@@ -5,6 +5,7 @@ import { usePageMeta } from '../../hooks/usePageMeta';
 interface Meta {
   title: string | null;
   description: string;
+  noindex?: boolean;
 }
 
 const STATIC: Record<string, Meta> = {
@@ -22,6 +23,7 @@ const STATIC: Record<string, Meta> = {
   '/shows': { title: 'Live show log', description: 'Log your shows and copy the setlist to report for live performance royalties through BMI Live or ASCAP OnStage.' },
   '/epk': { title: 'Press kit and pitch', description: 'Build a one-page press kit PDF and write a short playlist pitch. Saved on your device.' },
   '/budget': { title: 'Release budget', description: 'Add up what a release costs and see roughly how many streams it takes to earn it back.' },
+  '/admin': { title: 'Admin', description: 'Owner settings.', noindex: true },
   '/about': { title: 'About', description: 'What The Artist Bible is, who it is for, how to install it on your phone, and how to reach us.' },
   '/privacy': { title: 'Privacy policy', description: 'What The Artist Bible stores on your device, what it never collects, and the one optional feature that sends text away.' },
   '/terms': { title: 'Terms of use', description: 'The ground rules for using The Artist Bible: educational information only, AI can be wrong, and who created it.' },
@@ -38,7 +40,7 @@ export function RouteMeta() {
     known ? known.title : 'Page not found',
     known ? known.description : 'That page does not exist.',
     known ? path : '/',
-    !known,
+    !known || Boolean(known.noindex),
   );
   return null;
 }

@@ -32,6 +32,11 @@ jobs:
         run: |
           curl -sI "$SITE/" | grep -iE '^(content-security-policy|strict-transport-security|x-content-type-options)' | cut -c1-90
           curl -sI "$SITE/" | grep -qi '^content-security-policy'
+      - name: Version file and admin sign-in answer (nothing private)
+        run: |
+          curl -s "$SITE/version.json" | grep -q '"version"'
+          curl -s "$SITE/api/admin" | grep -Eq '"mode":"(ready|not-set-up)"'
+          curl -s "$SITE/api/admin" | grep -vq 'checklist'
       - name: AI endpoint answers (GET reports on/off)
         run: |
           echo "--- GET /api/review-contract"; curl -s -i "$SITE/api/review-contract" | head -20

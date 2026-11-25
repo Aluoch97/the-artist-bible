@@ -16,6 +16,7 @@ import { ChapterPage } from './pages/ChapterPage';
 import { AboutPage } from './pages/AboutPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { TermsPage } from './pages/TermsPage';
+import { AdminPage } from './pages/AdminPage';
 import { ToolsPage } from './pages/ToolsPage';
 import { LearnPage } from './pages/LearnPage';
 import { NotFound } from './pages/NotFound';
@@ -49,6 +50,7 @@ export default function App() {
         <Route path="/shows" element={<ShowLog />} />
         <Route path="/epk" element={<EpkBuilder />} />
         <Route path="/budget" element={<ReleaseBudget />} />
+        <Route path="/admin" element={<AdminPage />} />
         <Route path="/tools" element={<ToolsPage />} />
         <Route path="/streams" element={<StreamingCalculator />} />
         <Route path="/red-flags" element={<LearnPage section="red-flags" />} />

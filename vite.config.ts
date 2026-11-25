@@ -26,7 +26,7 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,webp,json,woff2}'],
         // jsPDF can lazy-load these for HTML/SVG-to-PDF, which the app never uses, so don't download them up front.
-        globIgnores: ['**/html2canvas-*.js', '**/index.es-*.js', '**/purify.es-*.js', '**/og-image.png', '**/pdf-*.js', '**/pdf.worker.min-*'],
+        globIgnores: ['**/version.json', '**/html2canvas-*.js', '**/index.es-*.js', '**/purify.es-*.js', '**/og-image.png', '**/pdf-*.js', '**/pdf.worker.min-*'],
         // The PDF reader (Contract check) is big and rarely used: cache it the first time it is needed instead.
         runtimeCaching: [{ urlPattern: /\/assets\/pdf[.-].*\.m?js$/, handler: 'CacheFirst', options: { cacheName: 'pdf-reader', expiration: { maxEntries: 4 } } }],
         navigateFallback: 'index.html',

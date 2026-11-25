@@ -231,6 +231,7 @@ Guardrails that keep it consistent with the non-negotiables:
 * **Privacy:** nothing is stored except a daily neuron total and a hashed per-person counter that expires. The UI requires explicit consent, offers redaction, and shows exactly what will be sent. The app must keep working fully with the function absent.
 * **Setup (Cloudflare dashboard, Pages project > Settings > Bindings):** add Workers AI as `AI`; create a KV namespace and bind it as `BUDGET`.
 * Tests: `functions/api/review-contract.ts` exports its handlers so they can be exercised with a fake `AI` and `BUDGET`.
+* **Second optional function: `functions/api/admin.ts`** (added Nov 25, 2026, owner request: "an admin page like my other apps"). It only switches on when the Cloudflare secret `ADMIN_PASSWORD` (10+ characters) exists; otherwise `/admin` says sign-in is not set up. It stores nothing about visitors; the only thing it keeps is a wrong-password counter (scrambled address, expires in 15 minutes) in the existing `BUDGET` KV. It reports yes/no facts about bindings and today's AI budget use. Setup in `docs/admin-setup.md`; tests exercise the handlers with a fake `BUDGET`.
 
 ---
 
@@ -270,3 +271,10 @@ Glass-and-gradient look inspired by modern course apps, in the logo's colors: a 
 * New tools (all on the Tools tab, all local-first): **My songs** (`/songs`, per-song registration tracker), **Live show log** (`/shows`, setlist text for BMI Live / ASCAP OnStage), **Press kit and pitch** (`/epk`, one-page PDF + pitch text), **Release budget** (`/budget`). The Release page also has **Add to calendar** (`src/lib/ics.ts`, downloads a `.ics`).
 * Their data lives in the same `artist_bible_v1` key as new, additive fields: `catalog`, `shows`, `epk`, `budget`. `sanitizeState` fills defaults, so older backups still load. Never rename or remove these; only add.
 * **Motion** lives at the bottom of `src/index.css` (`.page-enter`, `.stagger`, `.pop`, `.float`, `.lift`, dialog open). It is all inside `prefers-reduced-motion: no-preference` and is disabled in print. Keep new animation short (about 0.3s), CSS-only, and in that block. Test accessibility with reduced motion on so axe reads final colors.
+
+---
+
+## 14. Tap to update, versions and /admin (added after v1)
+* **Tap to update** (same as the other NuRenaissance apps): `public/update-banner.js` (loaded from `index.html`) remembers `/version.json` at load and shows "A new version is ready. Tap to update." when a later check differs (on return to the app, when back online, every 5 minutes). Tapping clears saved app files and reloads; saved work in `artist_bible_v1` is untouched. Never shown on `/admin` or in a frame. `npm run build` runs `scripts/stamp-version.mjs` after `vite build`, which writes `dist/version.json` (fingerprint + release). `version.json` is excluded from the precache (`globIgnores`) and served `no-store`.
+* **Versions:** short numbers (1.1, 1.2 ...) from the newest `## x.y` heading in `CHANGELOG.md`. Every change visitors can see adds a block at the top of `CHANGELOG.md` and bumps the number by one step (a redesign starts a new first number).
+* **/admin** (`src/pages/AdminPage.tsx`, `noindex`, left out of the sitemap, linked small in the footer): password sign-in via `functions/api/admin.ts`, then Status (bindings, yes/no), AI contract review (today's budget use), Content freshness (human-checked claims and their dates, audit links) and Account (version, Refresh, Sign out). The 30-day token is kept in `localStorage` under `artist_bible_admin`, never in `artist_bible_v1`. When you add something owner-only, add it there; never show visitor data (there is none).
