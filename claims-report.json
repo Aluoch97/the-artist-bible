@@ -1,16 +1,17 @@
 {
   "summary": {
-    "total": 11,
-    "pass": 0,
-    "humanOk": 0,
+    "total": 14,
+    "pass": 9,
+    "humanOk": 4,
+    "grace": 1,
     "drift": 0,
     "gone": 0,
     "blocked": 0,
-    "error": 9,
-    "humanDue": 2,
+    "error": 0,
+    "humanDue": 0,
     "problems": 0,
-    "unverified": 11,
-    "allVerified": false
+    "unverified": 0,
+    "allVerified": true
   },
   "results": [
     {
@@ -18,88 +19,112 @@
       "statement": "The MLC's official site is live and still describes the Mechanical Licensing Collective.",
       "url": "https://www.themlc.com/",
       "kind": "auto",
-      "status": "error",
-      "detail": "ENOTFOUND"
+      "status": "pass",
+      "detail": "found: \"…Home - Mechanical Licensing Collective Skip to content Get Started How It Work…\" (via fetch)"
     },
     {
       "id": "soundexchange_page_live",
       "statement": "SoundExchange's official site is live and still describes SoundExchange.",
       "url": "https://www.soundexchange.com/",
       "kind": "auto",
-      "status": "error",
-      "detail": "ENOTFOUND"
+      "status": "pass",
+      "detail": "found: \"…Homepage - SoundExchangeSoundExchange skip to content skip to co…\" (via fetch)"
     },
     {
       "id": "spotify_for_artists_live",
       "statement": "Spotify for Artists is live at the linked address.",
       "url": "https://artists.spotify.com/",
       "kind": "auto",
-      "status": "error",
-      "detail": "ENOTFOUND"
+      "status": "pass",
+      "detail": "found: \"…Where Your Music is Everything – Spotify for Artists Where your music is everything Develop…\" (via fetch)"
     },
     {
       "id": "apple_music_for_artists_live",
       "statement": "Apple Music for Artists is live at the linked address.",
       "url": "https://artists.apple.com/",
       "kind": "auto",
-      "status": "error",
-      "detail": "ENOTFOUND"
+      "status": "pass",
+      "detail": "found: \"…Apple Music for Artists Apple Music for Artists App…\" (via fetch)"
     },
     {
       "id": "copyright_office_live",
       "statement": "The U.S. Copyright Office site is live at the linked address.",
       "url": "https://www.copyright.gov/",
       "kind": "auto",
-      "status": "error",
-      "detail": "ENOTFOUND"
+      "status": "pass",
+      "detail": "found: \"…U.S. Copyright Office | U.S. Copyright Office Skip to main co…\" (via fetch)"
     },
     {
       "id": "bmi_writer_fee",
       "statement": "Joining BMI as a songwriter or composer is free.",
       "url": "https://www.bmi.com/faq/entry/what_is_the_fee_to_join_as_a_songwriter",
       "kind": "human",
-      "status": "human-due",
-      "detail": "never checked by a person"
+      "status": "human-ok",
+      "detail": "last human check 2026-11 (0 months ago)"
     },
     {
       "id": "ascap_writer_fee",
       "statement": "Joining ASCAP as a songwriter is free. (ASCAP calls the fee waiver temporary, so this is worth watching.)",
       "url": "https://www.ascap.com/about-us/why-join-ascap-general",
       "kind": "auto",
-      "status": "error",
-      "detail": "ENOTFOUND"
+      "status": "grace",
+      "detail": "site blocked this visit; last confirmed 2026-11-25 (0 days ago, allowed up to 35)"
     },
     {
       "id": "mlc_free",
       "statement": "Joining The MLC as a member is free.",
       "url": "https://blog.themlc.com/resources/does-it-cost-anything-to-become-a-member-of-the-mlc",
       "kind": "auto",
-      "status": "error",
-      "detail": "ENOTFOUND"
+      "status": "pass",
+      "detail": "found: \"…to become a Member of The MLC? There is no cost to become a Member of The MLC. Get Star…\" (via fetch)"
     },
     {
       "id": "soundexchange_free",
       "statement": "Registering with SoundExchange is free.",
       "url": "https://www.soundexchange.com/frequently-asked-questions/",
       "kind": "auto",
-      "status": "error",
-      "detail": "ENOTFOUND"
+      "status": "pass",
+      "detail": "found: \"…all? Registering with SoundExchange is free and easy to do using our online registr…\" (via fetch)"
     },
     {
       "id": "spotify_pitch_window",
       "statement": "Spotify needs editorial pitches at least 7 days before release (and suggests about 2 weeks); we plan for 3 weeks.",
       "url": "https://support.spotify.com/us/artists/article/pitching-music-to-playlist-editors/",
       "kind": "auto",
-      "status": "error",
-      "detail": "ENOTFOUND"
+      "status": "pass",
+      "detail": "found: \"…ration. If you pitch an unreleased song at least 7 days before release, we'll add it to your fo…\" (via fetch)"
     },
     {
       "id": "one_pro_only",
       "statement": "A songwriter is normally affiliated with one PRO at a time, and the same songs are not registered with two.",
       "url": "https://www.bmi.com/faq/category/joining",
       "kind": "human",
-      "status": "human-due",
-      "detail": "never checked by a person"
+      "status": "human-ok",
+      "detail": "last human check 2026-11 (0 months ago)"
+    },
+    {
+      "id": "sesac_invite_only",
+      "statement": "SESAC is invitation-only; it does not accept applications directly.",
+      "url": "https://www.sesac.com/faq/how-do-i-become-a-sesac-affiliate/",
+      "kind": "auto",
+      "status": "pass",
+      "detail": "found: \"…o how do you join the team? SESAC is an invitation-only company, so the best route is to have y…\" (via fetch)"
+    },
+    {
+      "id": "bmi_live_exists",
+      "statement": "BMI Live lets BMI members who perform their own songs report live shows for royalties (setlists online or in the BMI app).",
+      "url": "https://www.bmi.com/live",
+      "kind": "human",
+      "status": "human-ok",
+      "detail": "last human check 2026-11 (0 months ago)"
+    },
+    {
+      "id": "ascap_onstage_exists",
+      "statement": "ASCAP OnStage lets ASCAP writer members report live performances through Member Access; the songs must already be registered.",
+      "url": "https://www.ascap.com/",
+      "kind": "human",
+      "status": "human-ok",
+      "detail": "last human check 2026-11 (0 months ago)"
     }
   ]
 }
