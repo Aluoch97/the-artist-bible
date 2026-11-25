@@ -28,7 +28,7 @@ export function ChapterPage() {
 
   return (
     <article>
-      <Link to="/guides" className="no-print mb-4 inline-flex min-h-10 items-center gap-1 text-[15px] font-semibold text-muted hover:text-fg">
+      <Link to="/guides" className="no-print mb-4 inline-flex min-h-11 items-center gap-1 text-[15px] font-semibold text-muted hover:text-fg">
         <ArrowLeft className="h-4 w-4" aria-hidden="true" /> All guides
       </Link>
 
@@ -50,10 +50,10 @@ export function ChapterPage() {
         </p>
         <nav aria-label="Chapter navigation" className="mt-6 flex justify-between gap-4 text-[15px] font-semibold">
           {prev ? (
-            <Link to={`/guides/${prev.slug}`} className="inline-flex items-center gap-1 hover:text-accent"><ArrowLeft className="h-4 w-4" aria-hidden="true" /> {prev.title}</Link>
+            <Link to={`/guides/${prev.slug}`} className="inline-flex min-h-11 items-center gap-1 hover:text-accent"><ArrowLeft className="h-4 w-4" aria-hidden="true" /> {prev.title}</Link>
           ) : <span />}
           {next ? (
-            <Link to={`/guides/${next.slug}`} className="inline-flex items-center gap-1 text-right hover:text-accent">{next.title} <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+            <Link to={`/guides/${next.slug}`} className="inline-flex min-h-11 items-center gap-1 text-right hover:text-accent">{next.title} <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
           ) : <span />}
         </nav>
       </footer>

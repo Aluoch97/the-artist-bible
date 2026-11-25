@@ -14,6 +14,7 @@ import { DateInput } from '../ui/DateInput';
 import { Input } from '../ui/input';
 import { ProgressBar } from '../ui/ProgressBar';
 import { StepHeading } from '../ui/StepHeading';
+import { Annotated, termsIn } from '../ui/Term';
 import { ToolHeader } from '../ui/ToolHeader';
 
 const TYPE_OPTIONS: { value: ReleaseType; label: string; tip: string }[] = [
@@ -124,6 +125,7 @@ function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boole
   const completed = saved && targetDate && saved.releaseDate === date ? saved.completedMilestoneIds : [];
   const canCheck = Boolean(saved && saved.releaseDate === date);
   const doneCount = milestones.filter((m) => completed.includes(m.id)).length;
+  const planWords = useMemo(() => termsIn(milestones.map((m) => m.label)), [milestones]);
   const behind = milestones.filter((m) => m.daysFromNow < 0 && !completed.includes(m.id)).length;
   const nextUp = milestones.find((m) => !completed.includes(m.id));
   const allDone = milestones.length > 0 && doneCount === milestones.length;
@@ -156,9 +158,9 @@ function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boole
           <label htmlFor="rel-title" className="mb-1.5 block font-bold">What's it called? <span className="font-normal text-muted">(optional)</span></label>
           <Input id="rel-title" value={title} maxLength={120} placeholder="e.g. Midnight Drive" onChange={(e) => setTitle(e.target.value)} />
         </div>
-        <fieldset>
+        <fieldset className="min-w-0">
           <legend className="mb-1.5 font-bold">What kind of release?</legend>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid min-w-0 grid-cols-3 gap-2">
             {TYPE_OPTIONS.map((o) => (
               <label
                 key={o.value}
@@ -213,7 +215,7 @@ function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boole
             canCheck && (
               <div className="no-print mt-5 rounded-2xl border border-accent/50 bg-accent/10 p-4 sm:p-5">
                 <p className="text-sm font-bold text-accent">Do this next</p>
-                <p className="mt-1 text-lg font-semibold leading-snug">{nextUp.label}</p>
+                <p className="mt-1 text-lg font-semibold leading-snug"><Annotated text={nextUp.label} /></p>
                 <p className="mt-1 text-sm text-muted">Due {formatLongDate(nextUp.due)} ({relativeDays(nextUp.daysFromNow)})</p>
                 <Button variant="primary" size="sm" className="mt-3" onClick={() => toggleReleaseMilestone(nextUp.id)}>
                   <Check className="h-4 w-4" aria-hidden="true" /> Mark as done
@@ -266,6 +268,20 @@ function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boole
             })}
           </ol>
 
+          {planWords.length > 0 && (
+            <details className="no-print mt-4 rounded-2xl border border-border bg-surface p-4">
+              <summary className="min-h-11 cursor-pointer text-[15px] font-bold text-accent">Words used in this plan ({planWords.length})</summary>
+              <dl className="mt-2 space-y-3">
+                {planWords.map((w) => (
+                  <div key={w.id}>
+                    <dt className="font-bold">{w.term}</dt>
+                    <dd className="text-[15px] text-muted">{w.meaning}</dd>
+                  </div>
+                ))}
+              </dl>
+            </details>
+          )}
+
           <StepHeading title="Share it with your team" hint="Send the link and they see the same dates. No account needed." />
           <div className="no-print flex flex-wrap gap-2">
             <Button variant="primary" onClick={copyLink}>
@@ -291,7 +307,7 @@ function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boole
 function ReleasePicker({ onSwitch }: { onSwitch: (action: () => void) => void }) {
   const { state, openRelease, startNewRelease, deleteSavedRelease } = useLocalProgress();
   const { activeRelease, savedReleases } = state;
-  if (!activeRelease && savedReleases.length === 0) return null;
+  if (savedReleases.length === 0) return null;
   const label = (r: { title: string; releaseDate: string }) => `${r.title.trim() || 'Untitled'} · ${formatISOForDisplay(r.releaseDate).replace(/^\w+, /, '')}`;
 
   return (

@@ -1,6 +1,7 @@
-import { BookOpen, CalendarCheck, CircleDollarSign, Download, FileSignature, HardDriveDownload, Home } from 'lucide-react';
+import { BookOpen, CalendarCheck, CircleDollarSign, Download, FileSignature, Save, Home } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useState, type ReactNode } from 'react';
+import { GlossaryDialog } from '../ui/Term';
 import { Link, useLocation } from 'react-router-dom';
 import { industryData } from '../../data';
 import { usePwaInstall } from '../../hooks/usePwaInstall';
@@ -96,13 +97,15 @@ export function AppShell({ children }: { children: ReactNode }) {
               aria-label="Backup and restore"
               className="grid h-11 w-11 cursor-pointer place-items-center rounded-full border border-[var(--glass-border)] bg-[var(--glass)] text-fg backdrop-blur-md transition-colors hover:border-accent hover:text-accent"
             >
-              <HardDriveDownload className="h-5 w-5" aria-hidden="true" />
+              <Save className="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
         </div>
       </header>
 
-      <main id="main" className="mx-auto w-full max-w-3xl flex-1 px-4 pb-[calc(var(--tab-h)+2.5rem)] pt-6 sm:pt-8">
+      <GlossaryDialog />
+
+      <main id="main" className="mx-auto [overflow-wrap:anywhere] w-full max-w-3xl flex-1 px-4 pb-[calc(var(--tab-h)+2.5rem)] pt-6 sm:pt-8">
         {children}
       </main>
 

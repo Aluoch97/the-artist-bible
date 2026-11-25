@@ -1,6 +1,12 @@
 // Runs before the page paints so the right theme is on screen from the first frame (no dark flash in light mode).
 // Kept as a separate file because the site's security policy does not allow inline scripts.
 (function () {
+  // Start downloading the home screen's big picture right away (the Home page is where most visits land).
+  if (location.pathname === '/') {
+    var l = document.createElement('link');
+    l.rel = 'preload'; l.as = 'image'; l.href = '/hero-art.webp'; l.setAttribute('fetchpriority', 'high');
+    document.head.appendChild(l);
+  }
   try {
     var pref = (JSON.parse(localStorage.getItem('artist_bible_ui_v1') || '{}').theme) || 'system';
     var dark = pref === 'dark' || (pref !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);

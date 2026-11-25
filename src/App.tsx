@@ -42,6 +42,7 @@ export default function App() {
         <Route path="/red-flags" element={<LearnPage section="red-flags" />} />
         <Route path="/guides" element={<LearnPage section="guides" />} />
         <Route path="/contract" element={<LearnPage section="contract" />} />
+        <Route path="/words" element={<LearnPage section="words" />} />
         <Route path="/guides/:slug" element={<ChapterPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />

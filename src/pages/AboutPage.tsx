@@ -36,6 +36,17 @@ export function AboutPage() {
         <h2>Accessibility</h2>
         <p>We aim for WCAG 2.2 AA: keyboard use, screen readers, readable contrast and zoom all matter. If something blocks you, please tell us.</p>
 
+        <h2 id="credits">Open-source credits</h2>
+        <p>The Artist Bible is built on free software. Thank you to the people behind it:</p>
+        <ul>
+          <li>React, React Router, Tailwind CSS, jsPDF, fflate, clsx and tailwind-merge (MIT license)</li>
+          <li>lucide-react (ISC license)</li>
+          <li>PDF.js and class-variance-authority (Apache 2.0 license)</li>
+          <li>DOMPurify (MPL 2.0 / Apache 2.0 license)</li>
+          <li>Manrope and Inter fonts (SIL Open Font License 1.1)</li>
+          <li>Social icons from Simple Icons (CC0)</li>
+        </ul>
+
         <h2 id="contact">Contact and corrections</h2>
         <p>
           Found something wrong or out of date? <ExternalLink href={`${industryData.site.githubRepo}/issues/new`}>Open an issue on GitHub</ExternalLink>. Every guide also has a &quot;Spot outdated info?&quot; link at the bottom.

@@ -74,6 +74,17 @@ jobs:
         env:
           LINKS: ${{ steps.links.outputs.status }}
 
+      - name: Save the dates each claim last passed
+        if: github.event.inputs.discover_urls == ''
+        run: |
+          if ! git diff --quiet -- src/data/claims-state.json; then
+            git config user.name "artist-bible-audit"
+            git config user.email "actions@users.noreply.github.com"
+            git add src/data/claims-state.json
+            git commit -m "Audit: record when claims last passed"
+            git push origin HEAD:${{ github.event.repository.default_branch }}
+          fi
+
       - name: Move the Verified date forward (only when everything is verified)
         if: steps.decide.outputs.ready == 'true'
         run: |

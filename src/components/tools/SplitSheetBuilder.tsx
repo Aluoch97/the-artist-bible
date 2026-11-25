@@ -10,6 +10,7 @@ import { Button } from '../ui/button';
 import { Card } from '../ui/card';
 import { DateInput } from '../ui/DateInput';
 import { Input } from '../ui/input';
+import { HelpButton } from '../ui/Term';
 import { StepHeading } from '../ui/StepHeading';
 import { ToolHeader } from '../ui/ToolHeader';
 import { TwoHundredPercent } from './TwoHundredPercent';
@@ -93,6 +94,10 @@ export function SplitSheetBuilder() {
   const rows = draft.collaborators;
   const master = splitStatus(rows, 'masterPct');
   const pub = splitStatus(rows, 'publishingPct');
+  // Totals bar stays hidden until the numbers need attention, so a fresh sheet is not covered by it.
+  const [totalsSeen, setTotalsSeen] = useState(false);
+  const totalsOk = master.ok && pub.ok;
+  useEffect(() => { if (!totalsOk) setTotalsSeen(true); }, [totalsOk]);
   const blockers = exportBlockers(draft);
   const canExport = blockers.length === 0;
 
@@ -142,7 +147,7 @@ export function SplitSheetBuilder() {
         description="Settle who owns what, in writing, before anyone leaves the studio. It takes about two minutes."
       />
 
-      {(saved.length > 0 || state.splitSheetDraft.songTitle.trim() !== '') && (
+      {saved.length > 0 && (
         <div className="no-print mb-5">
           <p className="mb-2 text-sm font-bold text-muted">Your songs</p>
           <div className="flex flex-wrap gap-2">
@@ -229,7 +234,10 @@ export function SplitSheetBuilder() {
               </div>
 
               <div className="mt-3">
-                <label htmlFor={`ipi-${c.id}`} className="mb-1.5 block text-sm font-bold">PRO / IPI number <span className="font-normal text-muted">(optional)</span></label>
+                <div className="mb-1.5 flex items-center justify-between">
+                  <label htmlFor={`ipi-${c.id}`} className="block text-sm font-bold">PRO / IPI number <span className="font-normal text-muted">(optional)</span></label>
+                  <HelpButton id="ipi" label="What is an IPI number?" />
+                </div>
                 <Input id={`ipi-${c.id}`} value={c.ipi ?? ''} maxLength={30} inputMode="numeric" onChange={(e) => patchRow(c.id, { ipi: e.target.value })} />
               </div>
             </Card>
@@ -264,12 +272,14 @@ export function SplitSheetBuilder() {
       </div>
 
       {/* Always-visible running total: one slim row so it barely covers the form on a phone. */}
+      {(totalsSeen || !totalsOk) && (
       <div className="no-print sticky bottom-[calc(var(--tab-h)+0.5rem)] z-10 mt-6 flex items-center justify-center gap-2 rounded-full border border-border bg-bg/95 px-3 py-2 text-sm font-bold shadow-[0_6px_24px_rgba(0,0,0,0.5)] backdrop-blur-md">
         <TotalItem title="Recording" status={master} />
         <span className="text-muted" aria-hidden="true">&bull;</span>
         <TotalItem title="Song" status={pub} />
         <p className="sr-only" role="status">{totalMessage('Recording', master)} {totalMessage('Song', pub)}</p>
       </div>
+      )}
 
       <StepHeading n={3} title="Send it" hint="Both totals need to be 100% first." />
       <Card className="p-4 sm:p-5">

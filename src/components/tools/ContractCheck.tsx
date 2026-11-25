@@ -108,7 +108,7 @@ function ScanResults({ findings }: { findings: ScanFinding[] }) {
             </section>
           ),
       )}
-      <p className="text-sm text-muted">Want the full explanation of each one? See the <Link to="/red-flags" className="font-semibold text-fg underline underline-offset-4">Red Flag decoder</Link>.</p>
+      <p className="text-sm text-muted">Want the full explanation of each one? See the <Link to="/red-flags" className="font-semibold text-fg underline underline-offset-4">Red flags page</Link>.</p>
     </div>
   );
 }
@@ -129,6 +129,7 @@ function AiResults({ r, model }: { r: ContractReview; model: string }) {
         <p className="font-display text-xl font-bold">{o.title}</p>
         <p className="mt-1 text-[15px] text-fg">{o.body}</p>
       </div>
+      <p className="text-sm text-muted">The AI read and the instant check can disagree, because they look at the contract differently. If one is more cautious, trust the more cautious one.</p>
 
       {r.summary.length > 0 && (
         <section aria-label="Summary">

@@ -25,7 +25,7 @@ export interface Env {
 export const MODEL = '@cf/meta/llama-3.3-70b-instruct-fp8-fast';
 export const MAX_CHARS = 45_000;
 const MIN_CHARS = 300;
-const MAX_OUTPUT_TOKENS = 1800;
+const MAX_OUTPUT_TOKENS = 2000;
 /** Stay well under the free 10,000 neurons/day, leaving room for anything else on the account. */
 export const DAILY_NEURON_BUDGET = 6_000;
 export const PER_PERSON_DAILY = 3;
@@ -42,16 +42,16 @@ const today = () => new Date().toISOString().slice(0, 10);
 const estimateInputTokens = (chars: number) => Math.ceil(chars / 3.2) + 1_300; // conservative, plus the instructions
 
 const GLOSSARY = [
-  '360 deal: label takes a cut of touring, merch, publishing, not just records',
-  'perpetual master ownership: company owns recordings forever / in perpetuity, no reversion',
-  'pay-for-play playlisting or botted streams: paying for guaranteed plays, followers or placement',
-  'hidden renewal fees: yearly per-release fees, takedown if unpaid',
-  'recoupment / cross-collateralization: artist repays advances and costs before earning; losses on one release charged to another',
-  'work-for-hire: company is treated as author of the work',
-  'pay-to-play showcases and pay-upfront "label services"',
-  'publishing grab: assignment of songwriter/publishing share or co-publishing when only admin was needed',
-  'long exclusivity, option clauses, re-record restrictions',
-  'irrevocable or perpetual licenses to distributors, no termination right',
+  '[serious] 360 deal: label takes a cut of touring, merch, publishing, not just records',
+  '[serious] perpetual master ownership: company owns recordings forever / in perpetuity, no reversion',
+  '[serious] pay-for-play playlisting or botted streams: paying for guaranteed plays, followers or placement',
+  '[careful] hidden renewal fees: yearly per-release fees, takedown if unpaid',
+  '[serious] recoupment / cross-collateralization: artist repays advances and costs before earning; losses on one release charged to another',
+  '[serious] work-for-hire: company is treated as author of the work',
+  '[serious] pay-to-play showcases and pay-upfront "label services"',
+  '[serious] publishing grab: assignment of songwriter/publishing share or co-publishing when only admin was needed',
+  '[serious] long term (over about 5 years or many option periods), exclusivity, option clauses, and bans on re-recording songs after the deal ends',
+  '[serious] irrevocable or perpetual licenses to distributors, no termination right',
 ].join('\n- ');
 
 const SYSTEM = `You explain music business contracts to independent artists in plain English. You are not a lawyer and you never give legal advice.
@@ -60,9 +60,10 @@ Reply with one JSON object only, no other text, with exactly these keys:
 - "overall": "serious", "careful" or "few_concerns" (use "few_concerns" only when you found no real problems, and still tell the artist to have a lawyer check anything important)
 - "summary": 3 to 6 short plain-English bullets on what the artist would be agreeing to (money, rights, length, exit)
 - "key_terms": up to 8 objects {"label","plain"} for facts such as who owns the recordings, who owns the songs, term length, exclusivity, payment split, advances and costs, how to end the deal
-- "flags": up to 10 problems, each {"severity":"serious"|"careful","title","quote","why","ask_for"}. "quote" must be copied exactly from the contract (under 200 characters). "why" explains the harm in plain words. "ask_for" is what the artist could ask to change.
-- "questions": up to 8 questions the artist should ask before signing
+- "flags": up to 10 problems, each {"severity":"serious"|"careful","title","quote","why","ask_for"}. "quote" must be copied exactly from the contract (under 200 characters). "why" explains the harm in plain words, in one or two sentences, with a concrete example when you can. "ask_for" is what the artist could ask to change.
+- "questions": up to 8 specific questions the artist should ask before signing, each naming the exact clause or number it is about (not generic advice)
 Severity: "serious" means it could cost the artist ownership of their music or significant money. "careful" means one-sided or unusual but commonly negotiated.
+Check the contract against EVERY trap below, one by one, and flag each one you find. The tag in brackets is the severity to use for it.
 Known traps to look for:
 - ${GLOSSARY}
 Do not invent clauses. If something important is missing (for example no end date or no reversion of rights), say so as a question. Keep every field short and use simple words.`;

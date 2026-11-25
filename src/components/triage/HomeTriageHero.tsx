@@ -101,11 +101,12 @@ export function HomeTriageHero() {
         <h1 id="home-title" className="relative font-display text-[1.45rem] font-bold leading-[1.1] tracking-tight min-[360px]:text-[1.75rem] sm:text-5xl">
           What are you <span className="text-[#7a2f04]">working on?</span>
         </h1>
-        <p className="relative mt-3 text-[15px] font-medium text-[#43260f] min-[360px]:text-base sm:text-lg">Pick one. Everything here is free and works offline.</p>
+        <p className="relative mt-3 text-[15px] font-medium text-[#43260f] min-[360px]:text-base sm:text-lg">Pick one. Everything here is free, and it keeps working without a signal once it has loaded.</p>
         <img
           src="/hero-art.webp"
           alt=""
           aria-hidden="true"
+          fetchPriority="high"
           width="320"
           height="320"
           className="pointer-events-none absolute -bottom-4 -right-5 w-[46%] max-w-[300px] rotate-[7deg] drop-shadow-[0_16px_18px_rgba(70,30,5,0.38)]"
@@ -180,21 +181,21 @@ export function HomeTriageHero() {
           <Link to="/guides" className="flex items-start gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-accent/70">
             <BookOpen className="mt-0.5 h-6 w-6 shrink-0 text-accent" aria-hidden="true" />
             <span>
-              <span className="block font-bold">Lifecycle Chapters</span>
+              <span className="block font-bold">Guides</span>
               <span className="text-[15px] text-muted">Five short guides, from owning your songs to rolling them out.</span>
             </span>
           </Link>
           <Link to="/red-flags" className="flex items-start gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-pink/70">
             <ShieldAlert className="mt-0.5 h-6 w-6 shrink-0 text-pink" aria-hidden="true" />
             <span>
-              <span className="block font-bold">Red Flag Glossary</span>
+              <span className="block font-bold">Red flags</span>
               <span className="text-[15px] text-muted">Got a contract or a DM that feels off? Decode it here.</span>
             </span>
           </Link>
           <Link to="/contract" className="flex items-start gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-accent/70 sm:col-span-2">
             <FileSearch className="mt-0.5 h-6 w-6 shrink-0 text-accent" aria-hidden="true" />
             <span>
-              <span className="block font-bold">Check a contract</span>
+              <span className="block font-bold">Contract check</span>
               <span className="text-[15px] text-muted">Add a contract and see which parts to worry about. Read on your device.</span>
             </span>
           </Link>

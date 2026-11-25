@@ -8,6 +8,7 @@ import { Badge } from '../ui/badge';
 import { Card } from '../ui/card';
 import { ExternalLink } from '../ui/ExternalLink';
 import { ProgressRing } from '../ui/ProgressRing';
+import { Annotated } from '../ui/Term';
 import { ToolHeader } from '../ui/ToolHeader';
 
 /** "$0 Free" only when the cost is unconditionally zero. Mixed or "check" pricing shows the full text. */
@@ -48,7 +49,7 @@ function AuditCard({ entity, done, onToggle, level }: { entity: RoyaltyEntity; d
             <CostBadge cost={entity.cost} />
           </div>
           <p className="mt-0.5 text-sm font-semibold text-muted">{entity.category}</p>
-          <p className="mt-2 text-[15px]">{entity.whyItMatters}</p>
+          <p className="mt-2 text-[15px]"><Annotated text={entity.whyItMatters} /></p>
 
           <button
             type="button"
@@ -67,7 +68,7 @@ function AuditCard({ entity, done, onToggle, level }: { entity: RoyaltyEntity; d
                 {entity.steps.map((step, i) => (
                   <li key={step} className="flex gap-3 text-[15px]">
                     <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-surface-2 text-xs font-bold text-muted">{i + 1}</span>
-                    <span>{step}</span>
+                    <span><Annotated text={step} /></span>
                   </li>
                 ))}
               </ol>

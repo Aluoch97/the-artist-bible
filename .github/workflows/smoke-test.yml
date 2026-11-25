@@ -4,6 +4,8 @@ name: Smoke test the live site
 # optional AI review endpoint are up. It never sends a contract, so it uses none of the AI allowance.
 
 on:
+  schedule:
+    - cron: '17 11 * * *'
   workflow_dispatch:
     inputs:
       site:
@@ -13,13 +15,14 @@ on:
 
 permissions:
   contents: read
+  issues: write
 
 jobs:
   smoke:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     env:
-      SITE: ${{ github.event.inputs.site }}
+      SITE: ${{ github.event.inputs.site || 'https://bible.nrnszn.com' }}
     steps:
       - name: Home page responds
         run: |
@@ -38,3 +41,12 @@ jobs:
           code=$(curl -s -o /tmp/body -w '%{http_code}' -X POST -H 'content-type: application/json' -H 'origin: https://evil.example' -d '{"text":"x"}' "$SITE/api/review-contract")
           echo "POST from another origin -> $code"; cat /tmp/body; echo
           test "$code" = 403 || test "$code" = 503
+      - name: Open an issue if the live site is failing (scheduled runs only)
+        if: failure() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="Live site check is failing"
+          EXISTING=$(gh issue list --repo "${{ github.repository }}" --state open --label audit --json number,title --jq ".[] | select(.title==\"$TITLE\") | .number" | head -1)
+          BODY="The daily check of $SITE failed: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          if [ -n "$EXISTING" ]; then gh issue comment "$EXISTING" --repo "${{ github.repository }}" --body "$BODY"; else gh issue create --repo "${{ github.repository }}" --title "$TITLE" --label audit --body "$BODY"; fi

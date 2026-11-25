@@ -115,3 +115,13 @@ export interface ContractReview {
   flags: { severity: 'serious' | 'careful'; title: string; quote: string; quoteFound: boolean; why: string; askFor: string }[];
   questions: string[];
 }
+
+/* ---------- Music words (src/data/glossary.json) ---------- */
+
+export interface GlossaryEntry {
+  id: string;
+  term: string;
+  /** Regex source for finding this word in text. */
+  match: string;
+  meaning: string;
+}

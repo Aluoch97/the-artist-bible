@@ -8,7 +8,7 @@
 // Each claim = a plain-English statement + an official page + a regex that page should contain.
 // Results per claim: pass | drift (page loads, text gone: claim may be outdated) | gone (404)
 //                    | blocked (site refuses bots) | error (network). Human-only claims track a sign-off date.
-import { readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 
 const argv = process.argv.slice(2);
 const flags = new Set(argv.filter((a) => a.startsWith('--')));
@@ -62,6 +62,12 @@ async function get(url) {
   return r;
 }
 
+/* A site that blocks bots is not a broken claim. If the claim passed within the grace window, keep trusting it. */
+const GRACE_DAYS = 35;
+const stateFile = new URL('../src/data/claims-state.json', import.meta.url);
+const state = existsSync(stateFile) ? JSON.parse(readFileSync(stateFile, 'utf8')) : {};
+const today = new Date().toISOString().slice(0, 10);
+const daysSince = (d) => (Date.parse(today) - Date.parse(d)) / 86400000;
 const monthsAgo = (ym) => {
   if (!/^\d{4}-\d{2}$/.test(ym ?? '')) return Infinity;
   const [y, m] = ym.split('-').map(Number);
@@ -98,11 +104,15 @@ for (const c of claims) {
     const r = await get(c.url);
     const text = strip(r.html);
     if (r.status === 404 || r.status === 410) { row.status = 'gone'; row.detail = `HTTP ${r.status}`; }
-    else if (r.status === 0 || looksBlocked(r.status, text)) { row.status = r.status === 0 ? 'error' : 'blocked'; row.detail = r.error ?? `HTTP ${r.status}, site refuses automated visitors`; }
+    else if (r.status === 0 || looksBlocked(r.status, text)) {
+      const last = state[c.id];
+      if (last && daysSince(last) <= GRACE_DAYS) { row.status = 'grace'; row.detail = `site blocked this visit; last confirmed ${last} (${Math.round(daysSince(last))} days ago, allowed up to ${GRACE_DAYS})`; }
+      else { row.status = r.status === 0 ? 'error' : 'blocked'; row.detail = r.error ?? `HTTP ${r.status}, site refuses automated visitors`; }
+    }
     else if (r.status >= 400) { row.status = 'gone'; row.detail = `HTTP ${r.status}`; }
     else {
       const m = new RegExp(c.pattern, 'i').exec(text);
-      if (m) { row.status = 'pass'; row.detail = `found: "…${text.slice(Math.max(0, m.index - 40), m.index + m[0].length + 40).trim()}…" (via ${r.via})`; }
+      if (m) { row.status = 'pass'; state[c.id] = today; row.detail = `found: "…${text.slice(Math.max(0, m.index - 40), m.index + m[0].length + 40).trim()}…" (via ${r.via})`; }
       else { row.status = 'drift'; row.detail = `page loads (HTTP ${r.status}) but /${c.pattern}/ no longer appears`; }
     }
   }
@@ -110,13 +120,14 @@ for (const c of claims) {
 }
 if (browser) await browser.close();
 
-const icon = { pass: 'OK   ', 'human-ok': 'OK   ', drift: 'DRIFT', gone: 'GONE ', blocked: 'BLOCK', error: 'ERROR', 'human-due': 'HUMAN' };
+const icon = { pass: 'OK   ', 'human-ok': 'OK   ', grace: 'OK~  ', drift: 'DRIFT', gone: 'GONE ', blocked: 'BLOCK', error: 'ERROR', 'human-due': 'HUMAN' };
 for (const r of results) console.log(`${icon[r.status]} ${r.id}: ${r.statement}\n        ${r.detail}${r.kind === 'auto' ? '\n        ' + r.url : ''}`);
 
 const count = (s) => results.filter((r) => r.status === s).length;
 const problems = results.filter((r) => ['drift', 'gone'].includes(r.status));
 const unverified = results.filter((r) => ['blocked', 'error', 'human-due'].includes(r.status));
-const summary = { total: results.length, pass: count('pass'), humanOk: count('human-ok'), drift: count('drift'), gone: count('gone'), blocked: count('blocked'), error: count('error'), humanDue: count('human-due'), problems: problems.length, unverified: unverified.length, allVerified: problems.length === 0 && unverified.length === 0 };
+const summary = { total: results.length, pass: count('pass'), humanOk: count('human-ok'), grace: count('grace'), drift: count('drift'), gone: count('gone'), blocked: count('blocked'), error: count('error'), humanDue: count('human-due'), problems: problems.length, unverified: unverified.length, allVerified: problems.length === 0 && unverified.length === 0 };
 console.log('\n' + JSON.stringify(summary));
+if (!process.env.CLAIMS_FILE) writeFileSync(stateFile, JSON.stringify(Object.fromEntries(Object.entries(state).sort()), null, 2) + '\n');
 writeFileSync(process.env.CLAIMS_REPORT ?? 'claims-report.json', JSON.stringify({ summary, results }, null, 2));
 process.exit(problems.length ? 2 : 0);
