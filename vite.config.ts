@@ -24,7 +24,7 @@ export default defineConfig({
       // The manifest lives in public/manifest.json and is linked from index.html.
       manifest: false,
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,json,woff2}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,webp,json,woff2}'],
         // jsPDF can lazy-load these for HTML/SVG-to-PDF, which the app never uses, so don't download them up front.
         globIgnores: ['**/html2canvas-*.js', '**/index.es-*.js', '**/purify.es-*.js', '**/og-image.png', '**/pdf-*.js', '**/pdf.worker.min-*'],
         // The PDF reader (Contract check) is big and rarely used: cache it the first time it is needed instead.

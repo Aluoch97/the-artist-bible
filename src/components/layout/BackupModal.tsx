@@ -56,7 +56,7 @@ export function BackupModal({ open, onClose }: { open: boolean; onClose: () => v
       onClose={onClose}
       onClick={(e) => { if (e.target === ref.current) onClose(); }}
       aria-labelledby="backup-title"
-      className="m-auto w-[min(32rem,calc(100vw-2rem))] rounded-3xl border border-border bg-surface p-0 text-fg backdrop:bg-black/75"
+      className="m-auto w-[min(32rem,calc(100vw-2rem))] rounded-3xl border border-border bg-[var(--surface-solid)] p-0 text-fg backdrop:bg-black/75"
     >
       <div className="p-5">
         <div className="flex items-start justify-between gap-4">

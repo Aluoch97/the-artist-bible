@@ -23,9 +23,15 @@
 :root[data-theme='dark'] {
   /* Warm dark brown with peach undertones, drawn from the logo's wood and amber tones. */
   --bg: #17100c;
-  --surface: #221914;
-  --surface-2: #2d211a;
-  --border: #43322a;
+  --surface: rgba(255, 238, 222, 0.065); /* frosted card over the ambient glow */
+  --surface-2: rgba(255, 238, 222, 0.12);
+  --surface-solid: #231a14; /* for things that must not be see-through (dialogs) */
+  --border: rgba(255, 226, 200, 0.14);
+  --glass: rgba(36, 26, 20, 0.86); /* floating bars: mostly opaque so they read well even where blur isn't supported */
+  --glass-border: rgba(255, 226, 200, 0.18);
+  --glow-1: rgba(240, 138, 60, 0.22);
+  --glow-2: rgba(214, 82, 140, 0.15);
+  --glow-3: rgba(243, 196, 107, 0.10);
   --fg: #fcefe3;
   --muted: #cdb39d;
   --accent: #f08a3c; /* the logo's guitar orange, lifted slightly for the dark UI */
@@ -38,15 +44,21 @@
   --shadow-pop: 0 8px 30px rgba(0, 0, 0, 0.5);
   --logo-shadow: rgba(0, 0, 0, 0.45);
   color-scheme: dark;
-  --tab-h: calc(60px + env(safe-area-inset-bottom));
+  --tab-h: calc(80px + env(safe-area-inset-bottom)); /* floating pill nav + its gap */
 }
 
 /* Light: a lighter, peachier background. Orange is deepened so text in it stays readable on peach. */
 :root[data-theme='light'] {
   --bg: #fdeadb;
-  --surface: #fff7ef;
-  --surface-2: #f8e0cb;
-  --border: #e4c3a8;
+  --surface: rgba(255, 255, 255, 0.64);
+  --surface-2: rgba(190, 100, 40, 0.11);
+  --surface-solid: #fff7ef;
+  --border: rgba(150, 80, 30, 0.2);
+  --glass: rgba(255, 251, 246, 0.88);
+  --glass-border: rgba(150, 80, 30, 0.16);
+  --glow-1: rgba(240, 138, 60, 0.30);
+  --glow-2: rgba(255, 150, 170, 0.24);
+  --glow-3: rgba(243, 196, 107, 0.34);
   --fg: #2b1810;
   --muted: #7a5238;
   --accent: #a64307;
@@ -63,9 +75,15 @@
 @media (prefers-color-scheme: light) {
   :root:not([data-theme]) {
     --bg: #fdeadb;
-    --surface: #fff7ef;
-    --surface-2: #f8e0cb;
-    --border: #e4c3a8;
+    --surface: rgba(255, 255, 255, 0.64);
+    --surface-2: rgba(190, 100, 40, 0.11);
+    --surface-solid: #fff7ef;
+    --border: rgba(150, 80, 30, 0.2);
+    --glass: rgba(255, 251, 246, 0.88);
+    --glass-border: rgba(150, 80, 30, 0.16);
+    --glow-1: rgba(240, 138, 60, 0.30);
+    --glow-2: rgba(255, 150, 170, 0.24);
+    --glow-3: rgba(243, 196, 107, 0.34);
     --fg: #2b1810;
     --muted: #7a5238;
     --accent: #a64307;
@@ -114,6 +132,20 @@ body {
   font-size: 16px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Soft colored light behind the content, like the glowing backdrops in the inspiration apps. */
+body { isolation: isolate; }
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(70% 38% at 8% 0%, var(--glow-1), transparent 70%),
+    radial-gradient(55% 34% at 100% 22%, var(--glow-2), transparent 70%),
+    radial-gradient(70% 36% at 40% 100%, var(--glow-3), transparent 72%);
 }
 
 a, button { -webkit-tap-highlight-color: transparent; }
@@ -188,6 +220,7 @@ input[type='date']::-webkit-calendar-picker-indicator { opacity: 0.75; }
     color-scheme: light;
   }
   .no-print { display: none !important; }
+  body::before { display: none; }
   body { background: #fff; }
   a[href^='http']::after { content: ' (' attr(href) ')'; font-size: 0.8em; }
   .print-break-avoid { break-inside: avoid; }

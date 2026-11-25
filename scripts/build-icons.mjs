@@ -45,6 +45,8 @@ await write('maskable-512.png', await onBackground(512, 0.74)); // Android crops
 await write('apple-touch-icon.png', await sharp(await onBackground(180, 0.86)).flatten({ background: BG }).png({ compressionLevel: 9, palette: true, quality: 90, effort: 10 }).toBuffer()); // iOS rounds the corners itself
 await write('favicon-32.png', await render(32));
 await write('favicon-48.png', await render(48));
+// Big artwork for the Home hero (lossy WebP keeps it small).
+await sharp(await render(640)).webp({ quality: 84, alphaQuality: 90, effort: 6 }).toFile(root('public/hero-art.webp'));
 
 console.log(`Icons rebuilt from ${srcPath.replace(root(''), '')} (background ${BG}) into public/icons/:`);
-console.log('  icon-192.png icon-512.png maskable-512.png apple-touch-icon.png favicon-32.png favicon-48.png');
+console.log('  icon-192.png icon-512.png maskable-512.png apple-touch-icon.png favicon-32.png favicon-48.png (+ public/hero-art.webp)');

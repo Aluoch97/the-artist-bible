@@ -53,12 +53,12 @@ export function AppShell({ children }: { children: ReactNode }) {
       </a>
 
       {/* Slim top bar: logo on the left, utilities on the right. */}
-      <header className="no-print sticky top-0 z-30 bg-bg/90 pt-[env(safe-area-inset-top)] backdrop-blur-md after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-gradient-to-r after:from-transparent after:via-accent/60 after:to-transparent">
+      <header className="no-print sticky top-0 z-30 bg-bg/80 pt-[env(safe-area-inset-top)] backdrop-blur-xl after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-gradient-to-r after:from-transparent after:via-accent/60 after:to-transparent">
         <div className="mx-auto grid h-16 max-w-5xl grid-cols-[1fr_auto] items-center gap-3 px-4 lg:grid-cols-[auto_1fr_auto]">
           <Link to="/" className="flex min-h-11 min-w-0 items-center gap-2.5">
             <Logo size={46} />
             <span className="grid min-w-0 leading-none">
-              <span className="truncate font-display text-xl font-bold tracking-tight">The Artist Bible</span>
+              <span className="truncate font-display text-xl font-bold tracking-tight"><span className="min-[360px]:hidden">Artist Bible</span><span className="hidden min-[360px]:inline">The Artist Bible</span></span>
               <span className="mt-1 truncate text-[11px] font-semibold tracking-wide text-muted">Free tools for independent artists</span>
             </span>
           </Link>
@@ -94,7 +94,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               type="button"
               onClick={() => setBackupOpen(true)}
               aria-label="Backup and restore"
-              className="grid h-11 w-11 cursor-pointer place-items-center rounded-full border border-border bg-surface-2 text-fg transition-colors hover:border-accent hover:text-accent"
+              className="grid h-11 w-11 cursor-pointer place-items-center rounded-full border border-[var(--glass-border)] bg-[var(--glass)] text-fg backdrop-blur-md transition-colors hover:border-accent hover:text-accent"
             >
               <HardDriveDownload className="h-5 w-5" aria-hidden="true" />
             </button>
@@ -133,9 +133,9 @@ export function AppShell({ children }: { children: ReactNode }) {
         <p className="mt-3 text-sm text-muted">&copy; {new Date().getFullYear()} {industryData.site.owner}</p>
       </footer>
 
-      {/* Bottom tab bar (phones and tablets). */}
-      <nav aria-label="Tabs" className="no-print fixed inset-x-0 bottom-0 z-30 border-t border-border bg-bg/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md lg:hidden">
-        <ul className="mx-auto grid max-w-lg grid-cols-5">
+      {/* Floating glass pill with the five tabs (phones and tablets). Home is the raised button in the middle. */}
+      <nav aria-label="Tabs" className="no-print pointer-events-none fixed inset-x-0 bottom-0 z-30 px-3 pb-[calc(env(safe-area-inset-bottom)+10px)] lg:hidden">
+        <ul className="pointer-events-auto mx-auto grid max-w-md grid-cols-5 rounded-full border border-[var(--glass-border)] bg-[var(--glass)] px-1 shadow-[var(--shadow-pop)] backdrop-blur-xl">
           {TABS.map((t) => {
             const active = isCurrent(t, path);
             const Icon = t.icon;
@@ -154,7 +154,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                     className={cn(
                       'grid place-items-center rounded-full transition-colors',
                       t.home
-                        ? cn('-mt-6 h-14 w-14 shadow-[0_0_0_4px_var(--bg),var(--shadow-pop)]', active ? 'bg-accent text-accent-fg' : 'bg-surface-2 text-accent')
+                        ? cn('-mt-7 h-14 w-14 shadow-[0_6px_18px_rgba(240,138,60,0.35)]', active ? 'bg-accent text-accent-fg' : 'bg-surface-2 text-accent ring-1 ring-[var(--glass-border)]')
                         : cn('h-7 w-14', active && 'bg-accent/20'),
                     )}
                   >
