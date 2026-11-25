@@ -43,7 +43,7 @@
       "url": "https://www.bmi.com/faq/entry/what_is_the_fee_to_join_as_a_songwriter",
       "note": "BMI FAQ: \"What is the fee to join as a songwriter or composer?\"",
       "automated": false,
-      "humanCheckedOn": null,
+      "humanCheckedOn": "2026-11",
       "howToCheck": "BMI blocks automated visitors, so a person must read this page: BMI's FAQ 'What is the fee to join as a songwriter or composer?'. A web search of BMI's own pages found it states there are no fees or annual dues for songwriters and composers. Confirm that is still what it says."
     },
     {
@@ -84,7 +84,7 @@
       "appliesTo": "royaltyEntities.pro_ascap_bmi.steps",
       "url": "https://www.bmi.com/faq/category/joining",
       "automated": false,
-      "humanCheckedOn": null,
+      "humanCheckedOn": "2026-11",
       "howToCheck": "Read BMI's and ASCAP's membership terms and confirm a writer can belong to only one PRO at a time. This one is not stated plainly on a single page, so a person has to confirm it."
     }
   ]
