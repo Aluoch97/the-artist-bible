@@ -137,8 +137,8 @@ export function AppShell({ children }: { children: ReactNode }) {
           <Link to="/about#install" className="inline-flex min-h-11 items-center text-lg font-bold">Add to Home Screen</Link>
         </nav>
         <p className="mt-2 flex flex-wrap justify-center gap-x-5 text-sm">
-          <Link to="/about#privacy" className="inline-flex min-h-11 items-center text-muted underline underline-offset-4 hover:text-fg">Privacy policy</Link>
-          <Link to="/about#terms" className="inline-flex min-h-11 items-center text-muted underline underline-offset-4 hover:text-fg">Terms</Link>
+          <Link to="/privacy" className="inline-flex min-h-11 items-center text-muted underline underline-offset-4 hover:text-fg">Privacy policy</Link>
+          <Link to="/terms" className="inline-flex min-h-11 items-center text-muted underline underline-offset-4 hover:text-fg">Terms</Link>
         </p>
         <p className="mt-3 text-sm text-muted">&copy; {new Date().getFullYear()} {industryData.site.owner}</p>
       </footer>

@@ -9,6 +9,8 @@ import { RoyaltyAudit } from './components/tools/RoyaltyAudit';
 import { SplitSheetBuilder } from './components/tools/SplitSheetBuilder';
 import { ChapterPage } from './pages/ChapterPage';
 import { AboutPage } from './pages/AboutPage';
+import { PrivacyPage } from './pages/PrivacyPage';
+import { TermsPage } from './pages/TermsPage';
 import { LearnPage } from './pages/LearnPage';
 import { NotFound } from './pages/NotFound';
 
@@ -42,6 +44,8 @@ export default function App() {
         <Route path="/contract" element={<LearnPage section="contract" />} />
         <Route path="/guides/:slug" element={<ChapterPage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       </ErrorBoundary>
