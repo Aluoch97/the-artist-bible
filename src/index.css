@@ -17,8 +17,10 @@
   src: url('../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-wght-normal.woff2') format('woff2-variations');
 }
 
-/* Artist Bible's own look: warm brown shell and the logo's orange. Success states stay green. */
-:root {
+/* Artist Bible's own look: the logo's orange on warm brown (dark) or peach (light). Success states stay green.
+   The theme is set by data-theme on <html> (see public/theme-init.js). Without it, the device setting decides. */
+:root,
+:root[data-theme='dark'] {
   /* Warm dark brown with peach undertones, drawn from the logo's wood and amber tones. */
   --bg: #17100c;
   --surface: #221914;
@@ -26,14 +28,57 @@
   --border: #43322a;
   --fg: #fcefe3;
   --muted: #cdb39d;
-  --accent: #f08a3c; /* from the logo's guitar orange, lifted slightly for the dark UI */
+  --accent: #f08a3c; /* the logo's guitar orange, lifted slightly for the dark UI */
   --accent-fg: #1c0f05;
   --gold: #f3c46b; /* the cymbal amber */
   --pink: #ff6aa6;
   --good: #3ee08f; /* success stays green so it never reads as the brand orange */
   --warn: #f3c46b;
   --bad: #ff7d93;
+  --shadow-pop: 0 8px 30px rgba(0, 0, 0, 0.5);
+  --logo-shadow: rgba(0, 0, 0, 0.45);
+  color-scheme: dark;
   --tab-h: calc(60px + env(safe-area-inset-bottom));
+}
+
+/* Light: a lighter, peachier background. Orange is deepened so text in it stays readable on peach. */
+:root[data-theme='light'] {
+  --bg: #fdeadb;
+  --surface: #fff7ef;
+  --surface-2: #f8e0cb;
+  --border: #e4c3a8;
+  --fg: #2b1810;
+  --muted: #7a5238;
+  --accent: #a64307;
+  --accent-fg: #fffaf5;
+  --gold: #85560a;
+  --pink: #bf1d5d;
+  --good: #0b6b3c;
+  --warn: #85560a;
+  --bad: #b3261e;
+  --shadow-pop: 0 8px 24px rgba(120, 60, 20, 0.18);
+  --logo-shadow: rgba(120, 60, 20, 0.3);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --bg: #fdeadb;
+    --surface: #fff7ef;
+    --surface-2: #f8e0cb;
+    --border: #e4c3a8;
+    --fg: #2b1810;
+    --muted: #7a5238;
+    --accent: #a64307;
+    --accent-fg: #fffaf5;
+    --gold: #85560a;
+    --pink: #bf1d5d;
+    --good: #0b6b3c;
+    --warn: #85560a;
+    --bad: #b3261e;
+    --shadow-pop: 0 8px 24px rgba(120, 60, 20, 0.18);
+    --logo-shadow: rgba(120, 60, 20, 0.3);
+    color-scheme: light;
+  }
 }
 @media (min-width: 1024px) {
   :root { --tab-h: 0px; }
@@ -58,7 +103,6 @@
 }
 
 html {
-  color-scheme: dark;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -85,7 +129,6 @@ a, button { -webkit-tap-highlight-color: transparent; }
 /* Keep form controls inside their containers on iPhone Safari. */
 input, select, textarea { max-width: 100%; min-width: 0; }
 input[type='date'] {
-  color-scheme: dark;
   -webkit-appearance: none;
   appearance: none;
   display: block;
@@ -106,7 +149,7 @@ input[type='date']::-webkit-calendar-picker-indicator { opacity: 0.75; }
 
 /* Chapter prose */
 .chapter-prose {
-  --tw-prose-body: #e6e1f2;
+  --tw-prose-body: var(--fg);
   --tw-prose-headings: var(--fg);
   --tw-prose-lead: var(--muted);
   --tw-prose-links: var(--accent);
@@ -127,7 +170,8 @@ input[type='date']::-webkit-calendar-picker-indicator { opacity: 0.75; }
 
 /* Print: a clean light sheet for release plans and split sheets */
 @media print {
-  :root {
+  :root,
+  :root[data-theme] {
     --bg: #fff;
     --surface: #fff;
     --surface-2: #f4f4f5;
@@ -140,8 +184,9 @@ input[type='date']::-webkit-calendar-picker-indicator { opacity: 0.75; }
     --good: #0f7a45;
     --warn: #8a6508;
     --bad: #b91c1c;
+    --shadow-pop: none;
+    color-scheme: light;
   }
-  html { color-scheme: light; }
   .no-print { display: none !important; }
   body { background: #fff; }
   a[href^='http']::after { content: ' (' attr(href) ')'; font-size: 0.8em; }

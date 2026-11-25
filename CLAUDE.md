@@ -242,3 +242,11 @@ Guardrails that keep it consistent with the non-negotiables:
   4. *Option 1 now, accounts later* if people ask to sync across devices.
   Recommendation was option 1 (or 4). Revisit when the owner decides.
 * **Not yet done:** a real end-to-end AI review has not been run on the live site (only the safety limits and screens were tested with a stand-in). First live review should be checked for quality, and prompts tuned if needed.
+
+---
+
+## 10. Theming (added after v1)
+Two themes, both warm and built around the logo: **dark** (warm brown, the original studio feel) and **light** (lighter, peachier). The device setting decides by default; a header sun/moon button and About > Appearance override it.
+* Tokens live in `src/index.css` (`:root` = dark, `:root[data-theme='light']`, plus a no-JS fallback that follows the device). Never hardcode colors in components; use the tokens (`bg-bg`, `text-fg`, `text-accent`, ...).
+* `public/theme-init.js` runs before first paint (kept external because the CSP forbids inline scripts) so there is no flash of the wrong theme. Preference is stored in `artist_bible_ui_v1` (UI only), never in `artist_bible_v1`.
+* Orange is the brand accent; **green means success** and must not be replaced by the accent. Check contrast in both themes (axe) after any palette change.

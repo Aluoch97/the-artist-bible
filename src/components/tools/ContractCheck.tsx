@@ -410,7 +410,7 @@ export function ContractCheck() {
             spellCheck={false}
             placeholder="Paste the contract here, or choose a file above."
             onChange={(e) => { setText(e.target.value); setScanned(null); }}
-            className="min-h-48 w-full rounded-xl border border-border bg-bg p-4 text-base text-fg placeholder:text-muted/60 focus-visible:border-accent"
+            className="min-h-48 w-full rounded-xl border border-border bg-bg p-4 text-base text-fg placeholder:text-muted focus-visible:border-accent"
           />
           {text && <p className="mt-1 text-xs text-muted">{text.length.toLocaleString('en-US')} characters. Kept in memory only; closing this page erases it.</p>}
         </div>

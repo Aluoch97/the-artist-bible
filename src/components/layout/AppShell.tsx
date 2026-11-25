@@ -6,6 +6,7 @@ import { industryData } from '../../data';
 import { usePwaInstall } from '../../hooks/usePwaInstall';
 import { cn } from '../../lib/utils';
 import { BackupModal } from './BackupModal';
+import { ThemeToggle } from './ThemeControls';
 import { SOCIAL_ICON_PATHS } from './socialIcons';
 
 interface Tab {
@@ -36,7 +37,7 @@ function isCurrent(tab: Tab, path: string): boolean {
 
 /** The master logo lives in design/logo.png. Replace it, run `npm run icons`, and this header logo updates with the rest. */
 export function Logo({ size = 36 }: { size?: number }) {
-  return <img src="/icons/icon-192.png" width={size} height={size} alt="" aria-hidden="true" className="shrink-0 object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]" />;
+  return <img src="/icons/icon-192.png" width={size} height={size} alt="" aria-hidden="true" className="shrink-0 object-contain drop-shadow-[0_2px_5px_var(--logo-shadow)]" />;
 }
 
 export function AppShell({ children }: { children: ReactNode }) {
@@ -56,9 +57,9 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="mx-auto grid h-16 max-w-5xl grid-cols-[1fr_auto] items-center gap-3 px-4 lg:grid-cols-[auto_1fr_auto]">
           <Link to="/" className="flex min-h-11 min-w-0 items-center gap-2.5">
             <Logo size={46} />
-            <span className="grid leading-none">
-              <span className="font-display text-xl font-bold tracking-tight">The Artist Bible</span>
-              <span className="mt-1 text-[11px] font-semibold tracking-wide text-muted">Free tools for independent artists</span>
+            <span className="grid min-w-0 leading-none">
+              <span className="truncate font-display text-xl font-bold tracking-tight">The Artist Bible</span>
+              <span className="mt-1 truncate text-[11px] font-semibold tracking-wide text-muted">Free tools for independent artists</span>
             </span>
           </Link>
 
@@ -83,11 +84,12 @@ export function AppShell({ children }: { children: ReactNode }) {
               <button
                 type="button"
                 onClick={install}
-                className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-full bg-accent px-4 text-sm font-bold text-accent-fg"
+                className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-full bg-accent px-3.5 text-sm font-bold text-accent-fg sm:px-4"
               >
-                <Download className="h-4 w-4" aria-hidden="true" /> Install
+                <Download className="h-4 w-4" aria-hidden="true" /> <span className="hidden sm:inline">Install</span><span className="sr-only sm:hidden">Install the app</span>
               </button>
             )}
+            <ThemeToggle />
             <button
               type="button"
               onClick={() => setBackupOpen(true)}
@@ -152,7 +154,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                     className={cn(
                       'grid place-items-center rounded-full transition-colors',
                       t.home
-                        ? cn('-mt-6 h-14 w-14 shadow-[0_0_0_4px_var(--bg),0_8px_18px_rgba(0,0,0,0.5)]', active ? 'bg-accent text-accent-fg' : 'bg-surface-2 text-accent')
+                        ? cn('-mt-6 h-14 w-14 shadow-[0_0_0_4px_var(--bg),var(--shadow-pop)]', active ? 'bg-accent text-accent-fg' : 'bg-surface-2 text-accent')
                         : cn('h-7 w-14', active && 'bg-accent/20'),
                     )}
                   >

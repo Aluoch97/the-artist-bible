@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ThemeChoice } from '../components/layout/ThemeControls';
 import { ToolHeader } from '../components/ui/ToolHeader';
 import { ExternalLink } from '../components/ui/ExternalLink';
 import { industryData } from '../data';
@@ -22,6 +23,10 @@ export function AboutPage() {
           <li><strong>Computer (Chrome or Edge):</strong> click the install icon in the address bar.</li>
         </ul>
         <p>Once installed it opens full screen and works offline. Your saved work lives on the device, and browsers can clear saved data for sites you haven&apos;t installed, so download a backup now and then (the backup button, top right).</p>
+
+        <h2 id="appearance">Appearance</h2>
+        <p>Light, dark, or follow your device. You can also flip it any time with the sun/moon button at the top.</p>
+        <ThemeChoice />
 
         <h2>Privacy and terms</h2>
         <p>

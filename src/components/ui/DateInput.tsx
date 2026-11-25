@@ -20,7 +20,7 @@ export function DateInput({ className, value, ...props }: Omit<InputHTMLAttribut
         {...props}
       />
       {empty && (
-        <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-base text-muted/70" aria-hidden="true">
+        <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-base text-muted" aria-hidden="true">
           Tap to choose a date
         </span>
       )}
