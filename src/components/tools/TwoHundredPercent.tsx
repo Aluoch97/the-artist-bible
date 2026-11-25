@@ -10,7 +10,7 @@ export function TwoHundredPercent() {
             <Disc3 className="h-6 w-6" aria-hidden="true" />
             <span className="font-display text-3xl font-bold tabular-nums">100%</span>
           </div>
-          <h3 className="mt-1 font-bold">The recording</h3>
+          <h2 className="mt-1 font-bold">The recording</h2>
           <p className="mt-1 text-[15px] text-muted">The audio file everyone hears. Usually owned by whoever paid for the session. This is called the master.</p>
         </div>
         <div className="flex items-center justify-center font-display text-3xl font-bold text-muted" aria-hidden="true">+</div>
@@ -19,7 +19,7 @@ export function TwoHundredPercent() {
             <PenLine className="h-6 w-6" aria-hidden="true" />
             <span className="font-display text-3xl font-bold tabular-nums">100%</span>
           </div>
-          <h3 className="mt-1 font-bold">The song itself</h3>
+          <h2 className="mt-1 font-bold">The song itself</h2>
           <p className="mt-1 text-[15px] text-muted">The melody and lyrics as written. Owned by the songwriters, no matter who records it. This is called publishing.</p>
         </div>
       </div>

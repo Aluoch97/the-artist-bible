@@ -141,7 +141,7 @@ export function SplitSheetBuilder() {
       />
 
       <details className="group rounded-2xl border border-border bg-surface px-4 py-3">
-        <summary className="flex min-h-8 cursor-pointer list-none items-center justify-between gap-2 font-bold [&::-webkit-details-marker]:hidden">
+        <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 font-bold [&::-webkit-details-marker]:hidden">
           Wait, what's a "200% song"?
           <ChevronDown className="h-5 w-5 text-muted transition-transform group-open:rotate-180" aria-hidden="true" />
         </summary>

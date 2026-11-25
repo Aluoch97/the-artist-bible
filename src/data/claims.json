@@ -1,0 +1,94 @@
+{
+  "humanReviewMaxAgeMonths": 6,
+  "claims": [
+    {
+      "id": "mlc_page_live",
+      "statement": "The MLC's official site is live and still describes the Mechanical Licensing Collective.",
+      "appliesTo": "royaltyEntities.the_mlc",
+      "url": "https://www.themlc.com/",
+      "pattern": "Mechanical Licensing Collective|The MLC"
+    },
+    {
+      "id": "soundexchange_page_live",
+      "statement": "SoundExchange's official site is live and still describes SoundExchange.",
+      "appliesTo": "royaltyEntities.soundexchange",
+      "url": "https://www.soundexchange.com/",
+      "pattern": "SoundExchange"
+    },
+    {
+      "id": "spotify_for_artists_live",
+      "statement": "Spotify for Artists is live at the linked address.",
+      "appliesTo": "royaltyEntities.artist_profiles",
+      "url": "https://artists.spotify.com/",
+      "pattern": "Spotify for Artists"
+    },
+    {
+      "id": "apple_music_for_artists_live",
+      "statement": "Apple Music for Artists is live at the linked address.",
+      "appliesTo": "royaltyEntities.artist_profiles",
+      "url": "https://artists.apple.com/",
+      "pattern": "Apple Music"
+    },
+    {
+      "id": "copyright_office_live",
+      "statement": "The U.S. Copyright Office site is live at the linked address.",
+      "appliesTo": "resources.copyright_office",
+      "url": "https://www.copyright.gov/",
+      "pattern": "Copyright Office"
+    },
+    {
+      "id": "bmi_writer_fee",
+      "statement": "Joining BMI as a songwriter costs $0.",
+      "appliesTo": "royaltyEntities.pro_ascap_bmi.cost",
+      "url": "https://www.bmi.com/",
+      "automated": false,
+      "humanCheckedOn": null,
+      "howToCheck": "Open bmi.com, go to the songwriter/composer join page, and confirm there is no application fee."
+    },
+    {
+      "id": "ascap_writer_fee",
+      "statement": "ASCAP's current writer membership fee. The app says 'check current fee' until you confirm the number.",
+      "appliesTo": "royaltyEntities.pro_ascap_bmi.cost",
+      "url": "https://www.ascap.com/",
+      "automated": false,
+      "humanCheckedOn": null,
+      "howToCheck": "Open ascap.com, find the writer membership page, and note the fee. Then update the cost text in industry-data.json."
+    },
+    {
+      "id": "mlc_free",
+      "statement": "Joining The MLC as a member is free.",
+      "appliesTo": "royaltyEntities.the_mlc.cost",
+      "url": "https://www.themlc.com/",
+      "automated": false,
+      "humanCheckedOn": null,
+      "howToCheck": "On themlc.com, find the membership / FAQ page and confirm there is no cost to register."
+    },
+    {
+      "id": "soundexchange_free",
+      "statement": "Registering with SoundExchange is free.",
+      "appliesTo": "royaltyEntities.soundexchange.cost",
+      "url": "https://www.soundexchange.com/",
+      "automated": false,
+      "humanCheckedOn": null,
+      "howToCheck": "On soundexchange.com, find the registration / FAQ page and confirm there is no registration fee."
+    },
+    {
+      "id": "spotify_pitch_window",
+      "statement": "Editorial pitches to Spotify must be submitted before release day, and earlier is better (we suggest 3 to 4 weeks).",
+      "appliesTo": "releaseMilestones.editorial_pitch; royaltyEntities.artist_profiles.steps",
+      "url": "https://artists.spotify.com/",
+      "automated": false,
+      "humanCheckedOn": null,
+      "howToCheck": "In Spotify for Artists help, read 'Pitching music to playlist editors' and confirm the timing advice still matches."
+    },
+    {
+      "id": "one_pro_only",
+      "statement": "A songwriter should register with only one PRO, never the same songs with two.",
+      "appliesTo": "royaltyEntities.pro_ascap_bmi.steps",
+      "url": "https://www.bmi.com/",
+      "automated": false,
+      "humanCheckedOn": null,
+      "howToCheck": "Confirm with BMI or ASCAP guidance that a writer can only belong to one PRO at a time."
+    }
+  ]
+}

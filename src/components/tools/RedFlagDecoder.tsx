@@ -21,7 +21,9 @@ function matches(flag: RedFlag, q: string): boolean {
     .every((word) => hay.includes(word));
 }
 
-function FlagCard({ flag }: { flag: RedFlag }) {
+function FlagCard({ flag, level }: { flag: RedFlag; level: 2 | 3 }) {
+  const Title = level === 2 ? 'h2' : 'h3';
+  const Sub = level === 2 ? 'h3' : 'h4';
   const [open, setOpen] = useState(false);
   const id = `flag-${flag.id}`;
   const high = flag.severity === 'high';
@@ -29,7 +31,7 @@ function FlagCard({ flag }: { flag: RedFlag }) {
     <article className={cn('print-break-avoid overflow-hidden rounded-2xl border border-border border-l-4 bg-surface', high ? 'border-l-pink' : 'border-l-gold')}>
       <div className="p-4 sm:p-5">
         <div className="flex flex-wrap items-center gap-2">
-          <h3 className="text-lg font-bold leading-snug">{flag.term}</h3>
+          <Title className="text-lg font-bold leading-snug">{flag.term}</Title>
           <Badge variant={high ? 'bad' : 'warn'}>
             <TriangleAlert className="h-3 w-3" aria-hidden="true" /> {high ? 'Serious' : 'Be careful'}
           </Badge>
@@ -51,17 +53,17 @@ function FlagCard({ flag }: { flag: RedFlag }) {
         {open && (
           <div id={id} className="mt-1 space-y-4 text-[15px]">
             <div>
-              <h4 className="mb-1 font-bold">Why it hurts</h4>
+              <Sub className="mb-1 font-bold">Why it hurts</Sub>
               <p className="text-muted">{flag.whyItHurts}</p>
             </div>
             <div>
-              <h4 className="mb-1 flex items-center gap-1.5 font-bold"><ShieldCheck className="h-4 w-4 text-accent" aria-hidden="true" /> What to do</h4>
+              <Sub className="mb-1 flex items-center gap-1.5 font-bold"><ShieldCheck className="h-4 w-4 text-accent" aria-hidden="true" /> What to do</Sub>
               <ul className="list-disc space-y-1 pl-5 text-muted marker:text-accent">
                 {flag.whatToDo.map((s) => <li key={s}>{s}</li>)}
               </ul>
             </div>
             <div>
-              <h4 className="mb-1.5 font-bold">Wording to watch for</h4>
+              <Sub className="mb-1.5 font-bold">Wording to watch for</Sub>
               <ul className="flex flex-wrap gap-2">
                 {flag.lookFor.map((s) => (
                   <li key={s} className="rounded-lg bg-surface-2 px-2.5 py-1 text-sm">{s}</li>
@@ -75,7 +77,7 @@ function FlagCard({ flag }: { flag: RedFlag }) {
   );
 }
 
-export function RedFlagDecoder({ embedded = false, className }: { embedded?: boolean; className?: string }) {
+export function RedFlagDecoder({ embedded = false, className, headingLevel = 2 }: { embedded?: boolean; className?: string; headingLevel?: 2 | 3 }) {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<(typeof CATEGORIES)[number]>('All');
 
@@ -114,7 +116,7 @@ export function RedFlagDecoder({ embedded = false, className }: { embedded?: boo
               aria-pressed={category === c}
               onClick={() => setCategory(c)}
               className={cn(
-                'h-10 cursor-pointer rounded-full border px-4 text-sm font-bold transition-colors',
+                'h-11 cursor-pointer rounded-full border px-4 text-sm font-bold transition-colors',
                 category === c ? 'border-accent bg-accent text-accent-fg' : 'border-border bg-surface text-muted hover:text-fg',
               )}
             >
@@ -134,7 +136,7 @@ export function RedFlagDecoder({ embedded = false, className }: { embedded?: boo
         </div>
       ) : (
         <div className="space-y-3">
-          {results.map((f) => <FlagCard key={f.id} flag={f} />)}
+          {results.map((f) => <FlagCard key={f.id} flag={f} level={headingLevel} />)}
         </div>
       )}
       <p className="mt-4 text-xs text-muted">Educational information, not legal advice. Have an entertainment attorney review any contract.</p>

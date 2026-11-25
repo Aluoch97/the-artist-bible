@@ -13,7 +13,7 @@ const buttonVariants = cva(
         danger: 'bg-transparent text-bad border border-bad/50 hover:bg-bad/10',
       },
       size: {
-        sm: 'h-10 px-4 text-sm',
+        sm: 'h-11 px-4 text-sm',
         md: 'h-12 px-6',
         icon: 'h-11 w-11',
       },

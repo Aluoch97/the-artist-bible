@@ -10,13 +10,14 @@ import { ExternalLink } from '../ui/ExternalLink';
 import { ProgressRing } from '../ui/ProgressRing';
 import { ToolHeader } from '../ui/ToolHeader';
 
-/** Anything with no non-zero dollar amount is shown as "$0 Free". Mixed pricing shows the full text. */
+/** "$0 Free" only when the cost is unconditionally zero. Mixed or "check" pricing shows the full text. */
 function CostBadge({ cost }: { cost: string }) {
-  const hasPaidOption = /\$[1-9]/.test(cost);
-  return hasPaidOption ? <Badge variant="warn">{cost}</Badge> : <Badge variant="good">$0 Free</Badge>;
+  const unconditionallyFree = /^\$0\b/.test(cost) && !/[/]|check/i.test(cost);
+  return unconditionallyFree ? <Badge variant="good">$0 Free</Badge> : <Badge variant="warn">{cost}</Badge>;
 }
 
-function AuditCard({ entity, done, onToggle }: { entity: RoyaltyEntity; done: boolean; onToggle: () => void }) {
+function AuditCard({ entity, done, onToggle, level }: { entity: RoyaltyEntity; done: boolean; onToggle: () => void; level: 2 | 3 }) {
+  const Heading = level === 2 ? 'h2' : 'h3';
   const [open, setOpen] = useState(false);
   const panelId = `audit-steps-${entity.id}`;
 
@@ -29,17 +30,21 @@ function AuditCard({ entity, done, onToggle }: { entity: RoyaltyEntity; done: bo
           aria-checked={done}
           aria-label={`Mark "${entity.name}" as ${done ? 'not done' : 'done'}`}
           onClick={onToggle}
-          className={cn(
-            'mt-0.5 grid h-9 w-9 shrink-0 cursor-pointer place-items-center rounded-full border-2 transition-colors active:scale-95',
-            done ? 'border-accent bg-accent text-accent-fg' : 'border-muted/70 hover:border-accent',
-          )}
+          className="-m-1 mt-[-2px] grid h-11 w-11 shrink-0 cursor-pointer place-items-center active:scale-95"
         >
-          {done && <Check className="h-5 w-5" strokeWidth={3} aria-hidden="true" />}
+          <span
+            className={cn(
+              'grid h-9 w-9 place-items-center rounded-full border-2 transition-colors',
+              done ? 'border-accent bg-accent text-accent-fg' : 'border-muted/70 hover:border-accent',
+            )}
+          >
+            {done && <Check className="h-5 w-5" strokeWidth={3} aria-hidden="true" />}
+          </span>
         </button>
 
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-            <h3 className="text-lg font-bold leading-snug">{entity.name}</h3>
+            <Heading className="text-lg font-bold leading-snug">{entity.name}</Heading>
             <CostBadge cost={entity.cost} />
           </div>
           <p className="mt-0.5 text-sm font-semibold text-muted">{entity.category}</p>
@@ -66,9 +71,9 @@ function AuditCard({ entity, done, onToggle }: { entity: RoyaltyEntity; done: bo
                   </li>
                 ))}
               </ol>
-              <div className="flex flex-wrap gap-x-5 gap-y-2 text-[15px] font-semibold">
-                <ExternalLink href={entity.officialUrl}>Go to the official site</ExternalLink>
-                {entity.secondaryUrl && <ExternalLink href={entity.secondaryUrl}>Alternate site</ExternalLink>}
+              <div className="flex flex-wrap gap-x-5 text-[15px] font-semibold">
+                <ExternalLink href={entity.officialUrl} className="min-h-11">Go to the official site</ExternalLink>
+                {entity.secondaryUrl && <ExternalLink href={entity.secondaryUrl} className="min-h-11">Alternate site</ExternalLink>}
               </div>
             </div>
           )}
@@ -87,7 +92,7 @@ export function useRoyaltyReadiness() {
   return { done, total, percent: total === 0 ? 0 : Math.round((done / total) * 100) };
 }
 
-export function RoyaltyAudit({ embedded = false }: { embedded?: boolean }) {
+export function RoyaltyAudit({ embedded = false, headingLevel = 2 }: { embedded?: boolean; headingLevel?: 2 | 3 }) {
   const { state, toggleAuditItem } = useLocalProgress();
   const { done, total, percent } = useRoyaltyReadiness();
 
@@ -118,6 +123,7 @@ export function RoyaltyAudit({ embedded = false }: { embedded?: boolean }) {
             entity={entity}
             done={state.completedAuditIds.includes(entity.id)}
             onToggle={() => toggleAuditItem(entity.id)}
+            level={headingLevel}
           />
         ))}
       </div>

@@ -28,6 +28,8 @@ async function check(url, attempt = 1) {
     const origHost = bare(new URL(url).hostname);
     // Same registrable site is fine (e.g. http->https, www, trailing path); a new domain is not.
     const sameSite = finalHost === origHost || finalHost.endsWith(`.${origHost}`) || origHost.endsWith(`.${finalHost}`);
+    // 401/403/429 means the site is up but refuses automated visitors: that's not a broken link.
+    if ([401, 403, 429].includes(res.status)) return { url, ok: true, why: `HTTP ${res.status} (site blocks bots; cannot confirm, not counted as broken)`, warn: true };
     if (res.status !== 200) return { url, ok: false, why: `HTTP ${res.status}` };
     if (!sameSite) return { url, ok: false, why: `redirected to another site: ${res.url}` };
     return { url, ok: true, why: res.url !== url ? `200 (via ${res.url})` : '200' };
@@ -41,7 +43,7 @@ async function check(url, attempt = 1) {
 }
 
 const results = await Promise.all([...urls].map((u) => check(u)));
-for (const r of results) console.log(`${r.ok ? 'OK  ' : 'FAIL'} ${r.url}  ${r.why}`);
+for (const r of results) console.log(`${r.ok ? (r.warn ? 'WARN' : 'OK  ') : 'FAIL'} ${r.url}  ${r.why}`);
 
 const failed = results.filter((r) => !r.ok);
 console.log(`\n${results.length - failed.length}/${results.length} links healthy (data last verified ${data.lastVerified}).`);

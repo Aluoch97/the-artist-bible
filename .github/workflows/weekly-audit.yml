@@ -1,18 +1,31 @@
-name: Weekly link & freshness audit
+name: Weekly link & fact audit
+
+# Every Sunday: confirm official links are alive, re-check what the app says about outside organizations,
+# and keep ONE open issue listing anything a person needs to look at. If everything is verified, the
+# "Verified" date shown in the app is moved forward automatically. Otherwise it is left alone.
 
 on:
   schedule:
     - cron: '17 9 * * 0' # Sundays 09:17 UTC
   workflow_dispatch:
+    inputs:
+      discover_urls:
+        description: 'Optional helper: space-separated URLs; prints their fee/deadline wording instead of auditing'
+        required: false
+        default: ''
 
 permissions:
-  contents: read
+  contents: write
   issues: write
+
+concurrency:
+  group: weekly-audit
+  cancel-in-progress: false
 
 jobs:
   audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
@@ -20,44 +33,94 @@ jobs:
         with:
           node-version: 22
 
-      - name: Check every URL in industry-data.json
+      - name: Install a browser (for sites that block plain requests)
+        run: |
+          npm i --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+
+      - name: Discover mode (print what pages say)
+        if: github.event.inputs.discover_urls != ''
+        env:
+          URLS: ${{ github.event.inputs.discover_urls }}
+        run: node scripts/verify-claims.mjs --browser $URLS
+
+      - name: Check official links
         id: links
+        if: github.event.inputs.discover_urls == ''
         run: |
           set +e
-          node scripts/check-links.mjs 2>&1 | tee audit-report.txt
+          node scripts/check-links.mjs 2>&1 | tee link-report.txt
           echo "status=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
 
-      - name: Flag stale data (lastVerified older than 90 days)
-        id: fresh
+      - name: Check claims against official pages
+        id: claims
+        if: github.event.inputs.discover_urls == ''
         run: |
-          VERIFIED=$(node -p "require('./src/data/industry-data.json').lastVerified")
-          AGE_DAYS=$(node -e "const [y,m]=process.argv[1].split('-').map(Number); console.log(Math.floor((Date.now()-new Date(y,m,0).getTime())/864e5))" "$VERIFIED")
-          echo "lastVerified=$VERIFIED ($AGE_DAYS days since end of that month)" | tee -a audit-report.txt
-          if [ "$AGE_DAYS" -gt 90 ]; then echo "stale=true" >> "$GITHUB_OUTPUT"; else echo "stale=false" >> "$GITHUB_OUTPUT"; fi
+          set +e
+          node scripts/verify-claims.mjs --browser 2>&1 | tee claims-output.txt
+          echo "status=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
 
-      - name: Open or update an issue on problems
-        if: steps.links.outputs.status != '0' || steps.fresh.outputs.stale == 'true'
+      - name: Decide
+        id: decide
+        if: github.event.inputs.discover_urls == ''
+        run: |
+          node -e "
+            const s = JSON.parse(require('fs').readFileSync('claims-report.json','utf8')).summary;
+            const linksOk = process.env.LINKS === '0';
+            const ready = linksOk && s.total > 0 && s.allVerified;
+            require('fs').appendFileSync(process.env.GITHUB_OUTPUT, 'ready=' + ready + '\n');
+          "
+        env:
+          LINKS: ${{ steps.links.outputs.status }}
+
+      - name: Move the Verified date forward (only when everything is verified)
+        if: steps.decide.outputs.ready == 'true'
+        run: |
+          NOW=$(date -u +%Y-%m)
+          sed -i "s/\"lastVerified\": \"[0-9-]*\"/\"lastVerified\": \"$NOW\"/" src/data/industry-data.json
+          sed -i "s/^lastVerified: \"[0-9-]*\"/lastVerified: \"$NOW\"/" src/content/*.mdx
+          if ! git diff --quiet; then
+            git config user.name "artist-bible-audit"
+            git config user.email "actions@users.noreply.github.com"
+            git commit -am "Audit passed: set Verified date to $NOW"
+            git push origin HEAD:${{ github.event.repository.default_branch }}
+          fi
+
+      - name: Open, update or close the audit issue
+        if: github.event.inputs.discover_urls == ''
         env:
           GH_TOKEN: ${{ github.token }}
+          READY: ${{ steps.decide.outputs.ready }}
         run: |
-          TITLE="Weekly audit: industry data needs attention"
+          TITLE="Weekly audit: facts and links that need attention"
+          RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          EXISTING=$(gh issue list --state open --label audit --json number,title --jq ".[] | select(.title==\"$TITLE\") | .number" | head -1)
+          if [ "$READY" = "true" ]; then
+            if [ -n "$EXISTING" ]; then gh issue close "$EXISTING" --comment "Everything verified in $RUN_URL. Closing."; fi
+            exit 0
+          fi
           {
-            echo "The scheduled audit found a problem. Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            echo "Run: $RUN_URL"
             echo
-            echo '```'
-            cat audit-report.txt
-            echo '```'
+            echo "Nothing here means the app is wrong. It means a link or fact could not be confirmed automatically."
             echo
-            echo "Fix \`src/data/industry-data.json\` (URLs, fees, milestones), then update \`lastVerified\` and the chapter frontmatter."
+            echo "### How to clear each kind of item"
+            echo "- **DRIFT / GONE**: the official page changed or moved. Read it, then fix \`src/data/industry-data.json\` (and the claim's pattern or URL in \`src/data/claims.json\`)."
+            echo "- **HUMAN**: a person must confirm it (see \`howToCheck\` in \`src/data/claims.json\`), then set that claim's \`humanCheckedOn\` to the current month, like \`\"2026-11\"\`."
+            echo "- **BLOCK / ERROR**: the site refused the check or was down. Usually clears itself next week."
+            echo
+            echo '### Links'
+            echo '```'; cat link-report.txt; echo '```'
+            echo '### Claims'
+            echo '```'; cat claims-output.txt; echo '```'
           } > issue-body.md
-          EXISTING=$(gh issue list --state open --label audit --search "\"$TITLE\" in:title" --json number --jq '.[0].number // empty')
           if [ -n "$EXISTING" ]; then
-            gh issue comment "$EXISTING" --body-file issue-body.md
+            gh issue edit "$EXISTING" --body-file issue-body.md
           else
             gh label create audit --color D93F0B --description "Automated weekly audit" 2>/dev/null || true
             gh issue create --title "$TITLE" --label audit --body-file issue-body.md
           fi
 
-      - name: Fail the run if any official link is broken
-        if: steps.links.outputs.status != '0'
+      - name: Fail the run when something is actually broken
+        if: github.event.inputs.discover_urls == '' && (steps.links.outputs.status != '0' || steps.claims.outputs.status != '0')
         run: exit 1

@@ -23,9 +23,10 @@ export default defineConfig({
       registerType: 'autoUpdate',
       // The manifest lives in public/manifest.json and is linked from index.html.
       manifest: false,
-      includeAssets: ['favicon.svg', 'icons/*.png', 'manifest.json'],
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,json,woff2}'],
+        // jsPDF can lazy-load these for HTML/SVG-to-PDF, which the app never uses, so don't download them up front.
+        globIgnores: ['**/html2canvas-*.js', '**/index.es-*.js', '**/purify.es-*.js', '**/og-image.png'],
         navigateFallback: 'index.html',
         cleanupOutdatedCaches: true,
       },

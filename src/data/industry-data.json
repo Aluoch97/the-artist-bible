@@ -1,20 +1,21 @@
 {
   "lastVerified": "2026-11",
   "site": {
-    "githubRepo": "https://github.com/Aluoch97/the-artist-bible"
+    "githubRepo": "https://github.com/Aluoch97/the-artist-bible",
+    "url": "https://bible.nrnszn.com"
   },
   "royaltyEntities": [
     {
       "id": "pro_ascap_bmi",
       "name": "PRO Registration (ASCAP or BMI)",
       "category": "Performance Royalties",
-      "cost": "$0 (BMI Writer) / $50 (ASCAP Writer)",
+      "cost": "$0 (BMI Writer) / ASCAP: check current fee",
       "officialUrl": "https://www.bmi.com",
       "secondaryUrl": "https://www.ascap.com",
       "whyItMatters": "Collects songwriter and publisher performance royalties when your music is streamed, broadcast, or performed live.",
       "steps": [
         "Choose one PRO (ASCAP or BMI—never register the same songs with both).",
-        "Register as a Songwriter first; set up a Publisher entity when ready to claim the full 200%.",
+        "Register as a Songwriter first; set up a Publisher entity when you are ready to collect the publisher share of your performance royalties too.",
         "Save your IPI/CAE number—you will need it for split sheets and The MLC."
       ]
     },
@@ -52,17 +53,41 @@
       "whyItMatters": "Required to pitch unreleased music to editorial playlists and customize your artist profile.",
       "steps": [
         "Claim your profile immediately after uploading your first release to your distributor.",
-        "Pitch unreleased tracks at least 21 days before release day."
+        "Pitch unreleased tracks as early as you can, ideally 3 to 4 weeks before release day."
       ]
     }
   ],
   "releaseMilestones": [
-    { "id": "masters_art", "weeksOut": 6, "label": "Finalize 24-bit WAV masters, 3000x3000px cover art, and lyrics" },
-    { "id": "distributor_upload", "weeksOut": 4, "label": "Upload to distributor & lock in ISRC/UPC codes" },
-    { "id": "editorial_pitch", "weeksOut": 3, "label": "Submit Spotify for Artists & Amazon Music editorial pitch (hard deadline)" },
-    { "id": "pro_mlc_reg", "weeksOut": 2, "label": "Register song splits with PRO (ASCAP/BMI) and The MLC" },
-    { "id": "presave_epk", "weeksOut": 1, "label": "Launch pre-save link, finalize EPK, and schedule teaser clips" },
-    { "id": "release_day", "weeksOut": 0, "label": "Release Day: Submit ISRCs to SoundExchange & push primary CTA" }
+    {
+      "id": "masters_art",
+      "weeksOut": 6,
+      "label": "Finalize 24-bit WAV masters, 3000x3000px cover art, and lyrics"
+    },
+    {
+      "id": "distributor_upload",
+      "weeksOut": 4,
+      "label": "Upload to distributor & lock in ISRC/UPC codes"
+    },
+    {
+      "id": "editorial_pitch",
+      "weeksOut": 3,
+      "label": "Submit your editorial pitch (Spotify for Artists, Amazon Music): earlier is better, and it must be before release day"
+    },
+    {
+      "id": "pro_mlc_reg",
+      "weeksOut": 2,
+      "label": "Register song splits with PRO (ASCAP/BMI) and The MLC"
+    },
+    {
+      "id": "presave_epk",
+      "weeksOut": 1,
+      "label": "Launch pre-save link, finalize EPK, and schedule teaser clips"
+    },
+    {
+      "id": "release_day",
+      "weeksOut": 0,
+      "label": "Release Day: Submit ISRCs to SoundExchange & push primary CTA"
+    }
   ],
   "resources": [
     {

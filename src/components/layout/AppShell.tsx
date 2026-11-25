@@ -61,7 +61,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       {/* Slim top bar: logo on the left, utilities on the right. */}
       <header className="no-print sticky top-0 z-30 bg-bg/90 pt-[env(safe-area-inset-top)] backdrop-blur-md after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-gradient-to-r after:from-transparent after:via-accent/60 after:to-transparent">
         <div className="mx-auto grid h-16 max-w-5xl grid-cols-[1fr_auto] items-center gap-3 px-4 lg:grid-cols-[auto_1fr_auto]">
-          <Link to="/" className="flex min-w-0 items-center gap-2.5">
+          <Link to="/" className="flex min-h-11 min-w-0 items-center gap-2.5">
             <Logo size={38} />
             <span className="grid leading-none">
               <span className="font-display text-xl font-bold tracking-tight">The Artist Bible</span>
@@ -115,6 +115,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <p className="font-semibold text-fg">Free. No ads. No accounts.</p>
         <p className="mt-1">Everything you enter stays on your device.</p>
         <p className="mt-3 text-xs">Guides are educational, not legal or financial advice.</p>
+        <p className="mt-2"><Link to="/about" className="inline-flex min-h-11 items-center font-semibold text-fg underline underline-offset-4">About, privacy &amp; terms</Link></p>
       </footer>
 
       {/* Bottom tab bar (phones and tablets). */}

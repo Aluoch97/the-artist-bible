@@ -62,7 +62,7 @@ export interface ResourceLink {
 
 export interface IndustryData {
   lastVerified: string; // YYYY-MM
-  site: { githubRepo: string };
+  site: { githubRepo: string; url: string };
   royaltyEntities: RoyaltyEntity[];
   releaseMilestones: ReleaseMilestone[];
   resources: ResourceLink[];

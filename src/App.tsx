@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { AppShell } from './components/layout/AppShell';
+import { ErrorBoundary } from './components/layout/ErrorBoundary';
+import { RouteMeta } from './components/layout/RouteMeta';
 import { HomeTriageHero } from './components/triage/HomeTriageHero';
 import { ReleaseCalculator } from './components/tools/ReleaseCalculator';
 import { RoyaltyAudit } from './components/tools/RoyaltyAudit';
 import { SplitSheetBuilder } from './components/tools/SplitSheetBuilder';
 import { ChapterPage } from './pages/ChapterPage';
+import { AboutPage } from './pages/AboutPage';
 import { LearnPage } from './pages/LearnPage';
 import { NotFound } from './pages/NotFound';
 
@@ -18,9 +21,12 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  const { pathname } = useLocation();
   return (
     <AppShell>
       <ScrollToTop />
+      <RouteMeta />
+      <ErrorBoundary resetKey={pathname}>
       <Routes>
         <Route path="/" element={<HomeTriageHero />} />
         <Route path="/audit" element={<RoyaltyAudit />} />
@@ -29,8 +35,10 @@ export default function App() {
         <Route path="/red-flags" element={<LearnPage section="red-flags" />} />
         <Route path="/guides" element={<LearnPage section="guides" />} />
         <Route path="/guides/:slug" element={<ChapterPage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </ErrorBoundary>
     </AppShell>
   );
 }
