@@ -1,0 +1,35 @@
+name: Live checks (cookies + real AI review)
+
+# Manual. Looks for cookies on the live site, then sends TWO contracts to the real AI review endpoint
+# and prints what came back, so a person can judge its quality. Uses 2 of the free daily AI reviews.
+
+on:
+  workflow_dispatch:
+    inputs:
+      site:
+        description: 'Site to test'
+        required: true
+        default: 'https://bible.nrnszn.com'
+
+permissions:
+  contents: read
+
+jobs:
+  live:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    env:
+      SITE: ${{ github.event.inputs.site }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Does the live site set any cookies?
+        run: |
+          for path in / /api/review-contract /assets/; do
+            echo "--- $path"; curl -s -D - -o /dev/null "$SITE$path" | grep -iE '^(HTTP|set-cookie|server|cf-cache|content-type)' || true
+          done
+          echo "Set-Cookie headers found: $(curl -s -D - -o /dev/null "$SITE/" | grep -ic '^set-cookie')"
+      - name: Real AI review (2 contracts)
+        run: node scripts/live-ai-test.mjs
