@@ -1,6 +1,6 @@
 import type { MDXComponents } from 'mdx/types';
 import { Info } from 'lucide-react';
-import type { AnchorHTMLAttributes, ReactNode } from 'react';
+import type { AnchorHTMLAttributes, ReactNode, TableHTMLAttributes } from 'react';
 import { Link } from 'react-router-dom';
 import { industryData } from '../../data';
 import { RedFlagDecoder } from '../tools/RedFlagDecoder';
@@ -67,8 +67,18 @@ function SmartLink({ href = '', children, ...rest }: AnchorHTMLAttributes<HTMLAn
   return <ExternalLink href={href}>{children}</ExternalLink>;
 }
 
+/** Wide tables scroll inside their own box instead of pushing the page sideways on phones. */
+function ScrollTable(props: TableHTMLAttributes<HTMLTableElement>) {
+  return (
+    <div className="my-6 overflow-x-auto rounded-xl border border-border" tabIndex={0} role="region" aria-label="Table, scrolls sideways">
+      <table {...props} className="!my-0 min-w-[34rem]" />
+    </div>
+  );
+}
+
 export const mdxComponents: MDXComponents = {
   a: SmartLink,
+  table: ScrollTable,
   Callout,
   ToolLink,
   IndustryValue,

@@ -10,6 +10,7 @@ import type { ReleaseType } from '../../types/bible';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
+import { DateInput } from '../ui/DateInput';
 import { Input } from '../ui/input';
 import { ProgressBar } from '../ui/ProgressBar';
 import { StepHeading } from '../ui/StepHeading';
@@ -109,7 +110,7 @@ export function ReleaseCalculator() {
       <Card className="no-print grid gap-5 p-4 sm:p-5">
         <div>
           <label htmlFor="rel-date" className="mb-1.5 block font-bold">When does it come out?</label>
-          <Input id="rel-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+          <DateInput id="rel-date" value={date} onChange={(e) => setDate(e.target.value)} />
         </div>
         <div>
           <label htmlFor="rel-title" className="mb-1.5 block font-bold">What's it called? <span className="font-normal text-muted">(optional)</span></label>

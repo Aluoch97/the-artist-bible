@@ -81,7 +81,19 @@ a, button { -webkit-tap-highlight-color: transparent; }
 
 ::selection { background: var(--accent); color: var(--accent-fg); }
 
-input[type='date'] { color-scheme: dark; }
+/* Keep form controls inside their containers on iPhone Safari. */
+input, select, textarea { max-width: 100%; min-width: 0; }
+input[type='date'] {
+  color-scheme: dark;
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 3rem;
+  text-align: left;
+}
+input[type='date']::-webkit-date-and-time-value { text-align: left; min-height: 1.5em; }
+input[type='date']::-webkit-calendar-picker-indicator { opacity: 0.75; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

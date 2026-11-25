@@ -8,6 +8,7 @@ import { cn } from '../../lib/utils';
 import { COLLABORATOR_ROLES, type Collaborator } from '../../types/bible';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
+import { DateInput } from '../ui/DateInput';
 import { Input } from '../ui/input';
 import { StepHeading } from '../ui/StepHeading';
 import { ToolHeader } from '../ui/ToolHeader';
@@ -151,7 +152,7 @@ export function SplitSheetBuilder() {
         </div>
         <div>
           <label htmlFor="ss-date" className="mb-1.5 block font-bold">Session date</label>
-          <Input id="ss-date" type="date" value={draft.sessionDate} onChange={(e) => updateSplitSheet({ sessionDate: e.target.value })} />
+          <DateInput id="ss-date" value={draft.sessionDate} onChange={(e) => updateSplitSheet({ sessionDate: e.target.value })} />
         </div>
       </Card>
 

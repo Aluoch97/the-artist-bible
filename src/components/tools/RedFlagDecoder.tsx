@@ -104,7 +104,7 @@ export function RedFlagDecoder({ embedded = false }: { embedded?: boolean }) {
             onChange={(e) => setQuery(e.target.value)}
           />
         </div>
-        <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1" role="group" aria-label="Filter by category">
+        <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by category">
           {CATEGORIES.map((c) => (
             <button
               key={c}
@@ -112,7 +112,7 @@ export function RedFlagDecoder({ embedded = false }: { embedded?: boolean }) {
               aria-pressed={category === c}
               onClick={() => setCategory(c)}
               className={cn(
-                'h-10 shrink-0 cursor-pointer rounded-full border px-4 text-sm font-bold transition-colors',
+                'h-10 cursor-pointer rounded-full border px-4 text-sm font-bold transition-colors',
                 category === c ? 'border-accent bg-accent text-accent-fg' : 'border-border bg-surface text-muted hover:text-fg',
               )}
             >
