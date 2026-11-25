@@ -3,3 +3,6 @@ dist
 dev-dev-dist
 *.local
 .DS_Store
+
+# local read-only reference clones of other repos
+aluoch97/
