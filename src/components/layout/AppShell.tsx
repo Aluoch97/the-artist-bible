@@ -26,6 +26,9 @@ const TABS: Tab[] = [
   { to: '/guides', label: 'Learn', icon: BookOpen, also: ['/red-flags'] },
 ];
 
+// Phones keep Home raised in the middle; the desktop menu reads left to right with Home first.
+const DESKTOP_TABS: Tab[] = [...TABS.filter((t) => t.home), ...TABS.filter((t) => !t.home)];
+
 function isCurrent(tab: Tab, path: string): boolean {
   if (tab.to === '/') return path === '/';
   return [tab.to, ...(tab.also ?? [])].some((p) => path === p || path.startsWith(`${p}/`));
@@ -72,7 +75,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </Link>
 
           <nav aria-label="Main" className="hidden justify-self-center rounded-full border border-border bg-surface p-1 lg:flex">
-            {TABS.map((t) => (
+            {DESKTOP_TABS.map((t) => (
               <Link
                 key={t.to}
                 to={t.to}
