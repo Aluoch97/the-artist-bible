@@ -1,10 +1,10 @@
-import { AlertTriangle, CalendarCheck, Check, Link2, PartyPopper, Plus, Printer, Trash2 } from 'lucide-react';
+import { AlertTriangle, CalendarCheck, Check, Flag, Link2, PartyPopper, Plus, Printer, Trash2 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { startNewRelease as startNewReleaseAction, useLocalProgress } from '../../hooks/useLocalProgress';
 import { copyText } from '../../lib/clipboard';
 import { daysBetween, formatLongDate, formatISOForDisplay, parseISODate, todayISO } from '../../lib/dates';
-import { milestonesFor, planRelease, relativeDays } from '../../lib/release';
+import { milestonesFor, planRelease, relativeDays, type PlannedMilestone } from '../../lib/release';
 import { cn, newId } from '../../lib/utils';
 import type { ReleaseType } from '../../types/bible';
 import { Badge } from '../ui/badge';
@@ -24,6 +24,56 @@ const TYPE_OPTIONS: { value: ReleaseType; label: string; tip: string }[] = [
 
 const isType = (v: string | null): v is ReleaseType => v === 'single' || v === 'ep' || v === 'album';
 const shortDate = (d: Date) => d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+
+/** The whole journey at a glance: one circle per step, ending on release day. Tap one to jump to it. */
+function TimelineStrip({ steps, completed, nextId }: { steps: PlannedMilestone[]; completed: string[]; nextId: string | undefined }) {
+  const first = steps[0];
+  const last = steps[steps.length - 1];
+  if (!first || !last) return null;
+  const range = `${shortDate(first.due).replace(/^\w+, /, '')} to ${shortDate(last.due).replace(/^\w+, /, '')}`;
+  return (
+    <div className="no-print mt-6">
+      <p className="mb-2 flex items-baseline justify-between text-sm">
+        <span className="font-bold">Your timeline</span>
+        <span className="text-muted">{range}</span>
+      </p>
+      <ul className="-mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-2" aria-label="Release timeline">
+        {steps.map((m) => {
+          const done = completed.includes(m.id);
+          const isNext = m.id === nextId;
+          const overdue = !done && m.daysFromNow < 0;
+          const isRelease = m.weeksOut === 0;
+          const state = done ? 'done' : overdue ? 'behind' : isNext ? 'next' : 'upcoming';
+          return (
+            <li key={m.id} className="relative snap-start">
+              <a
+                href={`#step-${m.id}`}
+                className="flex w-[3.75rem] flex-col items-center gap-1.5 text-center"
+              >
+                <span
+                  className={cn(
+                    'grid h-12 w-12 place-items-center rounded-full border-2 text-sm font-extrabold transition-colors',
+                    state === 'done' && 'border-accent bg-accent text-accent-fg',
+                    state === 'next' && 'border-accent bg-accent/15 text-fg shadow-[0_0_0_4px_color-mix(in_srgb,var(--accent)_22%,transparent)]',
+                    state === 'behind' && 'border-warn bg-warn/15 text-warn',
+                    state === 'upcoming' && 'border-border bg-surface text-muted',
+                  )}
+                >
+                  {state === 'done' ? <Check className="h-5 w-5" strokeWidth={3} aria-hidden="true" /> : isRelease ? <Flag className="h-5 w-5" aria-hidden="true" /> : state === 'behind' ? '!' : `${m.weeksOut}w`}
+                </span>
+                <span className="sr-only">
+                  {isRelease ? 'Release day' : `${m.weeksOut} ${m.weeksOut === 1 ? 'week' : 'weeks'} before`}: {m.label}. {state === 'done' ? 'Done.' : state === 'behind' ? 'Behind.' : state === 'next' ? 'Next up.' : 'Coming up.'}
+                </span>
+                <span className={cn('text-xs font-bold leading-tight', isNext && !done ? 'text-accent' : 'text-fg')}>{shortDate(m.due).replace(/^\w+, /, '')}</span>
+                <span className="-mt-1 text-[11px] leading-none text-muted">{isRelease ? 'Release' : isNext && !done ? 'Next' : ''}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
 
 function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boolean }) {
   const [params, setParams] = useSearchParams();
@@ -172,6 +222,8 @@ function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boole
             )
           )}
 
+          <TimelineStrip steps={milestones} completed={completed} nextId={nextUp?.id} />
+
           <StepHeading title="Your full plan" hint={`${doneCount} of ${milestones.length} done`} />
           <ProgressBar value={milestones.length ? (doneCount / milestones.length) * 100 : 0} label="Release plan progress" className="mb-4" />
 
@@ -180,7 +232,7 @@ function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boole
               const isDone = completed.includes(m.id);
               const overdue = !isDone && m.daysFromNow < 0;
               return (
-                <li key={m.id} className="print-break-avoid">
+                <li key={m.id} id={`step-${m.id}`} className="print-break-avoid">
                   <label
                     className={cn(
                       'flex cursor-pointer items-start gap-3.5 rounded-2xl border bg-surface p-4 transition-colors has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-gold',

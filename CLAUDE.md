@@ -250,3 +250,10 @@ Two themes, both warm and built around the logo: **dark** (warm brown, the origi
 * Tokens live in `src/index.css` (`:root` = dark, `:root[data-theme='light']`, plus a no-JS fallback that follows the device). Never hardcode colors in components; use the tokens (`bg-bg`, `text-fg`, `text-accent`, ...).
 * `public/theme-init.js` runs before first paint (kept external because the CSP forbids inline scripts) so there is no flash of the wrong theme. Preference is stored in `artist_bible_ui_v1` (UI only), never in `artist_bible_v1`.
 * Orange is the brand accent; **green means success** and must not be replaced by the accent. Check contrast in both themes (axe) after any palette change.
+
+---
+
+## 11. UI direction (added after v1)
+Glass-and-gradient look inspired by modern course apps, in the logo's colors: a soft ambient glow behind every screen, translucent frosted cards (`--surface` is a translucent token; use `--surface-solid` where something must be opaque), a floating glass pill tab bar with a raised Home button, colorful pastel gradient cards with dark text for the three main starting points, and a hero where the logo artwork breaks out of its card. Headings use **Manrope** (a modern sans); body text uses Inter. The Release page has a "week strip" of circles, one per plan step, that jumps to each step.
+* Floating bars use mostly-opaque `--glass` so they stay readable where `backdrop-filter` is unsupported.
+* Visually hidden helper text inside scrolling rows must sit inside a `relative` ancestor, or it can widen the whole page on phones.
