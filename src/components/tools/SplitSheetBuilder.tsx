@@ -44,20 +44,24 @@ function PctInput({ value, onChange, label }: { value: number; onChange: (n: num
   );
 }
 
-function TotalChip({ title, status }: { title: string; status: SplitStatus }) {
-  const over = status.remaining < 0;
+function TotalItem({ title, status }: { title: string; status: SplitStatus }) {
+  const hint = status.ok ? '' : status.remaining < 0 ? ` (${fmtPct(Math.abs(status.remaining))} over)` : ` (${fmtPct(status.remaining)} left)`;
   return (
-    <div className={cn('rounded-xl px-3 py-2', status.ok ? 'bg-accent/15 text-accent' : 'bg-warn/15 text-warn')}>
-      <div className="flex items-center justify-between gap-2">
-        <span className="text-xs font-bold">{title}</span>
-        {status.ok ? <CheckCircle2 className="h-4 w-4" aria-hidden="true" /> : <AlertCircle className="h-4 w-4" aria-hidden="true" />}
-      </div>
-      <div className="font-display text-xl font-bold leading-tight tabular-nums">{fmtPct(status.total)}</div>
-      <p className="text-xs font-semibold" role="status">
-        {status.ok ? 'Adds up to 100%' : over ? `Over by ${fmtPct(Math.abs(status.remaining))}` : `${fmtPct(status.remaining)} still unassigned`}
-      </p>
-    </div>
+    <span className={cn('flex min-w-0 items-center gap-1 whitespace-nowrap', status.ok ? 'text-accent' : 'text-warn')}>
+      {status.ok ? <CheckCircle2 className="h-4 w-4 shrink-0" aria-hidden="true" /> : <AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" />}
+      <span>
+        {title}: <strong className="tabular-nums">{fmtPct(status.total)}</strong>
+        {hint && <span className="text-xs font-semibold">{hint}</span>}
+      </span>
+    </span>
   );
+}
+
+function totalMessage(title: string, status: SplitStatus): string {
+  if (status.ok) return `${title} adds up to 100%.`;
+  return status.remaining < 0
+    ? `${title} is over by ${fmtPct(Math.abs(status.remaining))}.`
+    : `${title} has ${fmtPct(status.remaining)} still unassigned.`;
 }
 
 const BAR_COLORS = ['bg-accent', 'bg-gold', 'bg-pink', 'bg-sky-400', 'bg-violet-400', 'bg-lime-300'];
@@ -232,10 +236,12 @@ export function SplitSheetBuilder() {
         </ul>
       </div>
 
-      {/* Always-visible running total so you can see it while typing on a phone. */}
-      <div className="no-print sticky bottom-[calc(var(--tab-h)+0.5rem)] z-10 mt-6 grid grid-cols-2 gap-2 rounded-2xl border border-border bg-bg/95 p-2 shadow-[0_8px_30px_rgba(0,0,0,0.5)] backdrop-blur-md">
-        <TotalChip title="Recording total" status={master} />
-        <TotalChip title="Song total" status={pub} />
+      {/* Always-visible running total: one slim row so it barely covers the form on a phone. */}
+      <div className="no-print sticky bottom-[calc(var(--tab-h)+0.5rem)] z-10 mt-6 flex items-center justify-center gap-2 rounded-full border border-border bg-bg/95 px-3 py-2 text-sm font-bold shadow-[0_6px_24px_rgba(0,0,0,0.5)] backdrop-blur-md">
+        <TotalItem title="Recording" status={master} />
+        <span className="text-muted" aria-hidden="true">&bull;</span>
+        <TotalItem title="Song" status={pub} />
+        <p className="sr-only" role="status">{totalMessage('Recording', master)} {totalMessage('Song', pub)}</p>
       </div>
 
       <StepHeading n={3} title="Send it" hint="Both totals need to be 100% first." />

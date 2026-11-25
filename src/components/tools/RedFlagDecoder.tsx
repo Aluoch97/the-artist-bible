@@ -8,6 +8,8 @@ import { Input } from '../ui/input';
 import { ToolHeader } from '../ui/ToolHeader';
 
 const CATEGORIES: ('All' | RedFlagCategory)[] = ['All', 'Contract', 'Distribution', 'Streaming Scam', 'Scam'];
+/** Short labels so every filter pill fits on a narrow phone. */
+const CATEGORY_LABEL: Record<string, string> = { 'Streaming Scam': 'Streaming' };
 
 function matches(flag: RedFlag, q: string): boolean {
   if (!q) return true;
@@ -73,7 +75,7 @@ function FlagCard({ flag }: { flag: RedFlag }) {
   );
 }
 
-export function RedFlagDecoder({ embedded = false }: { embedded?: boolean }) {
+export function RedFlagDecoder({ embedded = false, className }: { embedded?: boolean; className?: string }) {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<(typeof CATEGORIES)[number]>('All');
 
@@ -83,7 +85,7 @@ export function RedFlagDecoder({ embedded = false }: { embedded?: boolean }) {
   );
 
   return (
-    <section className={embedded ? 'not-prose my-8' : undefined}>
+    <section className={cn(embedded && 'not-prose', className)}>
       {!embedded && (
         <ToolHeader
           title="Red flag decoder"
@@ -99,7 +101,7 @@ export function RedFlagDecoder({ embedded = false }: { embedded?: boolean }) {
             id={`rf-search${embedded ? '-e' : ''}`}
             type="search"
             value={query}
-            placeholder="Try: 360, perpetual, playlist, renewal"
+            placeholder="Search: 360, playlist, renewal"
             className="rounded-full pl-11"
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -116,7 +118,7 @@ export function RedFlagDecoder({ embedded = false }: { embedded?: boolean }) {
                 category === c ? 'border-accent bg-accent text-accent-fg' : 'border-border bg-surface text-muted hover:text-fg',
               )}
             >
-              {c}
+              {CATEGORY_LABEL[c] ?? c}
             </button>
           ))}
         </div>

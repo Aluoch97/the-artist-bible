@@ -87,5 +87,5 @@ export const mdxComponents: MDXComponents = {
   Milestones,
   TwoHundredPercent,
   RoyaltyAudit: () => <RoyaltyAudit embedded />,
-  RedFlagDecoder: () => <RedFlagDecoder embedded />,
+  RedFlagDecoder: () => <RedFlagDecoder embedded className="my-8" />,
 };
