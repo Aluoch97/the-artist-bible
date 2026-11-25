@@ -9,7 +9,7 @@ export function AboutPage() {
 
       <div className="chapter-prose prose max-w-none">
         <h2>What this is</h2>
-        <p>The Artist Bible is a free, independent project: plain-English guides and a few tools (release planner, royalty checklist, split sheet, red-flag decoder) for independent recording artists. It is not a law firm, a label, a distributor or a financial adviser.</p>
+        <p>The Artist Bible is a free project created by <strong>NuRenaissance Media</strong>: plain-English guides and a few tools (release planner, royalty checklist, split sheet, red-flag decoder) for independent recording artists. It is not a law firm, a label, a distributor or a financial adviser.</p>
 
         <h2>Who it&apos;s for</h2>
         <p>The royalty, PRO, mechanical and neighboring-rights information here describes the <strong>United States</strong>. If you release music elsewhere, your country has its own collection societies and rules, though the split-sheet and release tools still apply.</p>
@@ -22,7 +22,7 @@ export function AboutPage() {
         </ul>
         <p>Once installed it opens full screen and works offline. Your saved work lives on the device, and browsers can clear saved data for sites you haven&apos;t installed, so download a backup now and then (the backup button, top right).</p>
 
-        <h2>Privacy</h2>
+        <h2 id="privacy">Privacy</h2>
         <ul>
           <li><strong>No accounts, no ads, no tracking.</strong> The app has no analytics, no advertising, no cookies and no third-party scripts or fonts.</li>
           <li><strong>What you type stays on your device.</strong> Checklists, release plans and split-sheet drafts (including names and PRO/IPI numbers you enter) are saved in your browser&apos;s local storage. We never receive them.</li>
@@ -32,8 +32,9 @@ export function AboutPage() {
           <li><strong>Erasing your data.</strong> Use the backup button (top right) and choose &quot;Erase local data&quot;, or clear this site&apos;s data in your browser settings.</li>
         </ul>
 
-        <h2>Terms of use</h2>
+        <h2 id="terms">Terms of use</h2>
         <ul>
+          <li><strong>Created by NuRenaissance Media.</strong> The Artist Bible, including its design, guides and tools, was created by NuRenaissance Media.</li>
           <li><strong>Educational information only.</strong> Nothing here is legal, financial or tax advice. Fees, rules and deadlines change. Check official sources and talk to an entertainment attorney before signing anything.</li>
           <li><strong>Documents are tools, not contracts.</strong> A split sheet PDF records what collaborators say they agreed. It may not be enough on its own for a binding agreement in your situation.</li>
           <li><strong>No warranty.</strong> The app and content are provided &quot;as is&quot;, without guarantees of accuracy or availability, and we are not liable for decisions made using them.</li>

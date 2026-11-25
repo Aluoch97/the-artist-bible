@@ -2,9 +2,11 @@ import { BookOpen, CalendarCheck, CircleDollarSign, Download, FileSignature, Har
 import type { LucideIcon } from 'lucide-react';
 import { useState, type ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { industryData } from '../../data';
 import { usePwaInstall } from '../../hooks/usePwaInstall';
 import { cn } from '../../lib/utils';
 import { BackupModal } from './BackupModal';
+import { SOCIAL_ICON_PATHS } from './socialIcons';
 
 interface Tab {
   to: string;
@@ -111,11 +113,31 @@ export function AppShell({ children }: { children: ReactNode }) {
         {children}
       </main>
 
-      <footer className="no-print border-t border-border px-4 pb-[calc(var(--tab-h)+1.5rem)] pt-6 text-center text-sm text-muted">
-        <p className="font-semibold text-fg">Free. No ads. No accounts.</p>
-        <p className="mt-1">Everything you enter stays on your device.</p>
-        <p className="mt-3 text-xs">Guides are educational, not legal or financial advice.</p>
-        <p className="mt-2"><Link to="/about" className="inline-flex min-h-11 items-center font-semibold text-fg underline underline-offset-4">About, privacy &amp; terms</Link></p>
+      <footer className="no-print border-t border-border px-4 pb-[calc(var(--tab-h)+1.5rem)] pt-8 text-center">
+        <ul aria-label="Social links" className="flex flex-wrap justify-center gap-3">
+          {industryData.site.socials.map((s) => (
+            <li key={s.label}>
+              <a
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${s.label} (opens in a new tab)`}
+                className="grid h-12 w-12 place-items-center rounded-full bg-surface-2 text-gold transition-colors hover:bg-border hover:text-fg"
+              >
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d={SOCIAL_ICON_PATHS[s.icon]} /></svg>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <nav aria-label="Site links" className="mt-5 flex flex-wrap justify-center gap-x-7">
+          <Link to="/about" className="inline-flex min-h-11 items-center text-lg font-bold">About</Link>
+          <Link to="/about#install" className="inline-flex min-h-11 items-center text-lg font-bold">Add to Home Screen</Link>
+        </nav>
+        <p className="mt-2 flex flex-wrap justify-center gap-x-5 text-sm">
+          <Link to="/about#privacy" className="inline-flex min-h-11 items-center text-muted underline underline-offset-4 hover:text-fg">Privacy policy</Link>
+          <Link to="/about#terms" className="inline-flex min-h-11 items-center text-muted underline underline-offset-4 hover:text-fg">Terms</Link>
+        </p>
+        <p className="mt-3 text-sm text-muted">&copy; {new Date().getFullYear()} {industryData.site.owner}</p>
       </footer>
 
       {/* Bottom tab bar (phones and tablets). */}

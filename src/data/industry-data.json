@@ -2,7 +2,35 @@
   "lastVerified": "2026-11",
   "site": {
     "githubRepo": "https://github.com/Aluoch97/the-artist-bible",
-    "url": "https://bible.nrnszn.com"
+    "url": "https://bible.nrnszn.com",
+    "owner": "NuRenaissance Media",
+    "socials": [
+      {
+        "label": "Instagram",
+        "href": "https://www.instagram.com/nrnszn",
+        "icon": "instagram"
+      },
+      {
+        "label": "TikTok",
+        "href": "https://www.tiktok.com/@nrnszn",
+        "icon": "tiktok"
+      },
+      {
+        "label": "YouTube",
+        "href": "https://www.youtube.com/@nrnszn",
+        "icon": "youtube"
+      },
+      {
+        "label": "Facebook",
+        "href": "https://www.facebook.com/nrnsznllc",
+        "icon": "facebook"
+      },
+      {
+        "label": "Bandcamp",
+        "href": "https://nrnszn.bandcamp.com/",
+        "icon": "bandcamp"
+      }
+    ]
   },
   "royaltyEntities": [
     {

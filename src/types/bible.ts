@@ -67,7 +67,12 @@ export interface ResourceLink {
 
 export interface IndustryData {
   lastVerified: string; // YYYY-MM
-  site: { githubRepo: string; url: string };
+  site: {
+    githubRepo: string;
+    url: string;
+    owner: string;
+    socials: { label: string; href: string; icon: 'instagram' | 'tiktok' | 'youtube' | 'facebook' | 'bandcamp' }[];
+  };
   royaltyEntities: RoyaltyEntity[];
   releaseMilestones: ReleaseMilestone[];
   /** Extra steps shown only for that release type. */
