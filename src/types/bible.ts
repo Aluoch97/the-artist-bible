@@ -94,6 +94,8 @@ export interface RedFlag {
   whyItHurts: string;
   whatToDo: string[];
   lookFor: string[];
+  /** Case-insensitive regex sources the on-device contract scan looks for. */
+  detect: string[];
 }
 
 /* ---------- MDX chapters ---------- */
@@ -102,4 +104,14 @@ export interface ChapterFrontmatter {
   title: string;
   summary: string;
   lastVerified: string; // YYYY-MM
+}
+
+/* ---------- Contract check (AI review result from /api/review-contract) ---------- */
+
+export interface ContractReview {
+  overall: 'serious' | 'careful' | 'few_concerns';
+  summary: string[];
+  keyTerms: { label: string; plain: string }[];
+  flags: { severity: 'serious' | 'careful'; title: string; quote: string; quoteFound: boolean; why: string; askFor: string }[];
+  questions: string[];
 }

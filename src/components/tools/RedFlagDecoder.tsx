@@ -9,6 +9,11 @@ import { ToolHeader } from '../ui/ToolHeader';
 
 const CATEGORIES: ('All' | RedFlagCategory)[] = ['All', 'Contract', 'Distribution', 'Streaming Scam', 'Scam'];
 /** Short labels so every filter pill fits on a narrow phone. */
+const GROUPS = [
+  { severity: 'high', title: 'Serious', color: 'text-pink', hint: 'These can cost you ownership or a lot of money. Get a lawyer to look before you sign or pay.' },
+  { severity: 'medium', title: 'Be careful', color: 'text-gold', hint: 'Not always a deal-breaker, but ask questions and get the answers in writing.' },
+] as const;
+
 const CATEGORY_LABEL: Record<string, string> = { 'Streaming Scam': 'Streaming' };
 
 function matches(flag: RedFlag, q: string): boolean {
@@ -21,9 +26,12 @@ function matches(flag: RedFlag, q: string): boolean {
     .every((word) => hay.includes(word));
 }
 
-function FlagCard({ flag, level }: { flag: RedFlag; level: 2 | 3 }) {
-  const Title = level === 2 ? 'h2' : 'h3';
-  const Sub = level === 2 ? 'h3' : 'h4';
+type Level = 2 | 3 | 4 | 5 | 6;
+const tag = (n: number) => `h${Math.min(6, n)}` as 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
+function FlagCard({ flag, level }: { flag: RedFlag; level: Level }) {
+  const Title = tag(level);
+  const Sub = tag(level + 1);
   const [open, setOpen] = useState(false);
   const id = `flag-${flag.id}`;
   const high = flag.severity === 'high';
@@ -78,6 +86,7 @@ function FlagCard({ flag, level }: { flag: RedFlag; level: 2 | 3 }) {
 }
 
 export function RedFlagDecoder({ embedded = false, className, headingLevel = 2 }: { embedded?: boolean; className?: string; headingLevel?: 2 | 3 }) {
+  const Group = tag(headingLevel);
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<(typeof CATEGORIES)[number]>('All');
 
@@ -135,8 +144,22 @@ export function RedFlagDecoder({ embedded = false, className, headingLevel = 2 }
           Nothing matches. If something still feels off, get a second opinion before you sign or pay.
         </div>
       ) : (
-        <div className="space-y-3">
-          {results.map((f) => <FlagCard key={f.id} flag={f} level={headingLevel} />)}
+        <div className="space-y-8">
+          {GROUPS.map((g) => {
+            const items = results.filter((f) => f.severity === g.severity);
+            if (items.length === 0) return null;
+            return (
+              <section key={g.severity} aria-label={g.title}>
+                <Group className={cn('mb-1 flex items-center gap-2 font-display text-2xl font-bold', g.color)}>
+                  <TriangleAlert className="h-6 w-6" aria-hidden="true" /> {g.title} <span className="text-base font-semibold text-muted">({items.length})</span>
+                </Group>
+                <p className="mb-3 text-[15px] text-muted">{g.hint}</p>
+                <div className="space-y-3">
+                  {items.map((f) => <FlagCard key={f.id} flag={f} level={(headingLevel + 1) as Level} />)}
+                </div>
+              </section>
+            );
+          })}
         </div>
       )}
       <p className="mt-4 text-xs text-muted">Educational information, not legal advice. Have an entertainment attorney review any contract.</p>

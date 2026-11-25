@@ -39,6 +39,7 @@ export default function App() {
         <Route path="/split-sheet" element={<SplitSheetBuilder />} />
         <Route path="/red-flags" element={<LearnPage section="red-flags" />} />
         <Route path="/guides" element={<LearnPage section="guides" />} />
+        <Route path="/contract" element={<LearnPage section="contract" />} />
         <Route path="/guides/:slug" element={<ChapterPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="*" element={<NotFound />} />

@@ -23,7 +23,7 @@ const TABS: Tab[] = [
   { to: '/audit', label: 'Get Paid', icon: CircleDollarSign },
   { to: '/', label: 'Home', icon: Home, home: true },
   { to: '/split-sheet', label: 'Splits', icon: FileSignature },
-  { to: '/guides', label: 'Learn', icon: BookOpen, also: ['/red-flags'] },
+  { to: '/guides', label: 'Learn', icon: BookOpen, also: ['/red-flags', '/contract'] },
 ];
 
 // Phones keep Home raised in the middle; the desktop menu reads left to right with Home first.

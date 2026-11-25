@@ -14,6 +14,7 @@ const STATIC: Record<string, Meta> = {
   '/split-sheet': { title: 'Split sheet builder', description: 'Agree who owns what before you leave the studio. Split the recording and the song, then download a PDF or copy a text summary.' },
   '/guides': { title: 'Learn the business', description: 'Five short, plain-English guides for independent artists: rights, distribution, royalties and rollout.' },
   '/red-flags': { title: 'Red flag decoder', description: 'Contract traps and scams in plain English: 360 deals, perpetual ownership, pay-for-play playlisting and hidden fees.' },
+  '/contract': { title: 'Contract check', description: 'Add a contract and see which parts to worry about. Read on your device; optional AI review in plain English.' },
   '/about': { title: 'About, privacy & terms', description: 'What The Artist Bible stores, what it does not collect, and the terms for using it.' },
 };
 

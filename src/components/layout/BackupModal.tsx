@@ -82,7 +82,7 @@ export function BackupModal({ open, onClose }: { open: boolean; onClose: () => v
 
           <div>
             <h3 className="mb-2 font-bold">Restore from a backup</h3>
-            <input ref={fileRef} id="backup-file" type="file" accept="application/json,.json" className="sr-only" onChange={(e) => onPick(e.target.files?.[0])} />
+            <input ref={fileRef} id="backup-file" aria-label="Choose a backup file" tabIndex={-1} type="file" accept="application/json,.json" className="sr-only" onChange={(e) => onPick(e.target.files?.[0])} />
             <Button onClick={() => fileRef.current?.click()}><Upload className="h-4 w-4" aria-hidden="true" /> Choose backup file</Button>
 
             <div role="status" className="mt-3 text-sm">

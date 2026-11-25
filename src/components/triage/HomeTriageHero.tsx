@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, CalendarCheck, ChevronRight, CircleDollarSign, FileSignature, ShieldAlert } from 'lucide-react';
+import { ArrowRight, BookOpen, CalendarCheck, ChevronRight, CircleDollarSign, FileSearch, FileSignature, ShieldAlert } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLocalProgress } from '../../hooks/useLocalProgress';
@@ -131,6 +131,13 @@ export function HomeTriageHero() {
             <span>
               <span className="block font-bold">Red Flag Glossary</span>
               <span className="text-[15px] text-muted">Got a contract or a DM that feels off? Decode it here.</span>
+            </span>
+          </Link>
+          <Link to="/contract" className="flex items-start gap-3 rounded-2xl border border-border bg-surface p-4 transition-colors hover:border-accent/70 sm:col-span-2">
+            <FileSearch className="mt-0.5 h-6 w-6 shrink-0 text-accent" aria-hidden="true" />
+            <span>
+              <span className="block font-bold">Check a contract</span>
+              <span className="text-[15px] text-muted">Add a contract and see which parts to worry about. Read on your device.</span>
             </span>
           </Link>
         </div>

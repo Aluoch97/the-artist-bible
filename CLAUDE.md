@@ -220,3 +220,14 @@ When executing this spec:
 4. Write the 5 concise, high-signal MDX chapters with `lastVerified` metadata and the `"Spot outdated info?"` footer link.
 5. Add `.github/workflows/weekly-audit.yml` to check external URLs in `industry-data.json`.
 6. Run `npm run build` and verify zero TypeScript errors, zero broken imports, and clean static output in `dist/` ready for Cloudflare Pages.
+
+---
+
+## 8. Documented exception: optional Contract Check (added after v1)
+The spec's "100% static, no backend" rule has **one deliberate, optional exception**: `functions/api/review-contract.ts`, a Cloudflare Pages Function that calls Workers AI for the AI contract review. Everything else (including the instant on-device contract scan) stays static and local-first.
+
+Guardrails that keep it consistent with the non-negotiables:
+* **$0 / fail-closed:** it does nothing unless both bindings exist: `AI` (Workers AI) and `BUDGET` (a KV namespace holding only counters). Daily budget is capped well under Workers AI's free 10,000 neurons/day; each person is limited to 3 reviews/day.
+* **Privacy:** nothing is stored except a daily neuron total and a hashed per-person counter that expires. The UI requires explicit consent, offers redaction, and shows exactly what will be sent. The app must keep working fully with the function absent.
+* **Setup (Cloudflare dashboard, Pages project > Settings > Bindings):** add Workers AI as `AI`; create a KV namespace and bind it as `BUDGET`.
+* Tests: `functions/api/review-contract.ts` exports its handlers so they can be exercised with a fake `AI` and `BUDGET`.

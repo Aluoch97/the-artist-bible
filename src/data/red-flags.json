@@ -4,7 +4,10 @@
     "term": "360 Deal",
     "category": "Contract",
     "severity": "high",
-    "aliases": ["multiple rights deal", "all-in deal"],
+    "aliases": [
+      "multiple rights deal",
+      "all-in deal"
+    ],
     "plainEnglish": "A label takes a cut of everything you earn as an artist, not just record sales: touring, merch, sponsorships, even your publishing.",
     "whyItHurts": "You can end up paying a company that does nothing for your live shows or merch, and the cut often continues for the full term of the deal, which can be many years.",
     "whatToDo": [
@@ -12,14 +15,31 @@
       "Try to carve out touring, merch and publishing, or lower the percentage for them.",
       "Have an entertainment lawyer read it before you sign anything."
     ],
-    "lookFor": ["\"all income streams\"", "\"ancillary rights\"", "\"artist-related revenue\""]
+    "lookFor": [
+      "\"all income streams\"",
+      "\"ancillary rights\"",
+      "\"artist-related revenue\""
+    ],
+    "detect": [
+      "\\b360\\b",
+      "all income streams",
+      "ancillary rights",
+      "artist[- ]related (revenue|income)",
+      "multiple[- ]rights",
+      "touring.{0,80}merchandis",
+      "merchandis.{0,80}(commission|percent|share|%)"
+    ]
   },
   {
     "id": "perpetual_master",
     "term": "Perpetual Master Ownership",
     "category": "Contract",
     "severity": "high",
-    "aliases": ["forever ownership", "in perpetuity", "assignment of copyright"],
+    "aliases": [
+      "forever ownership",
+      "in perpetuity",
+      "assignment of copyright"
+    ],
     "plainEnglish": "The company owns your recordings forever, not for a set number of years. You can never get them back, even if the company does nothing with them.",
     "whyItHurts": "Your masters are your biggest long-term asset. Giving them up permanently means you stop controlling licensing, re-releases and sync deals for the rest of your life.",
     "whatToDo": [
@@ -27,14 +47,31 @@
       "If ownership transfers, ask for a reversion clause: the rights return to you after a fixed number of years or if sales stop.",
       "Never sign a perpetual deal as a rushed favor or a quick cash grab."
     ],
-    "lookFor": ["\"in perpetuity\"", "\"throughout the universe\"", "\"hereby assigns all right, title and interest\""]
+    "lookFor": [
+      "\"in perpetuity\"",
+      "\"throughout the universe\"",
+      "\"hereby assigns all right, title and interest\""
+    ],
+    "detect": [
+      "in perpetuity",
+      "perpetual(ly)?\\b",
+      "throughout the universe",
+      "hereby assigns?.{0,80}(right, title|all rights?)",
+      "irrevocabl",
+      "life of (the )?copyright",
+      "\\bforever\\b"
+    ]
   },
   {
     "id": "pay_for_play_playlist",
     "term": "Pay-for-Play Playlisting",
     "category": "Streaming Scam",
     "severity": "high",
-    "aliases": ["playlist placement", "guaranteed playlist", "playlist promotion"],
+    "aliases": [
+      "playlist placement",
+      "guaranteed playlist",
+      "playlist promotion"
+    ],
     "plainEnglish": "Someone charges you to put your song on a playlist and promises a number of streams or followers. Many of these playlists are filled with bots or fake accounts.",
     "whyItHurts": "Streaming platforms can detect artificial streams. The result can be removed tracks, withheld royalties, a flagged artist profile, or your distributor dropping your account.",
     "whatToDo": [
@@ -42,14 +79,28 @@
       "Never pay anyone who guarantees a stream count or a placement.",
       "If you already paid for one, stop and check your account for removal notices."
     ],
-    "lookFor": ["\"guaranteed streams\"", "\"1M plays in 30 days\"", "\"playlist submission fee\" with a promised result"]
+    "lookFor": [
+      "\"guaranteed streams\"",
+      "\"1M plays in 30 days\"",
+      "\"playlist submission fee\" with a promised result"
+    ],
+    "detect": [
+      "guarantee[sd]?.{0,40}(streams?|playlists?|placements?|plays)",
+      "playlist (placement|submission) fee",
+      "guaranteed (streams|plays|placement)"
+    ]
   },
   {
     "id": "botted_streams",
     "term": "Botted Streams & Fake Followers",
     "category": "Streaming Scam",
     "severity": "high",
-    "aliases": ["stream farms", "buy streams", "buy followers", "fake plays"],
+    "aliases": [
+      "stream farms",
+      "buy streams",
+      "buy followers",
+      "fake plays"
+    ],
     "plainEnglish": "Streams, saves or followers created by automated accounts or click farms, usually sold as a \"growth service\".",
     "whyItHurts": "Fake numbers do not turn into real fans. They distort your analytics, and platforms may penalize you or fine your distributor.",
     "whatToDo": [
@@ -57,14 +108,28 @@
       "Look for sudden spikes from one country or with no saves and no listener growth.",
       "Report suspicious activity to your distributor right away."
     ],
-    "lookFor": ["\"organic\" with no explanation of how", "prices per 1,000 streams"]
+    "lookFor": [
+      "\"organic\" with no explanation of how",
+      "prices per 1,000 streams"
+    ],
+    "detect": [
+      "(buy|purchase)\\w*.{0,20}(streams|followers|plays)",
+      "organic (growth|streams|promotion)",
+      "guaranteed (followers|views|listeners)",
+      "per 1,?000 (streams|plays)"
+    ]
   },
   {
     "id": "hidden_renewal_fees",
     "term": "Hidden Distributor Renewal Fees",
     "category": "Distribution",
     "severity": "medium",
-    "aliases": ["annual fees", "yearly renewal", "release renewal", "takedown fee"],
+    "aliases": [
+      "annual fees",
+      "yearly renewal",
+      "release renewal",
+      "takedown fee"
+    ],
     "plainEnglish": "A distributor that looks cheap at signup but charges every year per release, so your music is taken down if you stop paying.",
     "whyItHurts": "Years later, a catalog of old releases can turn into a recurring bill, and a lapsed payment can pull the songs off streaming, breaking playlists and linked profile history.",
     "whatToDo": [
@@ -72,14 +137,29 @@
       "Check what happens to your releases if you stop paying.",
       "Keep a spreadsheet of every release and renewal date."
     ],
-    "lookFor": ["\"annual\"", "\"per release per year\"", "\"keep your music live\""]
+    "lookFor": [
+      "\"annual\"",
+      "\"per release per year\"",
+      "\"keep your music live\""
+    ],
+    "detect": [
+      "(annual|yearly|renewal) (fee|charge|payment)",
+      "per release,? per year",
+      "keep your (music|releases?) (live|up)",
+      "take-?down fee",
+      "auto(matically)?[- ]renew"
+    ]
   },
   {
     "id": "unrecouped_advance",
     "term": "Recoupment & Cross-Collateralization",
     "category": "Contract",
     "severity": "high",
-    "aliases": ["recoupable advance", "unrecouped balance", "cross-collateralized"],
+    "aliases": [
+      "recoupable advance",
+      "unrecouped balance",
+      "cross-collateralized"
+    ],
     "plainEnglish": "An advance is a loan against your future royalties. Recoupment means you receive no royalties until the label earns back everything it spent. Cross-collateralization means losses on one record or cost are charged against earnings from others.",
     "whyItHurts": "You can have a hit and still receive nothing, because marketing, video and recording costs may all be treated as your debt.",
     "whatToDo": [
@@ -87,14 +167,28 @@
       "Ask that each release stands alone for recoupment.",
       "Ask for audit rights so you can verify statements."
     ],
-    "lookFor": ["\"recoupable from royalties\"", "\"cross-collateralize\"", "\"all costs advanced\""]
+    "lookFor": [
+      "\"recoupable from royalties\"",
+      "\"cross-collateralize\"",
+      "\"all costs advanced\""
+    ],
+    "detect": [
+      "recoup",
+      "cross[- ]collateral",
+      "advance.{0,80}(recoupable|against|deducted)",
+      "all costs.{0,40}(advanced|charged|deducted)",
+      "chargeable (to|against) (the )?artist"
+    ]
   },
   {
     "id": "work_for_hire",
     "term": "Work-for-Hire Clause",
     "category": "Contract",
     "severity": "high",
-    "aliases": ["work made for hire", "WFH"],
+    "aliases": [
+      "work made for hire",
+      "WFH"
+    ],
     "plainEnglish": "The company is legally treated as the author of your work from the moment you create it, as if you were an employee.",
     "whyItHurts": "You may lose ownership and statutory rights to reclaim copyrights later. It is often used to take songs or recordings outright.",
     "whatToDo": [
@@ -102,14 +196,26 @@
       "Ask a lawyer whether it applies to what you are doing.",
       "If you are the one hiring producers or engineers, use a clear agreement instead of relying on handshakes."
     ],
-    "lookFor": ["\"work made for hire\"", "\"employer for hire\""]
+    "lookFor": [
+      "\"work made for hire\"",
+      "\"employer for hire\""
+    ],
+    "detect": [
+      "works? made for hire",
+      "work[- ]for[- ]hire",
+      "employer[- ]for[- ]hire"
+    ]
   },
   {
     "id": "pay_to_play",
     "term": "Pay-to-Play Showcases",
     "category": "Scam",
     "severity": "medium",
-    "aliases": ["pay to perform", "ticket quotas", "buy-on slots"],
+    "aliases": [
+      "pay to perform",
+      "ticket quotas",
+      "buy-on slots"
+    ],
     "plainEnglish": "A venue or promoter makes you buy tickets, bring a minimum number of paying people, or pay a fee for the chance to play or be \"seen by industry\".",
     "whyItHurts": "The only guaranteed beneficiary is the promoter. \"Industry\" attendees are often nonexistent.",
     "whatToDo": [
@@ -117,14 +223,28 @@
       "Prefer shows where you get a door split or a guaranteed fee.",
       "Check reviews from other artists before agreeing."
     ],
-    "lookFor": ["\"ticket minimum\"", "\"presale commitment\"", "\"A&R will be attending\" with no names"]
+    "lookFor": [
+      "\"ticket minimum\"",
+      "\"presale commitment\"",
+      "\"A&R will be attending\" with no names"
+    ],
+    "detect": [
+      "ticket (minimum|quota|commitment|guarantee)",
+      "presale commitment",
+      "pay[- ]to[- ](play|perform)",
+      "minimum (of )?\\d+ (paid )?(guests|attendees|tickets|people)"
+    ]
   },
   {
     "id": "label_services_upfront",
     "term": "Pay-Upfront \"Label Services\"",
     "category": "Scam",
     "severity": "high",
-    "aliases": ["record deal for a fee", "artist development fee", "vanity label"],
+    "aliases": [
+      "record deal for a fee",
+      "artist development fee",
+      "vanity label"
+    ],
     "plainEnglish": "A \"label\" asks you to pay for your own recording, marketing or \"development\" and then promises a deal or promotion.",
     "whyItHurts": "Real labels invest their own money. If you are paying for everything, you are the customer, and may also be signing away rights.",
     "whatToDo": [
@@ -132,14 +252,27 @@
       "Make sure the deal does not also take ownership or a share of your income.",
       "Search the company name plus \"scam\" or \"complaints\"."
     ],
-    "lookFor": ["\"development fee\"", "\"processing fee\" before an offer"]
+    "lookFor": [
+      "\"development fee\"",
+      "\"processing fee\" before an offer"
+    ],
+    "detect": [
+      "development fee",
+      "processing fee",
+      "(upfront|up-front) (fee|payment).{0,60}(promotion|marketing|recording|deal)",
+      "marketing (package|fee).{0,60}(sign|deal|release)"
+    ]
   },
   {
     "id": "publishing_grab",
     "term": "Publishing Grab",
     "category": "Contract",
     "severity": "high",
-    "aliases": ["publishing administration", "co-publishing", "songwriter share"],
+    "aliases": [
+      "publishing administration",
+      "co-publishing",
+      "songwriter share"
+    ],
     "plainEnglish": "A deal that quietly gives away part or all of your publishing, which is your songwriter income, when you only wanted a service such as collection or admin.",
     "whyItHurts": "Publishing income can last decades and is separate from the master. Giving it away early is hard to reverse.",
     "whatToDo": [
@@ -147,14 +280,30 @@
       "Ask exactly what is being transferred and for how long.",
       "Get a lawyer to review any deal that mentions publishing."
     ],
-    "lookFor": ["\"assignment of copyright\"", "\"exclusive songwriter agreement\"", "\"co-publishing\""]
+    "lookFor": [
+      "\"assignment of copyright\"",
+      "\"exclusive songwriter agreement\"",
+      "\"co-publishing\""
+    ],
+    "detect": [
+      "co-?publish",
+      "exclusive songwriter",
+      "(assign|transfer)\\w*.{0,60}(copyright|composition|publishing)",
+      "publishing (rights|share|interest).{0,80}(assign|transfer|owned by)",
+      "songwriter'?s? share"
+    ]
   },
   {
     "id": "long_exclusive",
     "term": "Long Exclusivity & Option Clauses",
     "category": "Contract",
     "severity": "medium",
-    "aliases": ["options", "exclusive term", "key person", "re-record restriction"],
+    "aliases": [
+      "options",
+      "exclusive term",
+      "key person",
+      "re-record restriction"
+    ],
     "plainEnglish": "You can only release music through one company for a long time, and the company holds options to extend the deal on its own schedule. A re-record restriction stops you from remaking the songs later.",
     "whyItHurts": "If the company stops supporting you, you can still be stuck unable to release elsewhere for years.",
     "whatToDo": [
@@ -162,14 +311,30 @@
       "Add a minimum release commitment so you are not stuck if they do nothing.",
       "Check the re-record restriction length."
     ],
-    "lookFor": ["\"option to extend\"", "\"exclusive services\"", "\"re-recording restriction\""]
+    "lookFor": [
+      "\"option to extend\"",
+      "\"exclusive services\"",
+      "\"re-recording restriction\""
+    ],
+    "detect": [
+      "exclusive (recording )?(services|artist|agreement)",
+      "options? to (extend|renew)",
+      "re-?record(ing)? restriction",
+      "\\b(\\d+|five|six|seven|eight|nine|ten)[- ]years?\\b.{0,30}(term|period)",
+      "(first|second|third) option period",
+      "key[- ]?person"
+    ]
   },
   {
     "id": "distributor_perpetual_license",
     "term": "Lifetime Licensing by a Distributor",
     "category": "Distribution",
     "severity": "high",
-    "aliases": ["irrevocable license", "perpetual license", "non-terminable"],
+    "aliases": [
+      "irrevocable license",
+      "perpetual license",
+      "non-terminable"
+    ],
     "plainEnglish": "A distribution agreement that makes it hard or impossible to remove your music, or keeps taking a share after you leave.",
     "whyItHurts": "A normal distribution agreement should be a service you can cancel. If you can't leave, you've lost control of your catalog.",
     "whatToDo": [
@@ -177,14 +342,29 @@
       "Avoid any agreement where you cannot remove your music on notice.",
       "Check if the distributor takes any ownership share."
     ],
-    "lookFor": ["\"irrevocable\"", "\"perpetual\"", "\"may not terminate\""]
+    "lookFor": [
+      "\"irrevocable\"",
+      "\"perpetual\"",
+      "\"may not terminate\""
+    ],
+    "detect": [
+      "irrevocabl",
+      "non[- ]terminabl",
+      "may not terminate",
+      "perpetual licen[sc]e",
+      "(cannot|may not|shall not) (be )?(remov|take down)"
+    ]
   },
   {
     "id": "copyright_scam_mail",
     "term": "Official-Looking Copyright or Royalty Invoices",
     "category": "Scam",
     "severity": "medium",
-    "aliases": ["copyright registration scam", "unclaimed royalties", "fake invoice"],
+    "aliases": [
+      "copyright registration scam",
+      "unclaimed royalties",
+      "fake invoice"
+    ],
     "plainEnglish": "Letters or emails that look official and say you must pay to \"register\", \"protect\" or \"claim\" your music, or that unclaimed royalties are waiting for a fee.",
     "whyItHurts": "They imitate real institutions. Real collection societies and registries do not demand surprise payments by email.",
     "whatToDo": [
@@ -192,6 +372,17 @@
       "Compare the sender with the official contact details.",
       "Never pay a fee to receive royalties."
     ],
-    "lookFor": ["urgent deadlines", "gift cards or wire transfers", "unfamiliar sender domains"]
+    "lookFor": [
+      "urgent deadlines",
+      "gift cards or wire transfers",
+      "unfamiliar sender domains"
+    ],
+    "detect": [
+      "unclaimed royalt",
+      "copyright registration (fee|service)",
+      "urgent.{0,30}(deadline|payment|action)",
+      "gift card",
+      "wire transfer"
+    ]
   }
 ]
