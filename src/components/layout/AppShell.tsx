@@ -34,21 +34,9 @@ function isCurrent(tab: Tab, path: string): boolean {
   return [tab.to, ...(tab.also ?? [])].some((p) => path === p || path.startsWith(`${p}/`));
 }
 
+/** The logo lives in one file: public/logo.svg. Replace that file (then run `npm run icons`) to rebrand. */
 export function Logo({ size = 36 }: { size?: number }) {
-  return (
-    <svg viewBox="0 0 64 64" width={size} height={size} aria-hidden="true" className="shrink-0">
-      <rect width="64" height="64" rx="15" fill="#0e0b16" />
-      <rect x="14" y="9" width="37" height="46" rx="5" fill="#3ee08f" />
-      <rect x="14" y="9" width="8" height="46" rx="4" fill="#1fa868" />
-      <g fill="#07150e">
-        <rect x="26" y="28" width="3.4" height="10" rx="1.7" />
-        <rect x="32" y="21" width="3.4" height="24" rx="1.7" />
-        <rect x="38" y="25" width="3.4" height="16" rx="1.7" />
-        <rect x="44" y="31" width="3" height="6" rx="1.5" />
-      </g>
-      <path d="M42 9h8v17l-4-3.4L42 26z" fill="#e8bb52" />
-    </svg>
-  );
+  return <img src="/logo.svg" width={size} height={size} alt="" aria-hidden="true" className="shrink-0" />;
 }
 
 export function AppShell({ children }: { children: ReactNode }) {

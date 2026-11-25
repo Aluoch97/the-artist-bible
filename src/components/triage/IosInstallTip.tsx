@@ -13,8 +13,8 @@ export function IosInstallTip() {
       </button>
       <p className="font-bold text-gold">Put it on your Home Screen</p>
       <ol className="mt-2 space-y-1.5 text-[15px]">
-        <li className="flex items-center gap-2"><Share className="h-5 w-5 shrink-0 text-gold" aria-hidden="true" /> Tap the <strong>Share</strong> button in your browser.</li>
-        <li className="flex items-center gap-2"><SquarePlus className="h-5 w-5 shrink-0 text-gold" aria-hidden="true" /> Choose <strong>Add to Home Screen</strong>.</li>
+        <li className="flex items-start gap-2.5"><Share className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden="true" /><span>Tap the <strong>Share</strong> button in your browser.</span></li>
+        <li className="flex items-start gap-2.5"><SquarePlus className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden="true" /><span>Choose <strong>Add to Home Screen</strong>.</span></li>
       </ol>
       <p className="mt-2 text-sm text-muted">It opens full screen, works offline, and your saved work is safest there. Browsers can clear saved data for sites you don&apos;t install. <Link to="/about#install" className="font-semibold text-fg underline underline-offset-4">More help</Link></p>
     </aside>
