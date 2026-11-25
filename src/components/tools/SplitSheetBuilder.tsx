@@ -47,7 +47,7 @@ function PctInput({ value, onChange, label }: { value: number; onChange: (n: num
 function TotalItem({ title, status }: { title: string; status: SplitStatus }) {
   const hint = status.ok ? '' : status.remaining < 0 ? ` (${fmtPct(Math.abs(status.remaining))} over)` : ` (${fmtPct(status.remaining)} left)`;
   return (
-    <span className={cn('flex min-w-0 items-center gap-1 whitespace-nowrap', status.ok ? 'text-accent' : 'text-warn')}>
+    <span className={cn('flex min-w-0 items-center gap-1 whitespace-nowrap', status.ok ? 'text-good' : 'text-warn')}>
       {status.ok ? <CheckCircle2 className="h-4 w-4 shrink-0" aria-hidden="true" /> : <AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" />}
       <span>
         {title}: <strong className="tabular-nums">{fmtPct(status.total)}</strong>

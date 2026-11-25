@@ -25,12 +25,12 @@
   --border: #2f2742;
   --fg: #f4f1fb;
   --muted: #b0a6c9;
-  --accent: #3ee08f;
-  --accent-fg: #07150e;
-  --gold: #e8bb52;
+  --accent: #f08a3c; /* from the logo's guitar orange, lifted slightly for the dark UI */
+  --accent-fg: #1c0f05;
+  --gold: #f3c46b; /* the cymbal amber */
   --pink: #ff6aa6;
-  --good: #3ee08f;
-  --warn: #e8bb52;
+  --good: #3ee08f; /* success stays green so it never reads as the brand orange */
+  --warn: #f3c46b;
   --bad: #ff7d93;
   --tab-h: calc(60px + env(safe-area-inset-bottom));
 }
@@ -133,7 +133,7 @@ input[type='date']::-webkit-calendar-picker-indicator { opacity: 0.75; }
     --border: #cfcfd4;
     --fg: #111;
     --muted: #444;
-    --accent: #0f7a45;
+    --accent: #b45309;
     --accent-fg: #fff;
     --gold: #8a6508;
     --good: #0f7a45;

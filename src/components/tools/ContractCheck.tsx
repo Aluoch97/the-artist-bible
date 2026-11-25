@@ -118,7 +118,7 @@ function ScanResults({ findings }: { findings: ScanFinding[] }) {
 const OVERALL = {
   serious: { title: 'Several serious concerns', tone: 'border-pink/50 bg-pink/10 text-pink', body: 'Do not sign this without a lawyer reading it.' },
   careful: { title: 'Some things to negotiate', tone: 'border-gold/50 bg-gold/10 text-gold', body: 'Ask about the points below and get the answers in writing.' },
-  few_concerns: { title: 'No major problems spotted', tone: 'border-accent/50 bg-accent/10 text-accent', body: 'The AI can miss things. If money or ownership is involved, still have a lawyer read it.' },
+  few_concerns: { title: 'No major problems spotted', tone: 'border-good/50 bg-good/10 text-good', body: 'The AI can miss things. If money or ownership is involved, still have a lawyer read it.' },
 } as const;
 
 function AiResults({ r, model }: { r: ContractReview; model: string }) {

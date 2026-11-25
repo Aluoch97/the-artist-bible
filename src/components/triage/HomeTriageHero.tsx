@@ -21,7 +21,7 @@ interface TriageCard {
 
 const CARDS: TriageCard[] = [
   { to: '/release', title: "I'm about to drop a song", hint: 'Pick your release day and get a dated to-do list.', icon: CalendarCheck, tint: 'bg-accent/15 text-accent' },
-  { to: '/audit', title: 'I have music out. Am I missing money?', hint: 'Four free sign-ups that collect the money you are owed.', icon: CircleDollarSign, tint: 'bg-gold/15 text-gold' },
+  { to: '/audit', title: 'I have music out. Am I missing money?', hint: 'Four free sign-ups that collect the money you are owed.', icon: CircleDollarSign, tint: 'bg-good/15 text-good' },
   { to: '/split-sheet', title: "I'm in the studio with collaborators", hint: 'Write down who owns what before anyone leaves.', icon: FileSignature, tint: 'bg-pink/15 text-pink' },
 ];
 
