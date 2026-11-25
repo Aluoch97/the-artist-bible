@@ -24,7 +24,7 @@ const TABS: Tab[] = [
   { to: '/release', label: 'Release', icon: CalendarCheck },
   { to: '/audit', label: 'Get Paid', icon: CircleDollarSign },
   { to: '/', label: 'Home', icon: Home, home: true },
-  { to: '/tools', label: 'Tools', icon: Wrench, also: ['/split-sheet', '/streams'] },
+  { to: '/tools', label: 'Tools', icon: Wrench, also: ['/split-sheet', '/streams', '/songs', '/shows', '/epk', '/budget'] },
   { to: '/guides', label: 'Learn', icon: BookOpen, also: ['/red-flags', '/contract'] },
 ];
 
@@ -106,7 +106,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <GlossaryDialog />
 
       <main id="main" className={cn('mx-auto w-full flex-1 px-4 pb-[calc(var(--tab-h)+2.5rem)] pt-6 [overflow-wrap:anywhere] sm:pt-8', pathname === '/' ? 'max-w-3xl lg:max-w-5xl' : 'max-w-3xl')}>
-        {children}
+        <div key={path} className="page-enter">{children}</div>
       </main>
 
       <footer className="no-print border-t border-border px-4 pb-[calc(var(--tab-h)+1.5rem)] pt-8 text-center">

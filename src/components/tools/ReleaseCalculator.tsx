@@ -1,9 +1,10 @@
-import { AlertTriangle, CalendarCheck, Check, Flag, Link2, PartyPopper, Plus, Printer, Trash2 } from 'lucide-react';
+import { AlertTriangle, CalendarCheck, CalendarPlus, Check, Flag, Link2, PartyPopper, Plus, Printer, Trash2 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { startNewRelease as startNewReleaseAction, useLocalProgress } from '../../hooks/useLocalProgress';
 import { copyText } from '../../lib/clipboard';
-import { daysBetween, formatLongDate, formatISOForDisplay, parseISODate, todayISO } from '../../lib/dates';
+import { buildIcs, downloadIcs } from '../../lib/ics';
+import { daysBetween, formatLongDate, formatISOForDisplay, toISODate, parseISODate, todayISO } from '../../lib/dates';
 import { milestonesFor, planRelease, relativeDays, type PlannedMilestone } from '../../lib/release';
 import { cn, newId } from '../../lib/utils';
 import type { ReleaseType } from '../../types/bible';
@@ -125,6 +126,16 @@ function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boole
   const completed = saved && targetDate && saved.releaseDate === date ? saved.completedMilestoneIds : [];
   const canCheck = Boolean(saved && saved.releaseDate === date);
   const doneCount = milestones.filter((m) => completed.includes(m.id)).length;
+  const addToCalendar = () => {
+    const name = title.trim() || 'Release';
+    const events = milestones.map((m) => ({
+      uid: `${date}-${m.id}`,
+      date: toISODate(m.due),
+      summary: `${name}: ${m.label}`,
+      description: m.weeksOut === 0 ? 'Release day.' : `${m.weeksOut} ${m.weeksOut === 1 ? 'week' : 'weeks'} before release day. Planned with The Artist Bible.`,
+    }));
+    downloadIcs(`${name.replace(/[^\w\- ]+/g, '').trim().replace(/\s+/g, '-') || 'release'}-plan.ics`, buildIcs(events, `${name} release plan`));
+  };
   const planWords = useMemo(() => termsIn(milestones.map((m) => m.label)), [milestones]);
   const behind = milestones.filter((m) => m.daysFromNow < 0 && !completed.includes(m.id)).length;
   const nextUp = milestones.find((m) => !completed.includes(m.id));
@@ -207,7 +218,7 @@ function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boole
 
           {allDone ? (
             <Card className="mt-5 flex items-center gap-3 border-accent/50 bg-accent/10 p-5">
-              <PartyPopper className="h-7 w-7 shrink-0 text-accent" aria-hidden="true" />
+              <PartyPopper className="pop h-7 w-7 shrink-0 text-accent" aria-hidden="true" />
               <p className="font-semibold">Every step is done. Go enjoy release day.</p>
             </Card>
           ) : (
@@ -252,7 +263,7 @@ function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boole
                       aria-hidden="true"
                       className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 border-muted/70 text-transparent transition-colors peer-checked:border-accent peer-checked:bg-accent peer-checked:text-accent-fg"
                     >
-                      <Check className="h-4 w-4" strokeWidth={3} />
+                      <Check className="pop h-4 w-4" strokeWidth={3} />
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="flex flex-wrap items-center gap-2">
@@ -287,6 +298,9 @@ function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boole
             <Button variant="primary" onClick={copyLink}>
               {copied === 'ok' ? <Check className="h-4 w-4" aria-hidden="true" /> : <Link2 className="h-4 w-4" aria-hidden="true" />}
               {copied === 'ok' ? 'Link copied' : copied === 'fail' ? 'Copy failed' : 'Copy Shareable Link'}
+            </Button>
+            <Button onClick={addToCalendar}>
+              <CalendarPlus className="h-4 w-4" aria-hidden="true" /> Add to calendar
             </Button>
             <Button onClick={() => window.print()}>
               <Printer className="h-4 w-4" aria-hidden="true" /> Print / Save PDF

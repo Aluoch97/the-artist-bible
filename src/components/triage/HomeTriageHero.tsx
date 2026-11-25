@@ -32,7 +32,7 @@ function TriageCard({ to, title, hint, icon: Icon, gradient, meta, progress }: T
     <Link
       to={to}
       style={{ background: gradient }}
-      className="group relative block overflow-hidden rounded-[26px] p-5 text-[#2a1308] shadow-[var(--shadow-pop)] transition-transform active:scale-[0.985] sm:p-6"
+      className="lift group relative block overflow-hidden rounded-[26px] p-5 text-[#2a1308] shadow-[var(--shadow-pop)] transition-transform active:scale-[0.985] sm:p-6"
     >
       <span aria-hidden="true" className="pointer-events-none absolute -right-8 -top-10 h-36 w-36 rounded-full bg-white/25 blur-2xl" />
       <div className="relative flex items-start justify-between">
@@ -109,7 +109,7 @@ export function HomeTriageHero() {
           fetchPriority="high"
           width="320"
           height="320"
-          className="pointer-events-none absolute -bottom-4 -right-5 w-[46%] max-w-[300px] rotate-[7deg] drop-shadow-[0_16px_18px_rgba(70,30,5,0.38)]"
+          className="float pointer-events-none absolute -bottom-4 -right-5 w-[46%] max-w-[300px] rotate-[7deg] drop-shadow-[0_16px_18px_rgba(70,30,5,0.38)]"
         />
       </section>
       <p className="mb-6 px-1 text-sm text-muted">Made for artists releasing music in the U.S. Royalty details follow U.S. organizations; other countries have their own.</p>
@@ -140,7 +140,7 @@ export function HomeTriageHero() {
         </Link>
       )}
 
-      <div className="grid gap-4 lg:grid-cols-3">
+      <div className="stagger grid gap-4 lg:grid-cols-3">
         <TriageCard
           to="/release"
           title="I'm about to drop a song"

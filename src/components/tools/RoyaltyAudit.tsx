@@ -39,7 +39,7 @@ function AuditCard({ entity, done, onToggle, level }: { entity: RoyaltyEntity; d
               done ? 'border-accent bg-accent text-accent-fg' : 'border-muted/70 hover:border-accent',
             )}
           >
-            {done && <Check className="h-5 w-5" strokeWidth={3} aria-hidden="true" />}
+            {done && <Check className="pop h-5 w-5" strokeWidth={3} aria-hidden="true" />}
           </span>
         </button>
 

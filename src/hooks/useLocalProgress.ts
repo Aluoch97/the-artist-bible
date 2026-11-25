@@ -1,7 +1,11 @@
 import { useSyncExternalStore } from 'react';
 import type {
   ArtistBibleState,
+  BudgetItem,
+  CatalogSong,
   Collaborator,
+  EpkDraft,
+  LiveShow,
   ReleaseType,
   SavedRelease,
   SplitSheetDraft,
@@ -30,6 +34,24 @@ export function createSplitDraft(): SplitSheetDraft {
   };
 }
 
+export const BUDGET_PRESETS = ['Recording', 'Mixing', 'Mastering', 'Cover art', 'Distribution', 'Marketing and ads', 'Music video', 'Other'];
+
+export function createSong(overrides: Partial<CatalogSong> = {}): CatalogSong {
+  return { id: newId(), title: '', isrc: '', upc: '', iswc: '', splits: false, pro: false, mlc: false, soundexchange: false, notes: '', ...overrides };
+}
+
+export function createShow(overrides: Partial<LiveShow> = {}): LiveShow {
+  return { id: newId(), date: todayISO(), venue: '', city: '', songs: [], reported: false, ...overrides };
+}
+
+export function createEpk(): EpkDraft {
+  return { artistName: '', genre: '', location: '', bio: '', topTracks: '', website: '', spotify: '', instagram: '', email: '', pitchSong: '', pitchGenre: '', pitchMood: '', pitchStory: '', pitchPlan: '' };
+}
+
+export function createBudget(): BudgetItem[] {
+  return BUDGET_PRESETS.map((label) => ({ id: newId(), label, amount: 0 }));
+}
+
 export function defaultState(): ArtistBibleState {
   return {
     version: 1,
@@ -38,10 +60,17 @@ export function defaultState(): ArtistBibleState {
     splitSheetDraft: createSplitDraft(),
     savedReleases: [],
     savedSplitSheets: [],
+    catalog: [],
+    shows: [],
+    epk: createEpk(),
+    budget: createBudget(),
   };
 }
 
 const MAX_SAVED = 30;
+const MAX_SONGS = 200;
+const MAX_SHOWS = 500;
+const MAX_BUDGET = 30;
 
 /* ----------------------------- validation ----------------------------- */
 
@@ -92,11 +121,55 @@ function cleanDraft(s: unknown): SplitSheetDraft | null {
   };
 }
 
-function cleanList<T extends { id: string }>(raw: unknown, clean: (v: unknown) => T | null): T[] {
+function cleanSong(v: unknown): CatalogSong | null {
+  if (!isObject(v)) return null;
+  return {
+    id: str(v.id) || newId(),
+    title: str(v.title),
+    isrc: str(v.isrc, 30),
+    upc: str(v.upc, 30),
+    iswc: str(v.iswc, 30),
+    splits: v.splits === true,
+    pro: v.pro === true,
+    mlc: v.mlc === true,
+    soundexchange: v.soundexchange === true,
+    notes: str(v.notes, 500),
+  };
+}
+
+function cleanShow(v: unknown): LiveShow | null {
+  if (!isObject(v) || !DATE_RE.test(str(v.date))) return null;
+  return {
+    id: str(v.id) || newId(),
+    date: str(v.date),
+    venue: str(v.venue, 120),
+    city: str(v.city, 120),
+    songs: Array.isArray(v.songs) ? v.songs.filter((x): x is string => typeof x === 'string').map((x) => x.slice(0, 120)).slice(0, 60) : [],
+    reported: v.reported === true,
+  };
+}
+
+function cleanEpk(v: unknown): EpkDraft {
+  const base = createEpk();
+  if (!isObject(v)) return base;
+  const out = { ...base };
+  (Object.keys(base) as (keyof EpkDraft)[]).forEach((k) => {
+    out[k] = str(v[k], k === 'bio' || k === 'pitchStory' || k === 'pitchPlan' || k === 'topTracks' ? 2000 : 300);
+  });
+  return out;
+}
+
+function cleanBudgetItem(v: unknown): BudgetItem | null {
+  if (!isObject(v)) return null;
+  const n = typeof v.amount === 'number' && Number.isFinite(v.amount) ? Math.min(10_000_000, Math.max(0, Math.round(v.amount * 100) / 100)) : 0;
+  return { id: str(v.id) || newId(), label: str(v.label, 80), amount: n };
+}
+
+function cleanList<T extends { id: string }>(raw: unknown, clean: (v: unknown) => T | null, max = MAX_SAVED): T[] {
   if (!Array.isArray(raw)) return [];
   const seen = new Set<string>();
   const out: T[] = [];
-  for (const item of raw.slice(0, MAX_SAVED)) {
+  for (const item of raw.slice(0, max)) {
     const c = clean(item);
     if (c && !seen.has(c.id)) {
       seen.add(c.id);
@@ -116,6 +189,10 @@ export function sanitizeState(raw: unknown): ArtistBibleState | null {
     splitSheetDraft: cleanDraft(raw.splitSheetDraft) ?? createSplitDraft(),
     savedReleases: cleanList(raw.savedReleases, cleanRelease),
     savedSplitSheets: cleanList(raw.savedSplitSheets, cleanDraft),
+    catalog: cleanList(raw.catalog, cleanSong, MAX_SONGS),
+    shows: cleanList(raw.shows, cleanShow, MAX_SHOWS),
+    epk: cleanEpk(raw.epk),
+    budget: Array.isArray(raw.budget) ? cleanList(raw.budget, cleanBudgetItem, MAX_BUDGET) : createBudget(),
   };
 }
 
@@ -306,6 +383,44 @@ export function deleteSavedSplitSheet(id: string): void {
   commit({ ...current, savedSplitSheets: current.savedSplitSheets.filter((d) => d.id !== id) });
 }
 
+/* ---- songs, shows, press kit, budget ---- */
+
+export function addSong(song: Partial<CatalogSong> = {}): string {
+  const s = createSong(song);
+  commit({ ...current, catalog: [s, ...current.catalog].slice(0, MAX_SONGS) });
+  return s.id;
+}
+
+export function updateSong(id: string, patch: Partial<CatalogSong>): void {
+  commit({ ...current, catalog: current.catalog.map((s) => (s.id === id ? { ...s, ...patch, id } : s)) });
+}
+
+export function deleteSong(id: string): void {
+  commit({ ...current, catalog: current.catalog.filter((s) => s.id !== id) });
+}
+
+export function addShow(show: Partial<LiveShow> = {}): string {
+  const s = createShow(show);
+  commit({ ...current, shows: [s, ...current.shows].slice(0, MAX_SHOWS) });
+  return s.id;
+}
+
+export function updateShow(id: string, patch: Partial<LiveShow>): void {
+  commit({ ...current, shows: current.shows.map((s) => (s.id === id ? { ...s, ...patch, id } : s)) });
+}
+
+export function deleteShow(id: string): void {
+  commit({ ...current, shows: current.shows.filter((s) => s.id !== id) });
+}
+
+export function updateEpk(patch: Partial<EpkDraft>): void {
+  commit({ ...current, epk: { ...current.epk, ...patch } });
+}
+
+export function setBudget(items: BudgetItem[]): void {
+  commit({ ...current, budget: items.slice(0, MAX_BUDGET) });
+}
+
 export function resetAll(): void {
   commit(defaultState());
 }
@@ -324,6 +439,14 @@ const actions = {
   startNewSplitSheet,
   openSplitSheet,
   deleteSavedSplitSheet,
+  addSong,
+  updateSong,
+  deleteSong,
+  addShow,
+  updateShow,
+  deleteShow,
+  updateEpk,
+  setBudget,
   exportBackupJson,
   importBackupJson,
   parseBackupFile,

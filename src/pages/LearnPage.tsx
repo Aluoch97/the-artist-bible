@@ -56,7 +56,7 @@ export function LearnPage({ section }: { section: LearnSection }) {
       </nav>
 
       {section === 'guides' ? (
-        <ol className="space-y-3">
+        <ol className="stagger space-y-3">
           {chapters.map((c) => (
             <li key={c.slug}>
               <Link to={`/guides/${c.slug}`} className="group flex items-start gap-4 rounded-2xl border border-border bg-surface p-4 transition-colors hover:border-accent/70 sm:p-5">

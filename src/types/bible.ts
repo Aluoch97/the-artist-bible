@@ -38,6 +38,57 @@ export interface ArtistBibleState {
   /** Earlier releases and songs kept on the shelf. Additive: v1 backups without these still load. */
   savedReleases: SavedRelease[];
   savedSplitSheets: SplitSheetDraft[];
+  /** Added later (all additive, so older backups still load). */
+  catalog: CatalogSong[];
+  shows: LiveShow[];
+  epk: EpkDraft;
+  budget: BudgetItem[];
+}
+
+/** One song in "My songs", with where it is registered. */
+export interface CatalogSong {
+  id: string;
+  title: string;
+  isrc: string;
+  upc: string;
+  iswc: string;
+  splits: boolean;
+  pro: boolean;
+  mlc: boolean;
+  soundexchange: boolean;
+  notes: string;
+}
+
+export interface LiveShow {
+  id: string;
+  date: string; // YYYY-MM-DD
+  venue: string;
+  city: string;
+  songs: string[];
+  reported: boolean;
+}
+
+export interface EpkDraft {
+  artistName: string;
+  genre: string;
+  location: string;
+  bio: string;
+  topTracks: string;
+  website: string;
+  spotify: string;
+  instagram: string;
+  email: string;
+  pitchSong: string;
+  pitchGenre: string;
+  pitchMood: string;
+  pitchStory: string;
+  pitchPlan: string;
+}
+
+export interface BudgetItem {
+  id: string;
+  label: string;
+  amount: number;
 }
 
 /* ---------- Volatile industry data (src/data/industry-data.json) ---------- */

@@ -263,3 +263,10 @@ Glass-and-gradient look inspired by modern course apps, in the logo's colors: a 
 ## 12. Tools tab and streaming estimate (added after v1)
 * The fourth tab is **Tools** (`/tools`, `src/pages/ToolsPage.tsx`). It lists every interactive helper; add new tools to the `TOOLS` array there and give their page a `<BackToTools />` link. The tab also stays highlighted on `/split-sheet` and `/streams` (see `also:` in `AppShell.tsx`).
 * **Streaming earnings estimate** (`/streams`) uses per-stream ranges from `streamingRates` in `src/data/industry-data.json`. Platforms don't publish these, so they are third-party estimates: keep them as ranges, keep the "range, not a promise" wording, and re-check them with the human-checked claim `streaming_rate_ranges`.
+
+---
+
+## 13. Songs, shows, press kit, budget, calendar, motion (added after v1)
+* New tools (all on the Tools tab, all local-first): **My songs** (`/songs`, per-song registration tracker), **Live show log** (`/shows`, setlist text for BMI Live / ASCAP OnStage), **Press kit and pitch** (`/epk`, one-page PDF + pitch text), **Release budget** (`/budget`). The Release page also has **Add to calendar** (`src/lib/ics.ts`, downloads a `.ics`).
+* Their data lives in the same `artist_bible_v1` key as new, additive fields: `catalog`, `shows`, `epk`, `budget`. `sanitizeState` fills defaults, so older backups still load. Never rename or remove these; only add.
+* **Motion** lives at the bottom of `src/index.css` (`.page-enter`, `.stagger`, `.pop`, `.float`, `.lift`, dialog open). It is all inside `prefers-reduced-motion: no-preference` and is disabled in print. Keep new animation short (about 0.3s), CSS-only, and in that block. Test accessibility with reduced motion on so axe reads final colors.

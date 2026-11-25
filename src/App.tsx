@@ -6,6 +6,10 @@ import { RouteMeta } from './components/layout/RouteMeta';
 import { HomeTriageHero } from './components/triage/HomeTriageHero';
 import { ReleaseCalculator } from './components/tools/ReleaseCalculator';
 import { RoyaltyAudit } from './components/tools/RoyaltyAudit';
+import { MySongs } from './components/tools/MySongs';
+import { ShowLog } from './components/tools/ShowLog';
+import { EpkBuilder } from './components/tools/EpkBuilder';
+import { ReleaseBudget } from './components/tools/ReleaseBudget';
 import { StreamingCalculator } from './components/tools/StreamingCalculator';
 import { SplitSheetBuilder } from './components/tools/SplitSheetBuilder';
 import { ChapterPage } from './pages/ChapterPage';
@@ -41,6 +45,10 @@ export default function App() {
         <Route path="/audit" element={<RoyaltyAudit />} />
         <Route path="/release" element={<ReleaseCalculator />} />
         <Route path="/split-sheet" element={<SplitSheetBuilder />} />
+        <Route path="/songs" element={<MySongs />} />
+        <Route path="/shows" element={<ShowLog />} />
+        <Route path="/epk" element={<EpkBuilder />} />
+        <Route path="/budget" element={<ReleaseBudget />} />
         <Route path="/tools" element={<ToolsPage />} />
         <Route path="/streams" element={<StreamingCalculator />} />
         <Route path="/red-flags" element={<LearnPage section="red-flags" />} />

@@ -1,5 +1,5 @@
 import type { jsPDF } from 'jspdf';
-import type { SplitSheetDraft } from '../types/bible';
+import type { EpkDraft, SplitSheetDraft } from '../types/bible';
 import { formatISOForDisplay, todayISO } from './dates';
 import { fmtPct, sumPct } from './splitSheet';
 
@@ -201,4 +201,76 @@ export async function downloadSplitSheetPdf(draft: SplitSheetDraft): Promise<voi
   }
 
   doc.save(`split-sheet-${fileSlug(draft.songTitle)}.pdf`);
+}
+
+/** One-page press kit (EPK). Same on-demand jsPDF loading as the split sheet. */
+export async function downloadEpkPdf(epk: EpkDraft): Promise<void> {
+  const { jsPDF: PDF } = await import('jspdf');
+  const doc = new PDF({ unit: 'pt', format: 'letter' });
+  const pageW = doc.internal.pageSize.getWidth();
+  const pageH = doc.internal.pageSize.getHeight();
+  const margin = 54;
+  const contentW = pageW - margin * 2;
+  let y = margin;
+  const ensure = (needed: number): void => {
+    if (y + needed > pageH - margin) {
+      doc.addPage();
+      y = margin;
+    }
+  };
+
+  const name = epk.artistName.trim() || 'Artist name';
+  line(doc, name, margin, y + 12, { size: 28, bold: true, maxW: contentW });
+  y += 40;
+  const sub = [epk.genre.trim(), epk.location.trim()].filter(Boolean).join('  |  ');
+  if (sub) {
+    line(doc, sub, margin, y, { size: 12, maxW: contentW });
+    y += 22;
+  }
+  doc.setLineWidth(1);
+  doc.line(margin, y, margin + contentW, y);
+  y += 24;
+
+  const bio = epk.bio.trim();
+  if (bio) {
+    line(doc, 'About', margin, y, { size: 12, bold: true });
+    y += 18;
+    for (const para of bio.split(/\n+/)) {
+      const used = wrapped(doc, para, margin, y, { size: 11, maxW: contentW }, 15);
+      ensure(used * 15);
+      y += used * 15 + 8;
+    }
+    y += 8;
+  }
+
+  const tracks = epk.topTracks.split('\n').map((t) => t.trim()).filter(Boolean).slice(0, 12);
+  if (tracks.length) {
+    ensure(40);
+    line(doc, 'Listen', margin, y, { size: 12, bold: true });
+    y += 18;
+    for (const t of tracks) {
+      ensure(18);
+      line(doc, `-  ${t}`, margin, y, { size: 11, maxW: contentW });
+      y += 16;
+    }
+    y += 12;
+  }
+
+  const links: [string, string][] = [['Website', epk.website], ['Spotify', epk.spotify], ['Instagram', epk.instagram], ['Contact', epk.email]];
+  const filled = links.filter(([, v]) => v.trim());
+  if (filled.length) {
+    ensure(30 + filled.length * 16);
+    line(doc, 'Find me', margin, y, { size: 12, bold: true });
+    y += 18;
+    for (const [label, value] of filled) {
+      const used = line(doc, `${label}: `, margin, y, { size: 11, bold: true });
+      line(doc, value.trim(), margin + used, y, { size: 11, maxW: contentW - used });
+      y += 16;
+    }
+  }
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.text('Made with The Artist Bible', margin, pageH - 30);
+  doc.save(`${fileSlug(name)}-press-kit.pdf`);
 }
