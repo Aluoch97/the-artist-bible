@@ -34,9 +34,9 @@ function isCurrent(tab: Tab, path: string): boolean {
   return [tab.to, ...(tab.also ?? [])].some((p) => path === p || path.startsWith(`${p}/`));
 }
 
-/** The logo lives in one file: public/logo.svg. Replace that file (then run `npm run icons`) to rebrand. */
+/** The master logo lives in design/logo.png. Replace it, run `npm run icons`, and this header logo updates with the rest. */
 export function Logo({ size = 36 }: { size?: number }) {
-  return <img src="/logo.svg" width={size} height={size} alt="" aria-hidden="true" className="shrink-0" />;
+  return <img src="/icons/icon-192.png" width={size} height={size} alt="" aria-hidden="true" className="shrink-0 object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]" />;
 }
 
 export function AppShell({ children }: { children: ReactNode }) {
@@ -55,7 +55,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <header className="no-print sticky top-0 z-30 bg-bg/90 pt-[env(safe-area-inset-top)] backdrop-blur-md after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-gradient-to-r after:from-transparent after:via-accent/60 after:to-transparent">
         <div className="mx-auto grid h-16 max-w-5xl grid-cols-[1fr_auto] items-center gap-3 px-4 lg:grid-cols-[auto_1fr_auto]">
           <Link to="/" className="flex min-h-11 min-w-0 items-center gap-2.5">
-            <Logo size={38} />
+            <Logo size={46} />
             <span className="grid leading-none">
               <span className="font-display text-xl font-bold tracking-tight">The Artist Bible</span>
               <span className="mt-1 text-[11px] font-semibold tracking-wide text-muted">Free tools for independent artists</span>
