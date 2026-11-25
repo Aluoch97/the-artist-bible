@@ -122,6 +122,16 @@
       "id": "copyright_office",
       "label": "U.S. Copyright Office",
       "url": "https://www.copyright.gov"
+    },
+    {
+      "id": "sesac_join",
+      "label": "How to join SESAC",
+      "url": "https://www.sesac.com/faq/how-do-i-become-a-sesac-affiliate/"
+    },
+    {
+      "id": "bmi_live",
+      "label": "BMI Live",
+      "url": "https://www.bmi.com/live"
     }
   ],
   "releaseTypeSteps": {

@@ -86,6 +86,31 @@
       "automated": false,
       "humanCheckedOn": "2026-11",
       "howToCheck": "Read BMI's and ASCAP's membership terms and confirm a writer can belong to only one PRO at a time. This one is not stated plainly on a single page, so a person has to confirm it."
+    },
+    {
+      "id": "sesac_invite_only",
+      "statement": "SESAC is invitation-only; it does not accept applications directly.",
+      "appliesTo": "guides/royalties-collection",
+      "url": "https://www.sesac.com/faq/how-do-i-become-a-sesac-affiliate/",
+      "pattern": "invitation[- ]only|invite"
+    },
+    {
+      "id": "bmi_live_exists",
+      "statement": "BMI Live lets BMI members who perform their own songs report live shows for royalties (setlists online or in the BMI app).",
+      "appliesTo": "guides/royalties-collection",
+      "url": "https://www.bmi.com/live",
+      "automated": false,
+      "humanCheckedOn": "2026-11",
+      "howToCheck": "BMI blocks automated visitors. Open bmi.com/live and confirm BMI Live still exists, is for performing songwriters who are BMI members, and that setlists are reported online or in the app."
+    },
+    {
+      "id": "ascap_onstage_exists",
+      "statement": "ASCAP OnStage lets ASCAP writer members report live performances through Member Access; the songs must already be registered.",
+      "appliesTo": "guides/royalties-collection",
+      "url": "https://www.ascap.com/",
+      "automated": false,
+      "humanCheckedOn": "2026-11",
+      "howToCheck": "Sign in to or read about ASCAP Member Access and confirm the live-performance reporting feature (ASCAP OnStage) still exists and still requires registered songs."
     }
   ]
 }
