@@ -41,8 +41,10 @@
       "statement": "Joining BMI as a songwriter or composer is free.",
       "appliesTo": "royaltyEntities.pro_ascap_bmi.cost",
       "url": "https://www.bmi.com/faq/entry/what_is_the_fee_to_join_as_a_songwriter",
-      "pattern": "no (application )?fees?|no annual dues|free of charge|is free|free to join",
-      "note": "BMI FAQ: \"What is the fee to join as a songwriter or composer?\""
+      "note": "BMI FAQ: \"What is the fee to join as a songwriter or composer?\"",
+      "automated": false,
+      "humanCheckedOn": null,
+      "howToCheck": "BMI blocks automated visitors, so a person must read this page: BMI's FAQ 'What is the fee to join as a songwriter or composer?'. A web search of BMI's own pages found it states there are no fees or annual dues for songwriters and composers. Confirm that is still what it says."
     },
     {
       "id": "ascap_writer_fee",

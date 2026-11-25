@@ -6,8 +6,8 @@
     "drift": 0,
     "gone": 0,
     "blocked": 0,
-    "error": 10,
-    "humanDue": 1,
+    "error": 9,
+    "humanDue": 2,
     "problems": 0,
     "unverified": 11,
     "allVerified": false
@@ -57,9 +57,9 @@
       "id": "bmi_writer_fee",
       "statement": "Joining BMI as a songwriter or composer is free.",
       "url": "https://www.bmi.com/faq/entry/what_is_the_fee_to_join_as_a_songwriter",
-      "kind": "auto",
-      "status": "error",
-      "detail": "ENOTFOUND"
+      "kind": "human",
+      "status": "human-due",
+      "detail": "never checked by a person"
     },
     {
       "id": "ascap_writer_fee",
