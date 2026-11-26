@@ -110,7 +110,7 @@ function ToolTile({ tool, chip }: { tool: ToolItem; chip: string }) {
         </span>
       </span>
       <h3 className="relative mt-3 text-lg font-extrabold leading-snug">{title}</h3>
-      <p className="relative mt-1 flex-1 text-[14.5px] leading-snug text-[#43260f]">{description}</p>
+      <p className="relative mt-1 flex-1 text-[0.9063rem] leading-snug text-[#43260f]">{description}</p>
       <span className="relative mt-3 self-start rounded-full bg-white/60 px-3 py-1 text-xs font-bold">{chip}</span>
     </Link>
   );
@@ -129,7 +129,7 @@ export function ToolsPage() {
         <h1 className="relative font-display text-[1.7rem] font-bold leading-[1.1] tracking-tight sm:text-5xl">
           Your <span className="text-[#7a2f04]">toolkit</span>
         </h1>
-        <p className="relative mt-2 text-[15px] font-medium text-[#43260f] sm:text-lg">Small helpers for the business side of your music. Everything runs on your device.</p>
+        <p className="relative mt-2 text-[0.9375rem] font-medium text-[#43260f] sm:text-lg">Small helpers for the business side of your music. Everything runs on your device.</p>
         <img
           src="/hero-art.webp"
           alt=""
