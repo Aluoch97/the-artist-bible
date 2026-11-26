@@ -4,6 +4,9 @@ Short version numbers: 1.0, 1.1, 1.2 ... A small change goes up by one step; a b
 The newest version is on top, and it is the number shown in /admin (Account). Write each entry in plain words.
 To release: add a new `## x.y · date` block at the top of this file in the same change. The build picks it up by itself.
 
+## 1.3 · Nov 26, 2026
+- **Examples for every music word.** Tap any underlined word, or open Learn > Words, and each one now has a short real-life example under its meaning.
+
 ## 1.2 · Nov 26, 2026
 Tidier and faster.
 - **Each thing lives in one place.** The Red flags and Get Paid pages are no longer repeated inside the guides (the guides link to them instead), the Marketing guide links to the Release planner instead of listing the steps again, and Home no longer repeats your progress below the three cards.

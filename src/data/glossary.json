@@ -3,150 +3,175 @@
     "id": "pro",
     "term": "PRO",
     "match": "PROs?",
-    "meaning": "Performing rights organization. A group (ASCAP and BMI are the big U.S. ones) that collects money for songwriters when their songs are played on streaming services, radio, TV and live venues."
+    "meaning": "Performing rights organization. A group (ASCAP and BMI are the big U.S. ones) that collects money for songwriters when their songs are played on streaming services, radio, TV and live venues.",
+    "example": "Maya writes a song that streams on Spotify and plays on a local radio station. Her PRO collects the songwriting money from both and pays it to her."
   },
   {
     "id": "ipi",
     "term": "IPI number",
     "match": "IPI(?:/CAE)?|CAE",
-    "meaning": "A unique ID number given to a songwriter or publisher when they join a PRO. You may also see it called a CAE number. It identifies you in royalty systems, so keep it handy for split sheets and The MLC."
+    "meaning": "A unique ID number given to a songwriter or publisher when they join a PRO. You may also see it called a CAE number. It identifies you in royalty systems, so keep it handy for split sheets and The MLC.",
+    "example": "Maya joins a PRO and gets an IPI number (it looks like 00123456789). She writes it on every split sheet so her collaborators and The MLC can match her to her songs."
   },
   {
     "id": "isrc",
     "term": "ISRC",
     "match": "ISRCs?",
-    "meaning": "International Standard Recording Code. A unique code for one specific recording, like a barcode for that track. Your distributor usually creates it for you, and the same recording always keeps the same ISRC."
+    "meaning": "International Standard Recording Code. A unique code for one specific recording, like a barcode for that track. Your distributor usually creates it for you, and the same recording always keeps the same ISRC.",
+    "example": "Maya's single \"Midnight Drive\" gets the ISRC US-ABC-26-00001. If she later releases a remix, the remix gets its own, different ISRC."
   },
   {
     "id": "upc",
     "term": "UPC",
     "match": "UPC",
-    "meaning": "Universal Product Code. A barcode number for a whole release (a single, EP or album). Your distributor assigns it when you upload."
+    "meaning": "Universal Product Code. A barcode number for a whole release (a single, EP or album). Your distributor assigns it when you upload.",
+    "example": "Maya releases an EP with four songs. The EP has one UPC, and each of the four songs has its own ISRC."
   },
   {
     "id": "iswc",
     "term": "ISWC",
     "match": "ISWC",
-    "meaning": "International Standard Musical Work Code. A unique code for the song itself (the melody and lyrics), not for any one recording of it. It is assigned after the song is registered with a collection organization."
+    "meaning": "International Standard Musical Work Code. A unique code for the song itself (the melody and lyrics), not for any one recording of it. It is assigned after the song is registered with a collection organization.",
+    "example": "The song \"Midnight Drive\" has one ISWC (it looks like T-123.456.789-0), whether Maya's recording or someone else's cover is playing."
   },
   {
     "id": "dsp",
     "term": "DSP",
     "match": "DSPs?",
-    "meaning": "Digital service provider: a streaming or download service such as Spotify, Apple Music or Amazon Music."
+    "meaning": "Digital service provider: a streaming or download service such as Spotify, Apple Music or Amazon Music.",
+    "example": "Spotify, Apple Music, Amazon Music, YouTube Music and Tidal are all DSPs."
   },
   {
     "id": "mlc",
     "term": "The MLC",
     "match": "The MLC|MLC",
-    "meaning": "The Mechanical Licensing Collective. A U.S. organization that collects digital mechanical royalties from streaming services and pays them to songwriters and publishers."
+    "meaning": "The Mechanical Licensing Collective. A U.S. organization that collects digital mechanical royalties from streaming services and pays them to songwriters and publishers.",
+    "example": "Maya's song streams on Spotify. The copy-based money for the song goes to The MLC, which pays Maya because she is a member."
   },
   {
     "id": "mechanical",
     "term": "Mechanical royalties",
     "match": "mechanical",
-    "meaning": "Money paid to songwriters and publishers for the copies of a song that are made when it is streamed or downloaded. In the U.S., The MLC collects the digital kind."
+    "meaning": "Money paid to songwriters and publishers for the copies of a song that are made when it is streamed or downloaded. In the U.S., The MLC collects the digital kind.",
+    "example": "Every time a fan streams \"Midnight Drive\", a copy of the song is made on their phone. The songwriter's share for that copy is a mechanical royalty."
   },
   {
     "id": "neighboring",
     "term": "Neighboring rights",
     "match": "neighboring rights",
-    "meaning": "Royalties for a recording being played on digital radio and similar services, paid to the recording's owner and performers. In the U.S., SoundExchange collects them."
+    "meaning": "Royalties for a recording being played on digital radio and similar services, paid to the recording's owner and performers. In the U.S., SoundExchange collects them.",
+    "example": "A webcaster plays Maya's recording on digital radio. SoundExchange collects the money for the recording's owner and its performers, separate from the songwriting money."
   },
   {
     "id": "master",
     "term": "Master",
     "match": "masters?",
-    "meaning": "The finished recording itself, the audio file. Whoever owns the master owns the recording."
+    "meaning": "The finished recording itself, the audio file. Whoever owns the master owns the recording.",
+    "example": "The finished studio file of \"Midnight Drive\" is the master. If Maya paid for the session, she usually owns it. A label that buys the master owns the recording."
   },
   {
     "id": "publishing",
     "term": "Publishing",
     "match": "publishing",
-    "meaning": "The song itself: the melody and lyrics, separate from any recording of it. Music publishing is also the business of managing, protecting and collecting money for songs. Songwriters (and their publishers) own it, and it earns its own royalties."
+    "meaning": "The song itself: the melody and lyrics, separate from any recording of it. Music publishing is also the business of managing, protecting and collecting money for songs. Songwriters (and their publishers) own it, and it earns its own royalties.",
+    "example": "Maya wrote the melody and lyrics, so she owns the publishing. Another singer can record her song, and Maya still earns as the writer."
   },
   {
     "id": "metadata",
     "term": "Metadata",
     "match": "metadata",
-    "meaning": "The information that travels with your music: titles, artist names, songwriter and producer credits, release date and so on. Mistakes in it can send royalties to the wrong place."
+    "meaning": "The information that travels with your music: titles, artist names, songwriter and producer credits, release date and so on. Mistakes in it can send royalties to the wrong place.",
+    "example": "If one release says \"Maya Lane\" and another says \"Maia Lane\", streams can split between two artist pages and credits can go to the wrong person."
   },
   {
     "id": "epk",
     "term": "EPK",
     "match": "EPK",
-    "meaning": "Electronic press kit. One page or file with your bio, photos, music links and contact details that you can send to bookers, bloggers and playlist curators."
+    "meaning": "Electronic press kit. One page or file with your bio, photos, music links and contact details that you can send to bookers, bloggers and playlist curators.",
+    "example": "Maya sends a booker one page with her bio, two photos, links to her best songs and her email address."
   },
   {
     "id": "cta",
     "term": "CTA",
     "match": "CTA",
-    "meaning": "Call to action: the one thing you want people to do when they see your post, like pre-saving or listening to the new song."
+    "meaning": "Call to action: the one thing you want people to do when they see your post, like pre-saving or listening to the new song.",
+    "example": "\"Pre-save Midnight Drive, link in bio\" is one call to action. A post that asks for follows, pre-saves and shares has three, and fewer people act."
   },
   {
     "id": "presave",
     "term": "Pre-save",
     "match": "pre-?save",
-    "meaning": "A link that lets fans save your upcoming song to their library before it is out, so it is already there on release day."
+    "meaning": "A link that lets fans save your upcoming song to their library before it is out, so it is already there on release day.",
+    "example": "Two weeks before release day, Maya shares a pre-save link. Fans tap it, and the song lands in their library the moment it comes out."
   },
   {
     "id": "distributor",
     "term": "Distributor",
     "match": "distributor",
-    "meaning": "The company that delivers your finished music to streaming services and collects the recording earnings for you."
+    "meaning": "The company that delivers your finished music to streaming services and collects the recording earnings for you.",
+    "example": "Maya uploads her finished song to a distributor. It delivers the song to Spotify, Apple Music and the rest, and pays her the recording earnings."
   },
   {
     "id": "advance",
     "term": "Advance",
     "match": "advance",
-    "meaning": "Money a label pays up front that is later deducted from your royalties (see recoupment)."
+    "meaning": "Money a label pays up front that is later deducted from your royalties (see recoupment).",
+    "example": "A label gives Maya $5,000 up front. That $5,000 is later subtracted from her royalties. It is not a gift."
   },
   {
     "id": "recoupment",
     "term": "Recoupment",
     "match": "recoup(?:ment|able)?",
-    "meaning": "When a label has paid costs or an advance, it keeps your royalties until it earns that money back. Until then you may be paid nothing."
+    "meaning": "When a label has paid costs or an advance, it keeps your royalties until it earns that money back. Until then you may be paid nothing.",
+    "example": "A label spent $20,000 on Maya's album. Until her share of the earnings adds up to $20,000, she receives no royalty payments."
   },
   {
     "id": "crosscollateral",
     "term": "Cross-collateralization",
     "match": "cross-collateraliz\\w+",
-    "meaning": "Losses on one release or cost can be charged against what you earn from others, so the amount you need to earn back keeps growing."
+    "meaning": "Losses on one release or cost can be charged against what you earn from others, so the amount you need to earn back keeps growing.",
+    "example": "Maya's first album loses money and her second earns $10,000. The label subtracts the first album's loss from the second album's earnings, so she still gets nothing."
   },
   {
     "id": "reversion",
     "term": "Reversion",
     "match": "reversion",
-    "meaning": "A clause that gives you your rights back after a set time, or if the label stops releasing your music."
+    "meaning": "A clause that gives you your rights back after a set time, or if the label stops releasing your music.",
+    "example": "Maya's deal says her songs come back to her five years after release. After that she can sell or license them herself."
   },
   {
     "id": "splitsheet",
     "term": "Split sheet",
     "match": "split sheets?",
-    "meaning": "A short signed agreement of who owns what share of a song's recording and of the song itself."
+    "meaning": "A short signed agreement of who owns what share of a song's recording and of the song itself.",
+    "example": "Maya and a producer write a song together. Before leaving the studio they sign a sheet: 50% of the recording and 50% of the song each."
   },
   {
     "id": "sync",
     "term": "Sync license",
     "match": "sync",
-    "meaning": "A license to use your music in a video, film, show or ad. It earns its own fee."
+    "meaning": "A license to use your music in a video, film, show or ad. It earns its own fee.",
+    "example": "A streaming show wants \"Midnight Drive\" in a scene. It needs a sync license from the owner of the song and from the owner of the recording, and each can charge a fee."
   },
   {
     "id": "sesac",
     "term": "SESAC",
     "match": "SESAC",
-    "meaning": "The third U.S. performing rights organization, alongside ASCAP and BMI. It is invitation-only, so most independent songwriters join ASCAP or BMI instead."
+    "meaning": "The third U.S. performing rights organization, alongside ASCAP and BMI. It is invitation-only, so most independent songwriters join ASCAP or BMI instead.",
+    "example": "A new songwriter normally joins ASCAP or BMI, which anyone can apply to. SESAC contacts the writers it wants, and you cannot sign up directly."
   },
   {
     "id": "cuesheet",
     "term": "Cue sheet",
     "match": "cue sheets?",
-    "meaning": "A list a TV or film production files with the music used in a show or movie, so the right songwriters get paid when it airs."
+    "meaning": "A list a TV or film production files with the music used in a show or movie, so the right songwriters get paid when it airs.",
+    "example": "A TV show uses \"Midnight Drive\" for 30 seconds. The production lists it, with the writers, on a cue sheet so the PRO can pay the songwriter."
   },
   {
     "id": "livereporting",
     "term": "Live-show reporting",
     "match": "BMI Live|ASCAP OnStage|setlists?",
-    "meaning": "A way to tell your PRO which of your songs you played at a show so you can be paid for live performances. BMI calls it BMI Live and ASCAP calls it ASCAP OnStage. It usually only works for songs you have already registered."
+    "meaning": "A way to tell your PRO which of your songs you played at a show so you can be paid for live performances. BMI calls it BMI Live and ASCAP calls it ASCAP OnStage. It usually only works for songs you have already registered.",
+    "example": "Maya plays a Friday gig. Afterwards she submits the date, venue and songs through BMI Live (or ASCAP OnStage) so her PRO can pay for the live performances."
   }
 ]

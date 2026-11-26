@@ -180,4 +180,6 @@ export interface GlossaryEntry {
   /** Regex source for finding this word in text. */
   match: string;
   meaning: string;
+  /** A short, concrete example in a made-up artist's life. */
+  example: string;
 }

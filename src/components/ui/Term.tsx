@@ -115,6 +115,7 @@ export function GlossaryDialog() {
             </button>
           </div>
           <p className="mt-3 text-[17px] leading-relaxed">{entry.meaning}</p>
+          <p className="mt-3 rounded-2xl bg-surface-2 p-3 text-[15px] leading-relaxed"><strong>Example:</strong> {entry.example}</p>
           <Link to={`/words#word-${entry.id}`} onClick={() => setOpen(null)} className="mt-4 inline-flex min-h-11 items-center font-bold text-accent underline underline-offset-4">
             See all music words
           </Link>
