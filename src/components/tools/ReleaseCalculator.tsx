@@ -160,7 +160,7 @@ function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boole
 
   return (
     <>
-      <Card className="no-print grid gap-5 p-4 sm:p-5">
+      <Card className="no-print grid grid-cols-1 gap-5 p-4 sm:p-5">
         <div>
           <label htmlFor="rel-date" className="mb-1.5 block font-bold">When does it come out?</label>
           <DateInput id="rel-date" value={date} onChange={(e) => setDate(e.target.value)} />

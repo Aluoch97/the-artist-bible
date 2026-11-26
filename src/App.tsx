@@ -1,25 +1,32 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { AppShell } from './components/layout/AppShell';
 import { ErrorBoundary } from './components/layout/ErrorBoundary';
 import { RouteMeta } from './components/layout/RouteMeta';
 import { HomeTriageHero } from './components/triage/HomeTriageHero';
-import { ReleaseCalculator } from './components/tools/ReleaseCalculator';
-import { RoyaltyAudit } from './components/tools/RoyaltyAudit';
-import { MySongs } from './components/tools/MySongs';
-import { ShowLog } from './components/tools/ShowLog';
-import { EpkBuilder } from './components/tools/EpkBuilder';
-import { ReleaseBudget } from './components/tools/ReleaseBudget';
-import { StreamingCalculator } from './components/tools/StreamingCalculator';
-import { SplitSheetBuilder } from './components/tools/SplitSheetBuilder';
-import { ChapterPage } from './pages/ChapterPage';
-import { AboutPage } from './pages/AboutPage';
-import { PrivacyPage } from './pages/PrivacyPage';
-import { TermsPage } from './pages/TermsPage';
-import { AdminPage } from './pages/AdminPage';
-import { ToolsPage } from './pages/ToolsPage';
-import { LearnPage } from './pages/LearnPage';
 import { NotFound } from './pages/NotFound';
+
+const ReleaseCalculator = lazy(() => import('./components/tools/ReleaseCalculator').then((m) => ({ default: m.ReleaseCalculator })));
+const RoyaltyAudit = lazy(() => import('./components/tools/RoyaltyAudit').then((m) => ({ default: m.RoyaltyAudit })));
+const MySongs = lazy(() => import('./components/tools/MySongs').then((m) => ({ default: m.MySongs })));
+const ShowLog = lazy(() => import('./components/tools/ShowLog').then((m) => ({ default: m.ShowLog })));
+const EpkBuilder = lazy(() => import('./components/tools/EpkBuilder').then((m) => ({ default: m.EpkBuilder })));
+const ReleaseBudget = lazy(() => import('./components/tools/ReleaseBudget').then((m) => ({ default: m.ReleaseBudget })));
+const StreamingCalculator = lazy(() => import('./components/tools/StreamingCalculator').then((m) => ({ default: m.StreamingCalculator })));
+const SplitSheetBuilder = lazy(() => import('./components/tools/SplitSheetBuilder').then((m) => ({ default: m.SplitSheetBuilder })));
+const ChapterPage = lazy(() => import('./pages/ChapterPage').then((m) => ({ default: m.ChapterPage })));
+const AboutPage = lazy(() => import('./pages/AboutPage').then((m) => ({ default: m.AboutPage })));
+const PrivacyPage = lazy(() => import('./pages/PrivacyPage').then((m) => ({ default: m.PrivacyPage })));
+const TermsPage = lazy(() => import('./pages/TermsPage').then((m) => ({ default: m.TermsPage })));
+const AdminPage = lazy(() => import('./pages/AdminPage').then((m) => ({ default: m.AdminPage })));
+const ToolsPage = lazy(() => import('./pages/ToolsPage').then((m) => ({ default: m.ToolsPage })));
+const ContractPage = lazy(() => import('./pages/ContractPage').then((m) => ({ default: m.ContractPage })));
+const LearnPage = lazy(() => import('./pages/LearnPage').then((m) => ({ default: m.LearnPage })));
+
+// Every page except Home loads its code when it is first opened (all of it is also saved for offline use).
+function RouteFallback() {
+  return <div role="status" aria-label="Loading" />;
+}
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -41,6 +48,7 @@ export default function App() {
       <ScrollToTop />
       <RouteMeta />
       <ErrorBoundary resetKey={pathname}>
+      <Suspense fallback={<RouteFallback />}>
       <Routes>
         <Route path="/" element={<HomeTriageHero />} />
         <Route path="/audit" element={<RoyaltyAudit />} />
@@ -55,7 +63,7 @@ export default function App() {
         <Route path="/streams" element={<StreamingCalculator />} />
         <Route path="/red-flags" element={<LearnPage section="red-flags" />} />
         <Route path="/guides" element={<LearnPage section="guides" />} />
-        <Route path="/contract" element={<LearnPage section="contract" />} />
+        <Route path="/contract" element={<ContractPage />} />
         <Route path="/words" element={<LearnPage section="words" />} />
         <Route path="/guides/:slug" element={<ChapterPage />} />
         <Route path="/about" element={<AboutPage />} />
@@ -63,6 +71,7 @@ export default function App() {
         <Route path="/terms" element={<TermsPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </Suspense>
       </ErrorBoundary>
     </AppShell>
   );

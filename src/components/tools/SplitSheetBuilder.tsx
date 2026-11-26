@@ -183,7 +183,7 @@ export function SplitSheetBuilder() {
       </details>
 
       <StepHeading n={1} title="The song" />
-      <Card className="grid gap-4 p-4 sm:grid-cols-2 sm:p-5">
+      <Card className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 sm:p-5">
         <div>
           <label htmlFor="ss-title" className="mb-1.5 block font-bold">Song title</label>
           <Input id="ss-title" value={draft.songTitle} maxLength={120} placeholder="e.g. Midnight Drive" onChange={(e) => updateSplitSheet({ songTitle: e.target.value })} />

@@ -1,11 +1,23 @@
 import { ArrowLeft, ArrowRight, BadgeCheck, MessageSquareWarning } from 'lucide-react';
+import { lazy, Suspense, type ComponentType, type LazyExoticComponent } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import type { MDXComponents } from 'mdx/types';
 import { mdxComponents } from '../components/ui/mdx';
 import { ExternalLink } from '../components/ui/ExternalLink';
-import { chapters, getChapter } from '../content';
+import { chapters, getChapter, type Chapter } from '../content';
 import { industryData } from '../data';
 import { formatVerified } from '../lib/dates';
 import { NotFound } from './NotFound';
+
+const bodies = new Map<string, LazyExoticComponent<ComponentType<{ components?: MDXComponents }>>>();
+function bodyFor(c: Chapter) {
+  let body = bodies.get(c.slug);
+  if (!body) {
+    body = lazy(() => c.load().then((component) => ({ default: component })));
+    bodies.set(c.slug, body);
+  }
+  return body;
+}
 
 export function ChapterPage() {
   const { slug } = useParams();
@@ -24,7 +36,7 @@ export function ChapterPage() {
     `Chapter: ${chapter.title} (/guides/${chapter.slug})\nLast verified: ${chapter.lastVerified}\n\nWhat looks outdated or wrong?\n\nA source or link that shows the correct info (optional):\n`,
   );
 
-  const Content = chapter.Content;
+  const Content = bodyFor(chapter);
 
   return (
     <article>
@@ -39,7 +51,9 @@ export function ChapterPage() {
       </p>
 
       <div className="chapter-prose prose mt-8 max-w-none prose-headings:tracking-tight prose-a:no-underline hover:prose-a:underline">
-        <Content components={mdxComponents} />
+        <Suspense fallback={<div className="min-h-dvh" role="status" aria-label="Loading the guide" />}>
+          <Content components={mdxComponents} />
+        </Suspense>
       </div>
 
       <footer className="no-print mt-12 border-t border-border pt-6">

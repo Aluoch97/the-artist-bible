@@ -4,8 +4,6 @@ import type { AnchorHTMLAttributes, ReactNode, TableHTMLAttributes } from 'react
 import { Link } from 'react-router-dom';
 import { industryData } from '../../data';
 import { DistributorCompare } from '../tools/DistributorCompare';
-import { RedFlagDecoder } from '../tools/RedFlagDecoder';
-import { RoyaltyAudit } from '../tools/RoyaltyAudit';
 import { TwoHundredPercent } from '../tools/TwoHundredPercent';
 import { buttonVariants } from './button';
 import { ExternalLink } from './ExternalLink';
@@ -48,21 +46,6 @@ function ResourceLink({ id, children }: { id: string; children?: ReactNode }) {
   return res ? <ExternalLink href={res.url}>{children ?? res.label}</ExternalLink> : <>{children}</>;
 }
 
-/** The rollout timeline, straight from the data file. */
-function Milestones() {
-  const list = [...industryData.releaseMilestones].sort((a, b) => b.weeksOut - a.weeksOut);
-  return (
-    <ol className="not-prose my-6 space-y-2">
-      {list.map((m) => (
-        <li key={m.id} className="flex gap-3 rounded-xl border border-border bg-surface p-3 text-[15px]">
-          <span className="w-16 shrink-0 font-bold tabular-nums text-accent">{m.weeksOut === 0 ? 'Day 0' : `-${m.weeksOut} wk`}</span>
-          <span>{m.label}</span>
-        </li>
-      ))}
-      <li className="list-none text-sm text-muted">This is the plan for a single. EPs and albums add steps for finishing every track first; pick your type in the planner.</li>
-    </ol>
-  );
-}
 
 function SmartLink({ href = '', children, ...rest }: AnchorHTMLAttributes<HTMLAnchorElement>) {
   if (href.startsWith('/')) return <Link to={href} {...rest}>{children}</Link>;
@@ -86,9 +69,6 @@ export const mdxComponents: MDXComponents = {
   IndustryValue,
   Portal,
   ResourceLink,
-  Milestones,
   TwoHundredPercent,
   DistributorCompare,
-  RoyaltyAudit: () => <RoyaltyAudit embedded headingLevel={3} />,
-  RedFlagDecoder: () => <RedFlagDecoder embedded className="my-8" headingLevel={3} />,
 };

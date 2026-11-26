@@ -5,7 +5,7 @@ export function PrivacyPage() {
   return (
     <article>
       <ToolHeader title="Privacy policy" description="What The Artist Bible stores, what it never collects, and the one optional feature that sends text away." />
-      <p className="-mt-3 mb-6 text-sm text-muted">Last updated: November 25, 2026</p>
+      <p className="-mt-3 mb-6 text-sm text-muted">Last updated: November 2026</p>
 
       <div className="chapter-prose prose max-w-none">
         <ul>

@@ -36,6 +36,7 @@
     document.body.appendChild(bar);
   }
   function check() {
+    if (navigator.onLine === false) return; // offline: nothing to look at, and no failed request to log
     readVersion().then(function (v) {
       if (!v) return;
       if (loaded === null) { loaded = v; return; }

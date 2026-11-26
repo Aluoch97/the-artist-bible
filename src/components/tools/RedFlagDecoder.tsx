@@ -5,7 +5,6 @@ import { cn } from '../../lib/utils';
 import type { RedFlag, RedFlagCategory } from '../../types/bible';
 import { Badge } from '../ui/badge';
 import { Input } from '../ui/input';
-import { ToolHeader } from '../ui/ToolHeader';
 
 const CATEGORIES: ('All' | RedFlagCategory)[] = ['All', 'Contract', 'Distribution', 'Streaming Scam', 'Scam'];
 /** Short labels so every filter pill fits on a narrow phone. */
@@ -85,7 +84,7 @@ function FlagCard({ flag, level }: { flag: RedFlag; level: Level }) {
   );
 }
 
-export function RedFlagDecoder({ embedded = false, className, headingLevel = 2 }: { embedded?: boolean; className?: string; headingLevel?: 2 | 3 }) {
+export function RedFlagDecoder({ className, headingLevel = 2 }: { className?: string; headingLevel?: 2 | 3 }) {
   const Group = tag(headingLevel);
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<(typeof CATEGORIES)[number]>('All');
@@ -96,20 +95,14 @@ export function RedFlagDecoder({ embedded = false, className, headingLevel = 2 }
   );
 
   return (
-    <section className={cn(embedded && 'not-prose', className)}>
-      {!embedded && (
-        <ToolHeader
-          title="Red flag decoder"
-          description="Contract traps and scams in plain English. Type a word you saw in a contract or a DM."
-        />
-      )}
+    <section className={className}>
 
       <div className="no-print mb-4 space-y-3">
         <div className="relative">
-          <label htmlFor={`rf-search${embedded ? '-e' : ''}`} className="sr-only">Search red flags</label>
+          <label htmlFor={`rf-search`} className="sr-only">Search red flags</label>
           <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted" aria-hidden="true" />
           <Input
-            id={`rf-search${embedded ? '-e' : ''}`}
+            id={`rf-search`}
             type="search"
             value={query}
             placeholder="Search: 360, playlist, renewal"

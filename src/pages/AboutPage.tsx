@@ -11,7 +11,7 @@ export function AboutPage() {
 
       <div className="chapter-prose prose max-w-none">
         <h2>What this is</h2>
-        <p>The Artist Bible is a free project created by <strong>NuRenaissance Media</strong>: plain-English guides and a few tools (release planner, royalty checklist, split sheet, red-flag decoder) for independent recording artists. It is not a law firm, a label, a distributor or a financial adviser.</p>
+        <p>The Artist Bible is a free project created by <strong>NuRenaissance Media</strong>: plain-English guides and free tools for independent recording artists: a release planner, royalty checklist, split sheets, a streaming earnings estimate, song and show logs, a press kit builder, a release budget and a contract check. It is not a law firm, a label, a distributor or a financial adviser.</p>
 
         <h2>Who it&apos;s for</h2>
         <p>The royalty, PRO, mechanical and neighboring-rights information here describes the <strong>United States</strong>. If you release music elsewhere, your country has its own collection societies and rules, though the split-sheet and release tools still apply.</p>

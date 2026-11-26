@@ -16,6 +16,11 @@ declare module '*.mdx' {
   export default MDXContent;
 }
 
+declare module '*.mdx?frontmatter' {
+  const frontmatter: { title: string; summary: string; lastVerified: string };
+  export default frontmatter;
+}
+
 declare module 'pdfjs-dist/legacy/build/pdf.worker.min.mjs?url' {
   const url: string;
   export default url;

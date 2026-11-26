@@ -1,24 +1,22 @@
-import { ArrowRight, BookA, BookOpen, FileSearch, ShieldAlert } from 'lucide-react';
+import { ArrowRight, BookA, BookOpen, ShieldAlert } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { ContractCheck } from '../components/tools/ContractCheck';
 import { RedFlagDecoder } from '../components/tools/RedFlagDecoder';
 import { ToolHeader } from '../components/ui/ToolHeader';
 import { chapters } from '../content';
 import { cn } from '../lib/utils';
 import { WordsList } from './WordsPage';
 
-export type LearnSection = 'guides' | 'red-flags' | 'contract' | 'words';
+export type LearnSection = 'guides' | 'red-flags' | 'words';
 
 const SECTIONS: { id: LearnSection; label: string; to: string; icon: typeof BookOpen }[] = [
   { id: 'guides', label: 'Guides', to: '/guides', icon: BookOpen },
   { id: 'red-flags', label: 'Red flags', to: '/red-flags', icon: ShieldAlert },
-  { id: 'contract', label: 'Contract', to: '/contract', icon: FileSearch },
   { id: 'words', label: 'Words', to: '/words', icon: BookA },
 ];
 
-const TITLES: Record<LearnSection, string> = { guides: 'Guides', 'red-flags': 'Red flags', contract: 'Contract check', words: 'Music words' };
+const TITLES: Record<LearnSection, string> = { guides: 'Guides', 'red-flags': 'Red flags', words: 'Music words' };
 
-/** The Learn tab: guides, red flags, contract check and music words in one place. */
+/** The Learn tab: guides, red flags and music words in one place. */
 export function LearnPage({ section }: { section: LearnSection }) {
   return (
     <section>
@@ -29,13 +27,11 @@ export function LearnPage({ section }: { section: LearnSection }) {
             ? "Short guides in plain English, in the order you'll run into these things."
             : section === 'red-flags'
               ? 'Contract traps and scams in plain English, from most serious to least. Type a word you saw in a contract or a DM.'
-              : section === 'contract'
-                ? 'Add a contract and see which parts to worry about. Read on your device first; AI review is optional.'
-                : 'Every music-business word this app uses, in plain English.'
+              : 'Every music-business word this app uses, in plain English.'
         }
       />
 
-      <nav aria-label="Learn sections" className="no-print mb-6 grid grid-cols-4 gap-0.5 rounded-full border border-border bg-surface p-1">
+      <nav aria-label="Learn sections" className="no-print mb-6 grid grid-cols-3 gap-0.5 rounded-full border border-border bg-surface p-1">
         {SECTIONS.map(({ id, label, to, icon: Icon }) => {
           const active = id === section;
           return (
@@ -71,9 +67,7 @@ export function LearnPage({ section }: { section: LearnSection }) {
           ))}
         </ol>
       ) : section === 'red-flags' ? (
-        <RedFlagDecoder embedded />
-      ) : section === 'contract' ? (
-        <ContractCheck />
+        <RedFlagDecoder />
       ) : (
         <WordsList />
       )}

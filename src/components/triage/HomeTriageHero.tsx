@@ -1,11 +1,10 @@
-import { ArrowUpRight, BookOpen, Calculator, CalendarCheck, ChevronRight, CircleDollarSign, FileSearch, FileSignature, ShieldAlert } from 'lucide-react';
+import { ArrowUpRight, BookOpen, CalendarCheck, ChevronRight, CircleDollarSign, FileSignature, ShieldAlert, Wrench } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLocalProgress } from '../../hooks/useLocalProgress';
 import { formatLongDate } from '../../lib/dates';
 import { nextMilestone, planRelease, relativeDays } from '../../lib/release';
 import { splitStatus } from '../../lib/splitSheet';
-import { Card } from '../ui/card';
 import { useRoyaltyReadiness } from '../tools/RoyaltyAudit';
 import { IosInstallTip } from './IosInstallTip';
 
@@ -57,22 +56,6 @@ function TriageCard({ to, title, hint, icon: Icon, gradient, meta, progress }: T
   );
 }
 
-function Row({ to, icon: Icon, tint, label, children, chip }: { to: string; icon: LucideIcon; tint: string; label: string; children: React.ReactNode; chip: string }) {
-  return (
-    <Link to={to} className="flex items-center gap-3.5 p-4 transition-colors hover:bg-surface-2">
-      <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-full ${tint}`}>
-        <Icon className="h-5 w-5" aria-hidden="true" />
-      </span>
-      <span className="min-w-0 flex-1">
-        <span className="block text-sm text-muted">{label}</span>
-        <span className="block font-semibold">{children}</span>
-      </span>
-      <span className="shrink-0 rounded-full bg-surface-2 px-2.5 py-1 text-xs font-bold tabular-nums">{chip}</span>
-      <ChevronRight className="h-5 w-5 shrink-0 text-muted" aria-hidden="true" />
-    </Link>
-  );
-}
-
 export function HomeTriageHero() {
   const { state } = useLocalProgress();
   const { done, total, percent } = useRoyaltyReadiness();
@@ -83,7 +66,6 @@ export function HomeTriageHero() {
   const releaseDone = release ? plan.filter((m) => release.completedMilestoneIds.includes(m.id)).length : 0;
   const releaseTotal = plan.length;
   const releasePct = releaseTotal ? Math.round((releaseDone / releaseTotal) * 100) : 0;
-  const shelved = state.savedReleases.length;
 
   const draft = state.splitSheetDraft;
   const splitsOk = splitStatus(draft.collaborators, 'masterPct').ok && splitStatus(draft.collaborators, 'publishingPct').ok;
@@ -112,7 +94,6 @@ export function HomeTriageHero() {
           className="float pointer-events-none absolute -bottom-4 -right-5 w-[46%] max-w-[300px] rotate-[7deg] drop-shadow-[0_16px_18px_rgba(70,30,5,0.38)]"
         />
       </section>
-      <p className="mb-6 px-1 text-sm text-muted">Made for artists releasing music in the U.S. Royalty details follow U.S. organizations; other countries have their own.</p>
 
       <IosInstallTip />
 
@@ -170,24 +151,9 @@ export function HomeTriageHero() {
         />
       </div>
 
-      <section aria-labelledby="progress-title" className="mt-10">
-        <h2 id="progress-title" className="mb-3 font-display text-xl font-bold">Your progress</h2>
-        <Card className="divide-y divide-border overflow-hidden rounded-3xl">
-          <Row to="/audit" icon={CircleDollarSign} tint="bg-good/20 text-good" label="Royalties" chip={`${percent}%`}>
-            Royalty Infrastructure: {done}/{total} Complete
-          </Row>
-          <Row to="/release" icon={CalendarCheck} tint="bg-accent/20 text-accent" label="Release plan" chip={release ? `${releaseDone}/${releaseTotal}` : '0'}>
-            {release ? `${release.title || 'Untitled'}: ${releaseDone} of ${releaseTotal} steps done${shelved ? ` (+${shelved} saved)` : ''}` : 'Nothing planned yet'}
-          </Row>
-          <Row to="/split-sheet" icon={FileSignature} tint="bg-pink/20 text-pink" label="Split sheet" chip={hasDraft ? (splitsOk ? '100%' : '!') : '0'}>
-            {hasDraft ? `${draft.songTitle.trim() || 'Untitled'}: ${splitsOk ? 'splits add up' : 'not adding up yet'}${state.savedSplitSheets.length ? ` (+${state.savedSplitSheets.length} saved)` : ''}` : 'No draft yet'}
-          </Row>
-        </Card>
-      </section>
-
       <section aria-labelledby="learn-title" className="mt-10">
-        <h2 id="learn-title" className="mb-3 font-display text-xl font-bold">More tools and guides</h2>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <h2 id="learn-title" className="mb-3 font-display text-xl font-bold">More to explore</h2>
+        <div className="grid gap-3 sm:grid-cols-3">
           <Link to="/guides" className="flex items-start gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-accent/70">
             <BookOpen className="mt-0.5 h-6 w-6 shrink-0 text-accent" aria-hidden="true" />
             <span>
@@ -202,18 +168,11 @@ export function HomeTriageHero() {
               <span className="text-[15px] text-muted">Got a contract or a DM that feels off? Decode it here.</span>
             </span>
           </Link>
-          <Link to="/streams" className="flex items-start gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-accent/70">
-            <Calculator className="mt-0.5 h-6 w-6 shrink-0 text-accent" aria-hidden="true" />
+          <Link to="/tools" className="flex items-start gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-accent/70">
+            <Wrench className="mt-0.5 h-6 w-6 shrink-0 text-accent" aria-hidden="true" />
             <span>
-              <span className="block font-bold">Streaming earnings</span>
-              <span className="text-[15px] text-muted">See roughly what your streams pay. A range, not a promise.</span>
-            </span>
-          </Link>
-          <Link to="/contract" className="flex items-start gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-accent/70 sm:col-span-2 lg:col-span-3">
-            <FileSearch className="mt-0.5 h-6 w-6 shrink-0 text-accent" aria-hidden="true" />
-            <span>
-              <span className="block font-bold">Contract check</span>
-              <span className="text-[15px] text-muted">Add a contract and see which parts to worry about. Read on your device.</span>
+              <span className="block font-bold">All tools</span>
+              <span className="text-[15px] text-muted">Songs, shows, press kit, budget, streaming estimate and more.</span>
             </span>
           </Link>
         </div>

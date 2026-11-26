@@ -9,7 +9,7 @@ interface Meta {
 }
 
 const STATIC: Record<string, Meta> = {
-  '/': { title: null, description: 'Free, ad-free, no-login guides and studio tools for independent recording artists: release planner, royalty setup, split sheets and a red-flag contract decoder. Works offline.' },
+  '/': { title: null, description: 'Free, ad-free, no-login guides and tools for independent recording artists: release planner, royalty checklist, split sheets, contract check, press kit and more. Works offline.' },
   '/release': { title: 'Plan your release', description: 'Pick your release day and get a dated, step-by-step checklist, plus a link you can text to your team.' },
   '/audit': { title: 'Get paid what you are owed', description: 'A checklist of the four free sign-ups that collect your music royalties: PRO, The MLC, SoundExchange and artist profiles.' },
   '/split-sheet': { title: 'Split sheet builder', description: 'Agree who owns what before you leave the studio. Split the recording and the song, then download a PDF or copy a text summary.' },

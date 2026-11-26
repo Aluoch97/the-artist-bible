@@ -93,18 +93,16 @@ export function useRoyaltyReadiness() {
   return { done, total, percent: total === 0 ? 0 : Math.round((done / total) * 100) };
 }
 
-export function RoyaltyAudit({ embedded = false, headingLevel = 2 }: { embedded?: boolean; headingLevel?: 2 | 3 }) {
+export function RoyaltyAudit() {
   const { state, toggleAuditItem } = useLocalProgress();
   const { done, total, percent } = useRoyaltyReadiness();
 
   return (
-    <section className={embedded ? 'not-prose my-8' : undefined}>
-      {!embedded && (
-        <ToolHeader
-          title="Get paid what you're owed"
-          description="Money from your music is collected by four different groups. Tick off the ones you've already joined. These are U.S. organizations. If you're based outside the U.S., your country has its own versions."
-        />
-      )}
+    <section>
+      <ToolHeader
+        title="Get paid what you're owed"
+        description="Money from your music is collected by four different groups. Tick off the ones you've already joined. These are U.S. organizations. If you're based outside the U.S., your country has its own versions."
+      />
 
       <Card className="mb-5 flex items-center gap-4 p-4 sm:p-5">
         <ProgressRing value={percent} label="Royalty readiness" />
@@ -124,7 +122,7 @@ export function RoyaltyAudit({ embedded = false, headingLevel = 2 }: { embedded?
             entity={entity}
             done={state.completedAuditIds.includes(entity.id)}
             onToggle={() => toggleAuditItem(entity.id)}
-            level={headingLevel}
+            level={2}
           />
         ))}
       </div>
