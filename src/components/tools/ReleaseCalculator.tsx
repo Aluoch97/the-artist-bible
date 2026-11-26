@@ -39,7 +39,11 @@ function TimelineStrip({ steps, completed, nextId }: { steps: PlannedMilestone[]
         <span className="font-bold">Your timeline</span>
         <span className="text-muted">{range}</span>
       </p>
-      <ul className="-mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-2" aria-label="Release timeline">
+      <ul
+        className="grid grid-cols-[repeat(var(--rows-cols),minmax(0,1fr))] gap-x-1 gap-y-4 sm:grid-cols-[repeat(var(--all-cols),minmax(0,1fr))]"
+        style={{ '--rows-cols': steps.length <= 5 ? steps.length : Math.ceil(steps.length / 2), '--all-cols': steps.length } as React.CSSProperties}
+        aria-label="Release timeline"
+      >
         {steps.map((m) => {
           const done = completed.includes(m.id);
           const isNext = m.id === nextId;
@@ -47,10 +51,10 @@ function TimelineStrip({ steps, completed, nextId }: { steps: PlannedMilestone[]
           const isRelease = m.weeksOut === 0;
           const state = done ? 'done' : overdue ? 'behind' : isNext ? 'next' : 'upcoming';
           return (
-            <li key={m.id} className="relative snap-start">
+            <li key={m.id} className="relative">
               <a
                 href={`#step-${m.id}`}
-                className="flex w-[3.75rem] flex-col items-center gap-1.5 text-center"
+                className="flex w-full flex-col items-center gap-1.5 text-center"
               >
                 <span
                   className={cn(

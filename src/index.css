@@ -222,12 +222,17 @@ input, select, textarea { max-width: 100%; min-width: 0; }
 input[type='date'] {
   -webkit-appearance: none;
   appearance: none;
-  display: block;
+  /* A flex box centers the date text vertically; on iPhone Safari a plain block puts it at the top edge. */
+  display: flex;
+  align-items: center;
   width: 100%;
   min-height: 3rem;
+  padding-block: 0;
+  line-height: 1.5;
   text-align: left;
 }
-input[type='date']::-webkit-date-and-time-value { text-align: left; min-height: 1.5em; }
+input[type='date']::-webkit-datetime-edit { padding: 0; }
+input[type='date']::-webkit-date-and-time-value { text-align: left; min-height: 1.5em; margin: 0; }
 input[type='date']::-webkit-calendar-picker-indicator { opacity: 0.75; }
 
 @media (prefers-reduced-motion: reduce) {

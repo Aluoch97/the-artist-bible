@@ -25,7 +25,7 @@ const LearnPage = lazy(() => import('./pages/LearnPage').then((m) => ({ default:
 
 // Every page except Home loads its code when it is first opened (all of it is also saved for offline use).
 function RouteFallback() {
-  return <div role="status" aria-label="Loading" />;
+  return <div className="min-h-[calc(100dvh-4rem)]" role="status" aria-label="Loading" />;
 }
 
 function ScrollToTop() {

@@ -4,11 +4,23 @@ Short version numbers: 1.0, 1.1, 1.2 ... A small change goes up by one step; a b
 The newest version is on top, and it is the number shown in /admin (Account). Write each entry in plain words.
 To release: add a new `## x.y · date` block at the top of this file in the same change. The build picks it up by itself.
 
-## 1.7 · Nov 26, 2026
+## 1.8 · Nov 26, 2026
 Settings. The sun/moon button at the top is now a **Settings** (gear) button.
 - Pick light, dark or match my device, and make the text smaller, larger or largest.
 - Higher contrast, underlined links, a plainer background (no frosted glass or glow) and reduce motion.
 - Reset to defaults. Choices are saved on your device and applied before the page shows, so there is no flash.
+
+## 1.7 · Nov 26, 2026
+A more immersive Tools tab. A colourful banner, tools grouped by what you are trying to do (Protect yourself, Keep track, Know your numbers, Get noticed), bright tiles like the Home cards, and small badges that show your own progress (songs, shows, budget).
+
+## 1.6 · Nov 26, 2026
+The BMI link on the Live show log page and in the Royalties guide now opens the BMI home page. The old BMI Live address was a dead end.
+
+## 1.5 · Nov 26, 2026
+Fixes from iPhone screenshots.
+- **Release date field:** the date text now sits in the middle of the box instead of at the top edge.
+- **Your timeline** shows every step at once, in two short rows, instead of sliding sideways and cutting off the last steps.
+- **Less empty space** at the bottom of every page, above the footer.
 
 ## 1.4 · Nov 26, 2026
 A way to report a security problem is now published at /.well-known/security.txt. Nothing looks different in the app.
