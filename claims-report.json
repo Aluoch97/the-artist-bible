@@ -1,9 +1,9 @@
 {
   "summary": {
     "total": 15,
-    "pass": 9,
+    "pass": 10,
     "humanOk": 5,
-    "grace": 1,
+    "grace": 0,
     "drift": 0,
     "gone": 0,
     "blocked": 0,
@@ -67,8 +67,8 @@
       "statement": "Joining ASCAP as a songwriter is free. (ASCAP calls the fee waiver temporary, so this is worth watching.)",
       "url": "https://www.ascap.com/about-us/why-join-ascap-general",
       "kind": "auto",
-      "status": "grace",
-      "detail": "site blocked this visit; last confirmed 2026-11-25 (0 days ago, allowed up to 35)"
+      "status": "pass",
+      "detail": "found: \"…Join ASCAP for Free | ASCAP, PRO, performing rights organiz…\" (via fetch)"
     },
     {
       "id": "mlc_free",
@@ -113,7 +113,7 @@
     {
       "id": "bmi_live_exists",
       "statement": "BMI Live lets BMI members who perform their own songs report live shows for royalties (setlists online or in the BMI app).",
-      "url": "https://www.bmi.com/live",
+      "url": "https://www.bmi.com",
       "kind": "human",
       "status": "human-ok",
       "detail": "last human check 2026-11 (0 months ago)"
