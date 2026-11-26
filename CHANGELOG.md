@@ -4,6 +4,9 @@ Short version numbers: 1.0, 1.1, 1.2 ... A small change goes up by one step; a b
 The newest version is on top, and it is the number shown in /admin (Account). Write each entry in plain words.
 To release: add a new `## x.y · date` block at the top of this file in the same change. The build picks it up by itself.
 
+## 1.5 · Nov 26, 2026
+The BMI link on the Live show log page and in the Royalties guide now opens the BMI home page. The old BMI Live address was a dead end.
+
 ## 1.4 · Nov 26, 2026
 A way to report a security problem is now published at /.well-known/security.txt. Nothing looks different in the app.
 
