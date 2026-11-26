@@ -40,7 +40,7 @@ export function ChapterPage() {
 
   return (
     <article>
-      <Link to="/guides" className="no-print mb-4 inline-flex min-h-11 items-center gap-1 text-[15px] font-semibold text-muted hover:text-fg">
+      <Link to="/guides" className="no-print mb-4 inline-flex min-h-11 items-center gap-1 text-[0.9375rem] font-semibold text-muted hover:text-fg">
         <ArrowLeft className="h-4 w-4" aria-hidden="true" /> All guides
       </Link>
 
@@ -62,7 +62,7 @@ export function ChapterPage() {
           <ExternalLink href={issueUrl.toString()}>Spot outdated info?</ExternalLink>
           <span className="text-muted">Tell us what changed and we will update it.</span>
         </p>
-        <nav aria-label="Chapter navigation" className="mt-6 flex justify-between gap-4 text-[15px] font-semibold">
+        <nav aria-label="Chapter navigation" className="mt-6 flex justify-between gap-4 text-[0.9375rem] font-semibold">
           {prev ? (
             <Link to={`/guides/${prev.slug}`} className="inline-flex min-h-11 items-center gap-1 hover:text-accent"><ArrowLeft className="h-4 w-4" aria-hidden="true" /> {prev.title}</Link>
           ) : <span />}

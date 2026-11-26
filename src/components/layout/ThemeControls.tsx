@@ -2,29 +2,13 @@ import { Monitor, Moon, Sun } from 'lucide-react';
 import { useTheme, type ThemePref } from '../../hooks/useTheme';
 import { cn } from '../../lib/utils';
 
-/** Header button: one tap flips between light and dark. */
-export function ThemeToggle() {
-  const { theme, toggle } = useTheme();
-  const Icon = theme === 'dark' ? Sun : Moon;
-  return (
-    <button
-      type="button"
-      onClick={toggle}
-      aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-      className="grid h-11 w-11 shrink-0 cursor-pointer place-items-center rounded-full border border-border bg-surface-2 text-fg transition-colors hover:border-accent hover:text-accent"
-    >
-      <Icon className="h-5 w-5" aria-hidden="true" />
-    </button>
-  );
-}
-
 const OPTIONS: { value: ThemePref; label: string; icon: typeof Sun }[] = [
   { value: 'system', label: 'Match my device', icon: Monitor },
   { value: 'light', label: 'Light', icon: Sun },
   { value: 'dark', label: 'Dark', icon: Moon },
 ];
 
-/** Full setting, for the About page. */
+/** The appearance choice (Match my device / Light / Dark), shown in Settings. */
 export function ThemeChoice() {
   const { pref, setPref } = useTheme();
   return (

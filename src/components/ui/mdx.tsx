@@ -10,7 +10,7 @@ import { ExternalLink } from './ExternalLink';
 
 function Callout({ title, children }: { title?: string; children: ReactNode }) {
   return (
-    <aside className="not-prose my-6 rounded-2xl border border-gold/40 bg-gold/10 p-4 text-[15px]">
+    <aside className="not-prose my-6 rounded-2xl border border-gold/40 bg-gold/10 p-4 text-[0.9375rem]">
       <p className="mb-1 flex items-center gap-2 font-bold text-gold">
         <Info className="h-4 w-4" aria-hidden="true" /> {title ?? 'Heads up'}
       </p>

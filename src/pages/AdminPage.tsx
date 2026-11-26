@@ -134,14 +134,14 @@ export function AdminPage() {
       {view.kind === 'loading' && <p role="status" className="text-muted">Loading…</p>}
 
       {view.kind === 'unavailable' && (
-        <Card className="p-5 text-[15px]">
+        <Card className="p-5 text-[0.9375rem]">
           <p className="font-bold">The admin service is not reachable here.</p>
           <p className="mt-1 text-muted">It runs on the live site. On a local copy, or if the site&apos;s server functions are off, this page cannot sign you in.</p>
         </Card>
       )}
 
       {view.kind === 'not-set-up' && (
-        <Card className="p-5 text-[15px]">
+        <Card className="p-5 text-[0.9375rem]">
           <p className="font-bold">Sign-in is not set up yet.</p>
           <ol className="mt-2 list-decimal space-y-1 pl-5 text-muted">
             <li>Make up a long password (at least 10 characters).</li>
@@ -170,7 +170,7 @@ export function AdminPage() {
                 <p className="mb-1 text-sm font-bold text-muted">{g.group}</p>
                 <ul className="divide-y divide-border">
                   {g.items.map((i) => (
-                    <li key={i.name} className="flex items-center justify-between gap-3 py-2 text-[15px]">
+                    <li key={i.name} className="flex items-center justify-between gap-3 py-2 text-[0.9375rem]">
                       <span className="min-w-0">{i.label}</span>
                       <Chip ok={i.present}>{i.present ? 'Set' : 'Not set'}</Chip>
                     </li>
@@ -181,7 +181,7 @@ export function AdminPage() {
           </Section>
 
           <Section title="AI contract review" open>
-            <p className="text-[15px]">
+            <p className="text-[0.9375rem]">
               {view.ai.enabled ? 'On.' : 'Off (it needs the AI connection and the counters store above).'} Each person can run {view.ai.perPersonDaily} reviews a day.
             </p>
             <div>
@@ -192,9 +192,9 @@ export function AdminPage() {
           </Section>
 
           <Section title="Content freshness">
-            <p className="text-[15px]">Data last verified: <strong>{industryData.lastVerified}</strong>. Guides: {chapters.map((c) => `${c.number} ${c.lastVerified}`).join(', ')}.</p>
-            <p className="text-[15px]">{auto} claims are checked automatically each week. {human.length} need a person to re-check them (at least every {maxAge} months):</p>
-            <ul className="divide-y divide-border text-[15px]">
+            <p className="text-[0.9375rem]">Data last verified: <strong>{industryData.lastVerified}</strong>. Guides: {chapters.map((c) => `${c.number} ${c.lastVerified}`).join(', ')}.</p>
+            <p className="text-[0.9375rem]">{auto} claims are checked automatically each week. {human.length} need a person to re-check them (at least every {maxAge} months):</p>
+            <ul className="divide-y divide-border text-[0.9375rem]">
               {human.map((c) => {
                 const when = (c as { humanCheckedOn?: string }).humanCheckedOn ?? '';
                 const due = monthsAgo(when) > maxAge;
@@ -207,14 +207,14 @@ export function AdminPage() {
               })}
             </ul>
             <p className="text-sm text-muted">Sources last confirmed by the weekly check: {Object.keys(claimsState).length} of {auto}.</p>
-            <p className="flex flex-wrap gap-x-5 text-[15px] font-semibold">
+            <p className="flex flex-wrap gap-x-5 text-[0.9375rem] font-semibold">
               <a className="inline-flex min-h-11 items-center text-accent underline underline-offset-4" href={`${repo}/issues?q=is%3Aopen+label%3Aaudit`} target="_blank" rel="noopener noreferrer">Open audit issues</a>
               <a className="inline-flex min-h-11 items-center text-accent underline underline-offset-4" href={`${repo}/actions`} target="_blank" rel="noopener noreferrer">Automatic checks</a>
             </p>
           </Section>
 
           <Section title="Account" open>
-            <p className="text-[15px]">App version: <strong>{version || 'not available'}</strong></p>
+            <p className="text-[0.9375rem]">App version: <strong>{version || 'not available'}</strong></p>
             <div className="flex flex-wrap gap-2">
               <Button onClick={refreshApp}><RefreshCw className="h-4 w-4" aria-hidden="true" /> Refresh the app</Button>
               <Button variant="danger" onClick={() => { writeToken(''); setView({ kind: 'signed-out' }); }}><LogOut className="h-4 w-4" aria-hidden="true" /> Sign out on this device</Button>

@@ -49,14 +49,14 @@ function AuditCard({ entity, done, onToggle, level }: { entity: RoyaltyEntity; d
             <CostBadge cost={entity.cost} />
           </div>
           <p className="mt-0.5 text-sm font-semibold text-muted">{entity.category}</p>
-          <p className="mt-2 text-[15px]"><Annotated text={entity.whyItMatters} /></p>
+          <p className="mt-2 text-[0.9375rem]"><Annotated text={entity.whyItMatters} /></p>
 
           <button
             type="button"
             aria-expanded={open}
             aria-controls={panelId}
             onClick={() => setOpen((o) => !o)}
-            className="mt-3 flex min-h-11 cursor-pointer items-center gap-1 text-[15px] font-bold text-accent"
+            className="mt-3 flex min-h-11 cursor-pointer items-center gap-1 text-[0.9375rem] font-bold text-accent"
           >
             {open ? 'Hide the steps' : 'How do I set this up?'}
             <ChevronDown className={cn('h-5 w-5 transition-transform', open && 'rotate-180')} aria-hidden="true" />
@@ -66,13 +66,13 @@ function AuditCard({ entity, done, onToggle, level }: { entity: RoyaltyEntity; d
             <div id={panelId} className="mt-1 space-y-4">
               <ol className="space-y-3">
                 {entity.steps.map((step, i) => (
-                  <li key={step} className="flex gap-3 text-[15px]">
+                  <li key={step} className="flex gap-3 text-[0.9375rem]">
                     <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-surface-2 text-xs font-bold text-muted">{i + 1}</span>
                     <span><Annotated text={step} /></span>
                   </li>
                 ))}
               </ol>
-              <div className="flex flex-wrap gap-x-5 text-[15px] font-semibold">
+              <div className="flex flex-wrap gap-x-5 text-[0.9375rem] font-semibold">
                 <ExternalLink href={entity.officialUrl} className="min-h-11">Go to the official site</ExternalLink>
                 {entity.secondaryUrl && <ExternalLink href={entity.secondaryUrl} className="min-h-11">Alternate site</ExternalLink>}
               </div>

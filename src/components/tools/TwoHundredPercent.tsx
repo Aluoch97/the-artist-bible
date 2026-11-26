@@ -11,7 +11,7 @@ export function TwoHundredPercent() {
             <span className="font-display text-3xl font-bold tabular-nums">100%</span>
           </div>
           <h2 className="mt-1 font-bold">The recording</h2>
-          <p className="mt-1 text-[15px] text-muted">The audio file everyone hears. Usually owned by whoever paid for the session. This is called the master.</p>
+          <p className="mt-1 text-[0.9375rem] text-muted">The audio file everyone hears. Usually owned by whoever paid for the session. This is called the master.</p>
         </div>
         <div className="flex items-center justify-center font-display text-3xl font-bold text-muted" aria-hidden="true">+</div>
         <div className="rounded-2xl border border-gold/40 bg-gold/10 p-4">
@@ -20,10 +20,10 @@ export function TwoHundredPercent() {
             <span className="font-display text-3xl font-bold tabular-nums">100%</span>
           </div>
           <h2 className="mt-1 font-bold">The song itself</h2>
-          <p className="mt-1 text-[15px] text-muted">The melody and lyrics as written. Owned by the songwriters, no matter who records it. This is called publishing.</p>
+          <p className="mt-1 text-[0.9375rem] text-muted">The melody and lyrics as written. Owned by the songwriters, no matter who records it. This is called publishing.</p>
         </div>
       </div>
-      <figcaption id="two-hundred-caption" className="mt-3 text-[15px] text-muted">
+      <figcaption id="two-hundred-caption" className="mt-3 text-[0.9375rem] text-muted">
         Every song is <strong className="text-fg">200%</strong>: 100% recording + 100% song. You split each side separately, and each side must add up to 100%.
       </figcaption>
     </figure>

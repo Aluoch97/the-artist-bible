@@ -62,7 +62,7 @@ export function BackupModal({ open, onClose }: { open: boolean; onClose: () => v
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 id="backup-title" className="font-display text-2xl font-bold">Backup &amp; restore</h2>
-            <p className="mt-1 text-[15px] text-muted">Everything you enter lives only on this device. Save a file to keep a copy or move to a new phone.</p>
+            <p className="mt-1 text-[0.9375rem] text-muted">Everything you enter lives only on this device. Save a file to keep a copy or move to a new phone.</p>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close"><X className="h-4 w-4" aria-hidden="true" /></Button>
         </div>

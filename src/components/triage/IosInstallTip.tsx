@@ -12,7 +12,7 @@ export function IosInstallTip() {
         <X className="h-5 w-5" aria-hidden="true" />
       </button>
       <p className="font-bold text-gold">Put it on your Home Screen</p>
-      <ol className="mt-2 space-y-1.5 text-[15px]">
+      <ol className="mt-2 space-y-1.5 text-[0.9375rem]">
         <li className="flex items-start gap-2.5"><Share className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden="true" /><span>Tap the <strong>Share</strong> button in your browser.</span></li>
         <li className="flex items-start gap-2.5"><SquarePlus className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden="true" /><span>Choose <strong>Add to Home Screen</strong>.</span></li>
       </ol>

@@ -15,8 +15,8 @@ export function WordsList() {
       {sorted.map((e) => (
         <div key={e.id} id={`word-${e.id}`} className="scroll-mt-24 rounded-2xl border border-border bg-surface p-4 sm:p-5">
           <dt className="font-display text-xl font-extrabold">{e.term}</dt>
-          <dd className="mt-1 text-[17px] leading-relaxed text-muted">{e.meaning}</dd>
-          <dd className="mt-2 rounded-xl bg-surface-2 p-3 text-[15px] leading-relaxed"><strong>Example:</strong> {e.example}</dd>
+          <dd className="mt-1 text-[1.0625rem] leading-relaxed text-muted">{e.meaning}</dd>
+          <dd className="mt-2 rounded-xl bg-surface-2 p-3 text-[0.9375rem] leading-relaxed"><strong>Example:</strong> {e.example}</dd>
         </div>
       ))}
     </dl>

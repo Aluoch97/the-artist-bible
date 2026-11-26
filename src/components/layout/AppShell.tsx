@@ -1,4 +1,4 @@
-import { BookOpen, CalendarCheck, CircleDollarSign, Download, Save, Home, Wrench } from 'lucide-react';
+import { BookOpen, CalendarCheck, CircleDollarSign, Download, Save, Settings, Home, Wrench } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useState, type ReactNode } from 'react';
 import { GlossaryDialog } from '../ui/Term';
@@ -7,7 +7,8 @@ import { industryData } from '../../data';
 import { usePwaInstall } from '../../hooks/usePwaInstall';
 import { cn } from '../../lib/utils';
 import { BackupModal } from './BackupModal';
-import { ThemeToggle } from './ThemeControls';
+import { SettingsDialog } from './SettingsDialog';
+import { openSettings } from '../../lib/settingsDialog';
 import { SOCIAL_ICON_PATHS } from './socialIcons';
 
 interface Tab {
@@ -60,7 +61,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Logo size={46} />
             <span className="grid min-w-0 leading-none">
               <span className="truncate font-display text-xl font-bold tracking-tight"><span className="min-[360px]:hidden">Artist Bible</span><span className="hidden min-[360px]:inline">The Artist Bible</span></span>
-              <span className="mt-1 truncate text-[11px] font-semibold tracking-wide text-muted">Free tools for independent artists</span>
+              <span className="mt-1 truncate text-[0.6875rem] font-semibold tracking-wide text-muted">Free tools for independent artists</span>
             </span>
           </Link>
 
@@ -71,7 +72,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 to={t.to}
                 aria-current={isCurrent(t, path) ? 'page' : undefined}
                 className={cn(
-                  'flex h-10 items-center rounded-full px-4 text-[15px] font-semibold transition-colors',
+                  'flex h-10 items-center rounded-full px-4 text-[0.9375rem] font-semibold transition-colors',
                   isCurrent(t, path) ? 'bg-accent text-accent-fg' : 'text-fg hover:bg-surface-2',
                 )}
               >
@@ -90,7 +91,15 @@ export function AppShell({ children }: { children: ReactNode }) {
                 <Download className="h-4 w-4" aria-hidden="true" /> <span className="hidden sm:inline">Install</span><span className="sr-only sm:hidden">Install the app</span>
               </button>
             )}
-            <ThemeToggle />
+            <button
+              type="button"
+              onClick={openSettings}
+              aria-label="Settings"
+              aria-haspopup="dialog"
+              className="grid h-11 w-11 shrink-0 cursor-pointer place-items-center rounded-full border border-border bg-surface-2 text-fg transition-colors hover:border-accent hover:text-accent"
+            >
+              <Settings className="h-5 w-5" aria-hidden="true" />
+            </button>
             <button
               type="button"
               onClick={() => setBackupOpen(true)}
@@ -104,6 +113,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       </header>
 
       <GlossaryDialog />
+      <SettingsDialog />
 
       <main id="main" className={cn('mx-auto w-full flex-1 px-4 pb-6 pt-6 [overflow-wrap:anywhere] sm:pt-8', pathname === '/' ? 'max-w-3xl lg:max-w-5xl' : 'max-w-3xl')}>
         <div key={path} className="page-enter">{children}</div>

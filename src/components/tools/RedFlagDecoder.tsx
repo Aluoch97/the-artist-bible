@@ -44,21 +44,21 @@ function FlagCard({ flag, level }: { flag: RedFlag; level: Level }) {
           </Badge>
         </div>
         <p className="mt-0.5 text-sm font-semibold text-muted">{flag.category}</p>
-        <p className="mt-2 text-[15px]">{flag.plainEnglish}</p>
+        <p className="mt-2 text-[0.9375rem]">{flag.plainEnglish}</p>
 
         <button
           type="button"
           aria-expanded={open}
           aria-controls={id}
           onClick={() => setOpen((o) => !o)}
-          className="mt-2 flex min-h-11 cursor-pointer items-center gap-1 text-[15px] font-bold text-accent"
+          className="mt-2 flex min-h-11 cursor-pointer items-center gap-1 text-[0.9375rem] font-bold text-accent"
         >
           {open ? 'Show less' : 'Why it hurts and what to do'}
           <ChevronDown className={cn('h-5 w-5 transition-transform', open && 'rotate-180')} aria-hidden="true" />
         </button>
 
         {open && (
-          <div id={id} className="mt-1 space-y-4 text-[15px]">
+          <div id={id} className="mt-1 space-y-4 text-[0.9375rem]">
             <div>
               <Sub className="mb-1 font-bold">Why it hurts</Sub>
               <p className="text-muted">{flag.whyItHurts}</p>
@@ -146,7 +146,7 @@ export function RedFlagDecoder({ className, headingLevel = 2 }: { className?: st
                 <Group className={cn('mb-1 flex items-center gap-2 font-display text-2xl font-bold', g.color)}>
                   <TriangleAlert className="h-6 w-6" aria-hidden="true" /> {g.title} <span className="text-base font-semibold text-muted">({items.length})</span>
                 </Group>
-                <p className="mb-3 text-[15px] text-muted">{g.hint}</p>
+                <p className="mb-3 text-[0.9375rem] text-muted">{g.hint}</p>
                 <div className="space-y-3">
                   {items.map((f) => <FlagCard key={f.id} flag={f} level={(headingLevel + 1) as Level} />)}
                 </div>

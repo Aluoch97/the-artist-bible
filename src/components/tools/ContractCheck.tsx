@@ -54,7 +54,7 @@ function FindingCard({ f }: { f: ScanFinding }) {
         <Badge variant={high ? 'bad' : 'warn'}><TriangleAlert className="h-3 w-3" aria-hidden="true" /> {high ? 'Serious' : 'Be careful'}</Badge>
         <span className="text-sm text-muted">{f.count} {f.count === 1 ? 'place' : 'places'}</span>
       </div>
-      <p className="mt-2 text-[15px]">{f.flag.plainEnglish}</p>
+      <p className="mt-2 text-[0.9375rem]">{f.flag.plainEnglish}</p>
       <ul className="mt-3 space-y-2">
         {f.matches.map((m, i) => (
           <li key={i} className="rounded-xl bg-bg p-3 text-sm leading-relaxed text-muted">
@@ -64,12 +64,12 @@ function FindingCard({ f }: { f: ScanFinding }) {
           </li>
         ))}
       </ul>
-      <button type="button" aria-expanded={open} onClick={() => setOpen((o) => !o)} className="mt-2 flex min-h-11 cursor-pointer items-center gap-1 text-[15px] font-bold text-accent">
+      <button type="button" aria-expanded={open} onClick={() => setOpen((o) => !o)} className="mt-2 flex min-h-11 cursor-pointer items-center gap-1 text-[0.9375rem] font-bold text-accent">
         {open ? 'Hide what to do' : 'What to do about it'}
         <ChevronDown className={cn('h-5 w-5 transition-transform', open && 'rotate-180')} aria-hidden="true" />
       </button>
       {open && (
-        <ul className="list-disc space-y-1 pl-5 text-[15px] text-muted marker:text-accent">
+        <ul className="list-disc space-y-1 pl-5 text-[0.9375rem] text-muted marker:text-accent">
           {f.flag.whatToDo.map((w) => <li key={w}>{w}</li>)}
         </ul>
       )}
@@ -84,7 +84,7 @@ function ScanResults({ findings }: { findings: ScanFinding[] }) {
     return (
       <Card className="flex gap-3 p-4">
         <Info className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
-        <div className="text-[15px]">
+        <div className="text-[0.9375rem]">
           <p className="font-bold">We did not find wording from our list of known traps.</p>
           <p className="mt-1 text-muted">That does <strong className="text-fg">not</strong> mean the contract is fair. This check only looks for specific phrases, and a deal can be one-sided without using them. Read it all, and have a lawyer look at anything important.</p>
         </div>
@@ -93,7 +93,7 @@ function ScanResults({ findings }: { findings: ScanFinding[] }) {
   }
   return (
     <div className="space-y-6">
-      <p role="status" className="text-[15px]">
+      <p role="status" className="text-[0.9375rem]">
         Found wording linked to <strong>{findings.length}</strong> known {findings.length === 1 ? 'trap' : 'traps'}
         {serious.length > 0 && <> ({serious.length} serious)</>}. These are places to read closely, not proof the deal is bad.
       </p>
@@ -127,14 +127,14 @@ function AiResults({ r, model }: { r: ContractReview; model: string }) {
     <div className="space-y-6" aria-live="polite">
       <div className={cn('rounded-2xl border p-4', o.tone)}>
         <p className="font-display text-xl font-bold">{o.title}</p>
-        <p className="mt-1 text-[15px] text-fg">{o.body}</p>
+        <p className="mt-1 text-[0.9375rem] text-fg">{o.body}</p>
       </div>
       <p className="text-sm text-muted">The AI read and the instant check can disagree, because they look at the contract differently. If one is more cautious, trust the more cautious one.</p>
 
       {r.summary.length > 0 && (
         <section aria-label="Summary">
           <h3 className="mb-2 font-display text-xl font-bold">What you'd be agreeing to</h3>
-          <ul className="list-disc space-y-1.5 pl-5 text-[15px] marker:text-accent">{r.summary.map((s) => <li key={s}>{s}</li>)}</ul>
+          <ul className="list-disc space-y-1.5 pl-5 text-[0.9375rem] marker:text-accent">{r.summary.map((s) => <li key={s}>{s}</li>)}</ul>
         </section>
       )}
 
@@ -145,7 +145,7 @@ function AiResults({ r, model }: { r: ContractReview; model: string }) {
             {r.keyTerms.map((t) => (
               <div key={t.label} className="p-3 sm:grid sm:grid-cols-[10rem_1fr] sm:gap-3">
                 <dt className="text-sm font-bold text-muted">{t.label}</dt>
-                <dd className="text-[15px]">{t.plain}</dd>
+                <dd className="text-[0.9375rem]">{t.plain}</dd>
               </div>
             ))}
           </dl>
@@ -167,8 +167,8 @@ function AiResults({ r, model }: { r: ContractReview; model: string }) {
                 ) : (
                   <p className="mt-2 text-xs text-muted">The AI described this but we could not match its wording to your text. Check the original.</p>
                 )}
-                <p className="mt-2 text-[15px]">{f.why}</p>
-                {f.askFor && <p className="mt-2 text-[15px]"><strong>Ask for:</strong> <span className="text-muted">{f.askFor}</span></p>}
+                <p className="mt-2 text-[0.9375rem]">{f.why}</p>
+                {f.askFor && <p className="mt-2 text-[0.9375rem]"><strong>Ask for:</strong> <span className="text-muted">{f.askFor}</span></p>}
               </article>
             ))}
           </div>
@@ -178,7 +178,7 @@ function AiResults({ r, model }: { r: ContractReview; model: string }) {
       {r.questions.length > 0 && (
         <section aria-label="Questions to ask">
           <h3 className="mb-2 font-display text-xl font-bold">Questions to ask before you sign</h3>
-          <ul className="list-disc space-y-1.5 pl-5 text-[15px] marker:text-accent">{r.questions.map((q) => <li key={q}>{q}</li>)}</ul>
+          <ul className="list-disc space-y-1.5 pl-5 text-[0.9375rem] marker:text-accent">{r.questions.map((q) => <li key={q}>{q}</li>)}</ul>
         </section>
       )}
 
@@ -206,7 +206,7 @@ function AiPanel({ text, availability }: { text: string; availability: Availabil
   if (availability === 'checking') return null;
   if (availability === 'off') {
     return (
-      <Card className="flex gap-3 p-4 text-[15px]">
+      <Card className="flex gap-3 p-4 text-[0.9375rem]">
         <Bot className="mt-0.5 h-5 w-5 shrink-0 text-muted" aria-hidden="true" />
         <p className="text-muted">The optional AI review is not turned on right now. The instant check above works without it.</p>
       </Card>
@@ -231,7 +231,7 @@ function AiPanel({ text, availability }: { text: string; availability: Availabil
       <Card className="space-y-4 p-4 sm:p-5">
         <div className="flex gap-3">
           <Bot className="mt-0.5 h-6 w-6 shrink-0 text-accent" aria-hidden="true" />
-          <div className="text-[15px]">
+          <div className="text-[0.9375rem]">
             <p className="font-bold">Get a plain-English review from an AI</p>
             <p className="mt-1 text-muted">It summarizes the deal, points out concerns with quotes from your contract, and suggests what to ask for.</p>
           </div>
@@ -247,14 +247,14 @@ function AiPanel({ text, availability }: { text: string; availability: Availabil
           </ul>
         </div>
 
-        <label className="flex min-h-11 cursor-pointer items-start gap-3 text-[15px]">
+        <label className="flex min-h-11 cursor-pointer items-start gap-3 text-[0.9375rem]">
           <input type="checkbox" checked={hide} onChange={(e) => setHide(e.target.checked)} className="mt-1 h-5 w-5 accent-[var(--accent)]" />
           <span>Remove emails, phone numbers and long ID numbers first {hide && prepared.removed > 0 && <span className="text-muted">({prepared.removed} removed)</span>}</span>
         </label>
         <p className="-mt-2 text-xs text-muted">Names and addresses are not removed automatically. Check the preview, and edit your contract text above if you want them out.</p>
 
         <details className="group rounded-xl border border-border bg-bg px-3 py-2">
-          <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-[15px] font-bold [&::-webkit-details-marker]:hidden">
+          <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-[0.9375rem] font-bold [&::-webkit-details-marker]:hidden">
             Show exactly what will be sent ({prepared.text.length.toLocaleString('en-US')} characters)
             <ChevronDown className="h-5 w-5 text-muted transition-transform group-open:rotate-180" aria-hidden="true" />
           </summary>
@@ -264,7 +264,7 @@ function AiPanel({ text, availability }: { text: string; availability: Availabil
           <p role="alert" className="flex gap-2 text-sm text-warn"><AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" /> This contract is longer than the {MAX_AI_CHARS.toLocaleString('en-US')} characters the free review can read. Only the first part will be reviewed. Review the rest in a second pass.</p>
         )}
 
-        <label className="flex min-h-11 cursor-pointer items-start gap-3 text-[15px]">
+        <label className="flex min-h-11 cursor-pointer items-start gap-3 text-[0.9375rem]">
           <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} className="mt-1 h-5 w-5 accent-[var(--accent)]" />
           <span>I understand this text will be sent to an AI service to produce the review.</span>
         </label>
@@ -276,7 +276,7 @@ function AiPanel({ text, availability }: { text: string; availability: Availabil
         {tooShort && <p className="text-sm text-muted">Add more of the contract first. The review needs at least a few paragraphs.</p>}
         <div role="status" aria-live="polite">
           {state.kind === 'loading' && <p className="text-sm text-muted">This can take up to a minute. Keep this screen open.</p>}
-          {state.kind === 'error' && <p className="flex gap-2 text-[15px] text-bad"><AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" /> {state.message}</p>}
+          {state.kind === 'error' && <p className="flex gap-2 text-[0.9375rem] text-bad"><AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" /> {state.message}</p>}
         </div>
       </Card>
       {state.kind === 'done' && <AiResults r={state.review} model={state.model} />}
@@ -359,7 +359,7 @@ export function ContractCheck() {
 
   return (
     <div>
-      <p className="mb-6 flex gap-2 rounded-2xl border border-border bg-surface p-3 text-[15px]">
+      <p className="mb-6 flex gap-2 rounded-2xl border border-border bg-surface p-3 text-[0.9375rem]">
         <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
         <span>Your file is read <strong>on this device</strong>. Nothing is uploaded or saved. The only time any text leaves your device is if you choose the optional AI review below and agree to it.</span>
       </p>

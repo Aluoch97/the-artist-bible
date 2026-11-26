@@ -41,7 +41,7 @@ export function LearnPage({ section }: { section: LearnSection }) {
               replace
               aria-current={active ? 'page' : undefined}
               className={cn(
-                'flex h-11 min-w-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-1 text-[13px] font-bold transition-colors min-[400px]:text-sm sm:gap-2 sm:text-[15px]',
+                'flex h-11 min-w-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-1 text-[0.8125rem] font-bold transition-colors min-[400px]:text-sm sm:gap-2 sm:text-[0.9375rem]',
                 active ? 'bg-accent text-accent-fg' : 'text-muted hover:text-fg',
               )}
             >
@@ -59,7 +59,7 @@ export function LearnPage({ section }: { section: LearnSection }) {
                 <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-accent/15 font-display text-xl font-bold text-accent">{c.number}</span>
                 <span className="min-w-0 flex-1">
                   <span className="block text-lg font-bold leading-snug">{c.title}</span>
-                  <span className="mt-0.5 block text-[15px] text-muted">{c.summary}</span>
+                  <span className="mt-0.5 block text-[0.9375rem] text-muted">{c.summary}</span>
                 </span>
                 <ArrowRight className="mt-2.5 h-5 w-5 shrink-0 text-muted transition-transform group-hover:translate-x-1 group-hover:text-accent" aria-hidden="true" />
               </Link>

@@ -124,12 +124,71 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* ---------- Display settings (Settings dialog; set before first paint by public/theme-init.js) ----------
+   Text size scales everything written in rem, which is nearly all of the app. */
+html[data-text='small'] { font-size: 90%; }
+html[data-text='large'] { font-size: 112.5%; }
+html[data-text='xlarge'] { font-size: 125%; }
+
+/* Reduce motion: the same quiet result as a device that asks for it, but chosen inside the app. */
+html[data-motion='reduce'] *, html[data-motion='reduce'] *::before, html[data-motion='reduce'] *::after {
+  animation: none !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Higher contrast: stronger text, borders and cards in both themes. */
+:root[data-theme='dark'][data-contrast='high'] {
+  --fg: #ffffff;
+  --muted: #f0dccb;
+  --border: rgba(255, 232, 210, 0.55);
+  --surface: #2a1f18;
+  --surface-2: #3a2b21;
+  --glass: #231a14;
+  --glass-border: rgba(255, 232, 210, 0.55);
+  --gold: #ffd98a;
+}
+:root[data-theme='light'][data-contrast='high'] {
+  --fg: #1a0d06;
+  --muted: #45291a;
+  --border: rgba(90, 40, 10, 0.6);
+  --surface: #fffaf5;
+  --surface-2: #f6dcc6;
+  --glass: #fffaf5;
+  --glass-border: rgba(90, 40, 10, 0.6);
+  --accent: #8f3505;
+  --gold: #6b4306;
+}
+
+/* Underline links: links inside sentences and the footer always show they are links. */
+html[data-links='underline'] :where(p, li, dd, footer, .chapter-prose) a:not([class*='rounded']) {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Plainer background: solid cards and bars, no frosted glass, no colored glow behind the page. */
+:root[data-theme='dark'][data-plain='on'] {
+  --surface: #231a14;
+  --surface-2: #33261d;
+  --glass: #231a14;
+}
+:root[data-theme='light'][data-plain='on'] {
+  --surface: #fff7ef;
+  --surface-2: #f6dcc6;
+  --glass: #fff7ef;
+}
+html[data-plain='on'] body::before { display: none; }
+html[data-plain='on'] *, html[data-plain='on'] *::before, html[data-plain='on'] *::after {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
 body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 1rem; /* follows the text-size choice in Settings (html font-size) */
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }

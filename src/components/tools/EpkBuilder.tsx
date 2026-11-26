@@ -99,7 +99,7 @@ export function EpkBuilder() {
       </div>
       <Card className="mt-4 p-4" aria-live="polite">
         <p className="text-sm font-bold text-muted">Your pitch <span className="font-normal">({pitch.length} characters)</span></p>
-        <p className="mt-1 whitespace-pre-wrap text-[15px]">{pitch}</p>
+        <p className="mt-1 whitespace-pre-wrap text-[0.9375rem]">{pitch}</p>
         <Button className="mt-3" size="sm" onClick={() => copy('pitch')}>
           <ClipboardCopy className="h-4 w-4" aria-hidden="true" /> {copied === 'pitch' ? 'Copied' : 'Copy pitch'}
         </Button>

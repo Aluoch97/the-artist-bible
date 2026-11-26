@@ -48,7 +48,7 @@ function ShowCard({ show }: { show: LiveShow }) {
       {show.songs.length > 0 && (
         <ol className="mb-3 space-y-1.5">
           {show.songs.map((t, i) => (
-            <li key={t} className="flex items-center justify-between gap-2 rounded-xl bg-bg/40 py-0.5 pl-3 text-[15px]">
+            <li key={t} className="flex items-center justify-between gap-2 rounded-xl bg-bg/40 py-0.5 pl-3 text-[0.9375rem]">
               <span className="min-w-0"><span className="mr-2 tabular-nums text-muted">{i + 1}.</span>{t}</span>
               <Button variant="ghost" size="icon" aria-label={`Remove ${t}`} onClick={() => updateShow(show.id, { songs: show.songs.filter((x) => x !== t) })}>
                 <X className="h-4 w-4" aria-hidden="true" />
@@ -111,7 +111,7 @@ export function ShowLog() {
         description="Write down each show and the songs you played, then copy the setlist to report it. Live shows are usually only paid if you report them."
       />
 
-      <div className="mb-5 rounded-2xl border border-border bg-surface p-4 text-[15px]">
+      <div className="mb-5 rounded-2xl border border-border bg-surface p-4 text-[0.9375rem]">
         <p>
           Report on {bmiLive ? <ExternalLink href={bmiLive}>BMI Live</ExternalLink> : 'BMI Live'} (BMI members) or ASCAP OnStage
           {ascapUrl ? <> through Member Access on <ExternalLink href={ascapUrl}>ascap.com</ExternalLink></> : ''}. The songs have to be registered first, and there is a time limit, so report soon after the show.
@@ -124,7 +124,7 @@ export function ShowLog() {
       {waiting > 0 && <p className="mt-3 text-sm font-semibold text-gold" role="status">{waiting} {waiting === 1 ? 'show' : 'shows'} not reported yet.</p>}
 
       {shows.length === 0 ? (
-        <p className="mt-6 rounded-2xl border border-border bg-surface p-5 text-[15px] text-muted">No shows yet. Add one after your next gig, while you still remember the setlist.</p>
+        <p className="mt-6 rounded-2xl border border-border bg-surface p-5 text-[0.9375rem] text-muted">No shows yet. Add one after your next gig, while you still remember the setlist.</p>
       ) : (
         <ul className="mt-6 space-y-4">
           {shows.map((s) => (

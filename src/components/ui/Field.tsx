@@ -44,7 +44,7 @@ export function CheckPill({ checked, onChange, children }: { checked: boolean; o
       )}
     >
       <input type="checkbox" className="sr-only" checked={checked} onChange={(e) => onChange(e.target.checked)} />
-      <span aria-hidden="true" className={cn('grid h-5 w-5 place-items-center rounded-full border text-[11px]', checked && 'pop',
+      <span aria-hidden="true" className={cn('grid h-5 w-5 place-items-center rounded-full border text-[0.6875rem]', checked && 'pop',
         checked ? 'border-good bg-good text-accent-fg' : 'border-muted/60')}>{checked ? '✓' : ''}</span>
       {children}
     </label>

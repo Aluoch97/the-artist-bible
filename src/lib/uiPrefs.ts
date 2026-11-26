@@ -4,6 +4,12 @@ export const UI_KEY = 'artist_bible_ui_v1';
 export interface UiPrefs {
   installTipDismissed?: boolean;
   theme?: 'system' | 'light' | 'dark';
+  /** Display settings (see the Settings dialog). Missing means the default. */
+  text?: 'small' | 'normal' | 'large' | 'xlarge';
+  motion?: 'system' | 'reduce';
+  contrast?: 'normal' | 'high';
+  links?: 'normal' | 'underline';
+  plain?: boolean;
 }
 
 export function readUi(): UiPrefs {
