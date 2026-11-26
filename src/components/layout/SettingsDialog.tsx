@@ -8,16 +8,16 @@ import { Button } from '../ui/button';
 import { ThemeChoice } from './ThemeControls';
 
 const TEXT_SIZES: { value: TextSize; label: string }[] = [
-  { value: 'small', label: 'Smaller' },
-  { value: 'normal', label: 'Standard' },
-  { value: 'large', label: 'Larger' },
+  { value: 'small', label: 'Small' },
+  { value: 'normal', label: 'Normal' },
+  { value: 'large', label: 'Large' },
   { value: 'xlarge', label: 'Largest' },
 ];
 
 function Group({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="mt-6">
-      <h3 className="mb-2 font-bold">{title}</h3>
+    <section className="mt-4 first:mt-0">
+      <h3 className="mb-1.5 text-[0.9375rem] font-bold">{title}</h3>
       {children}
     </section>
   );
@@ -31,13 +31,13 @@ interface SwitchRowProps {
   onChange: (next: boolean) => void;
 }
 
-/** One on/off setting: a real checkbox (so keyboards and screen readers get it) drawn as a switch. */
+/** One on/off setting: a real checkbox (so keyboards and screen readers get it) drawn as a switch. Kept to a compact row. */
 function SwitchRow({ label, hint, checked, disabled, onChange }: SwitchRowProps) {
   return (
-    <label className={cn('flex min-h-14 cursor-pointer items-center gap-3 rounded-2xl border border-border bg-surface p-3', disabled && 'cursor-not-allowed opacity-80')}>
-      <span className="min-w-0 flex-1">
+    <label className={cn('flex min-h-12 cursor-pointer items-center gap-3 rounded-2xl border border-border bg-surface px-3 py-2', disabled && 'cursor-not-allowed opacity-80')}>
+      <span className="min-w-0 flex-1 leading-tight">
         <span className="block font-semibold">{label}</span>
-        <span className="block text-sm text-muted">{hint}</span>
+        <span className="block text-[0.8125rem] text-muted">{hint}</span>
       </span>
       <input type="checkbox" role="switch" className="peer sr-only" checked={checked} disabled={disabled} onChange={(e) => onChange(e.target.checked)} />
       <span
@@ -48,7 +48,10 @@ function SwitchRow({ label, hint, checked, disabled, onChange }: SwitchRowProps)
   );
 }
 
-/** Settings: how the app looks and reads. Everything is saved on this device only. */
+/**
+ * Settings: how the app looks and reads. Everything is saved on this device only.
+ * The title bar (with Close) and the Done / Reset bar stay put; only the options in between scroll.
+ */
 export function SettingsDialog() {
   const ref = useRef<HTMLDialogElement>(null);
   const open = useSettingsOpen();
@@ -69,17 +72,17 @@ export function SettingsDialog() {
       onClose={closeSettings}
       onClick={(e) => { if (e.target === ref.current) closeSettings(); }}
       aria-labelledby="settings-title"
-      className="m-auto max-h-[calc(100dvh-1.5rem)] w-[min(32rem,calc(100vw-1.5rem))] overflow-y-auto rounded-3xl border border-border bg-[var(--surface-solid)] p-0 text-fg backdrop:bg-black/75"
+      className="m-auto max-h-[calc(100dvh-1.5rem-env(safe-area-inset-top))] w-[min(30rem,calc(100vw-1.5rem))] flex-col overflow-hidden rounded-3xl border border-border bg-[var(--surface-solid)] p-0 text-fg backdrop:bg-black/75 open:flex"
     >
-      <div className="p-5">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <h2 id="settings-title" className="font-display text-2xl font-bold">Settings</h2>
-            <p className="mt-1 text-[0.9375rem] text-muted">Make the app easier to see and use. Saved on this device only.</p>
-          </div>
-          <Button variant="ghost" size="icon" onClick={closeSettings} aria-label="Close settings"><X className="h-4 w-4" aria-hidden="true" /></Button>
+      <div className="flex shrink-0 items-center justify-between gap-3 border-b border-border px-4 py-2.5">
+        <div className="min-w-0">
+          <h2 id="settings-title" className="font-display text-xl font-bold leading-tight">Settings</h2>
+          <p className="text-[0.8125rem] text-muted">Saved on this device only.</p>
         </div>
+        <Button variant="secondary" size="icon" onClick={closeSettings} aria-label="Close settings"><X className="h-5 w-5" aria-hidden="true" /></Button>
+      </div>
 
+      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-3">
         <Group title="Appearance">
           <ThemeChoice />
         </Group>
@@ -87,12 +90,12 @@ export function SettingsDialog() {
         <Group title="Text size">
           <fieldset>
             <legend className="sr-only">Text size</legend>
-            <div className="grid grid-cols-2 gap-1 rounded-3xl border border-border bg-surface p-1 min-[420px]:grid-cols-4 min-[420px]:rounded-full">
+            <div className="grid grid-cols-2 gap-1 rounded-3xl border border-border bg-surface p-1 min-[360px]:grid-cols-4 min-[360px]:rounded-full">
               {TEXT_SIZES.map(({ value, label }) => (
                 <label
                   key={value}
                   className={cn(
-                    'flex h-11 cursor-pointer items-center justify-center whitespace-nowrap rounded-full px-2 text-sm font-bold transition-colors has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-gold',
+                    'flex h-11 cursor-pointer items-center justify-center whitespace-nowrap rounded-full px-1 text-sm font-bold transition-colors has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-gold',
                     prefs.text === value ? 'bg-accent text-accent-fg' : 'text-muted hover:text-fg',
                   )}
                 >
@@ -102,36 +105,37 @@ export function SettingsDialog() {
               ))}
             </div>
           </fieldset>
-          <p className="mt-2 rounded-2xl border border-border bg-surface p-3 text-[1rem]">Sample: pitch your song at least three weeks before release day.</p>
+          <p className="mt-1.5 rounded-2xl border border-border bg-surface px-3 py-2 text-[1rem] leading-snug">Sample: pitch your song three weeks early.</p>
         </Group>
 
         <Group title="Easier on the eyes">
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <SwitchRow label="Higher contrast" hint="Stronger text and borders." checked={prefs.contrast === 'high'} onChange={(on) => update({ contrast: on ? 'high' : 'normal' })} />
-            <SwitchRow label="Underline links" hint="Links in sentences are always underlined." checked={prefs.links === 'underline'} onChange={(on) => update({ links: on ? 'underline' : 'normal' })} />
-            <SwitchRow label="Plainer background" hint="Solid cards and bars: no frosted glass or colored glow." checked={prefs.plain} onChange={(on) => update({ plain: on })} />
+            <SwitchRow label="Underline links" hint="Links in sentences are underlined." checked={prefs.links === 'underline'} onChange={(on) => update({ links: on ? 'underline' : 'normal' })} />
+            <SwitchRow label="Plainer background" hint="Solid cards, no glass or glow." checked={prefs.plain} onChange={(on) => update({ plain: on })} />
             <SwitchRow
               label="Reduce motion"
-              hint={deviceMotion ? 'Your device already asks for less motion, so this is on.' : 'No sliding, floating or fading.'}
+              hint={deviceMotion ? 'Your device already asks for this.' : 'No sliding, floating or fading.'}
               checked={deviceMotion || prefs.motion === 'reduce'}
               disabled={deviceMotion}
               onChange={(on) => update({ motion: on ? 'reduce' : 'system' })}
             />
           </div>
         </Group>
+      </div>
 
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-          <Button
-            variant="secondary"
-            onClick={() => {
-              reset();
-              setPref('system');
-            }}
-          >
-            Reset to defaults
-          </Button>
-          <Button variant="primary" onClick={closeSettings}>Done</Button>
-        </div>
+      <div className="flex shrink-0 items-center justify-between gap-3 border-t border-border px-4 py-2.5">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => {
+            reset();
+            setPref('system');
+          }}
+        >
+          Reset to defaults
+        </Button>
+        <Button variant="primary" size="sm" onClick={closeSettings}>Done</Button>
       </div>
     </dialog>
   );

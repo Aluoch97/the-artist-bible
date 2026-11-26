@@ -7,8 +7,14 @@ To release: add a new `## x.y · date` block at the top of this file in the same
 ## 1.12 · Nov 26, 2026
 The PDFs are colorful and carry the Artist Bible look. The release plan, split sheet and press kit now have a warm gradient header with the logo artwork, colored step cards with tick circles and a progress bar (release plan), colored bars showing each person's share (split sheet), numbered tracks and link chips (press kit), and a colored footer on every page.
 
+## 1.11 · Nov 26, 2026
+Settings is more compact and easier to leave. The title and the Close (X) button now stay at the top, and **Done** and **Reset to defaults** stay at the bottom, while only the options in between scroll. Tighter spacing means the whole panel fits on most phones without scrolling.
+
 ## 1.10 · Nov 26, 2026
 Fixed: **Download PDF** on the Release page. The old Print / Save PDF button did nothing on phones and in the installed app. It now saves a real PDF of your plan (every step with its date, ticked boxes for the ones you have done, and "Behind" on late steps), the same way the split sheet and press kit already do.
+
+## 1.9 · Nov 26, 2026
+Fixed: on a computer, the little calendar icon in every date box sat on top of the "Tap to choose a date" hint. It now sits at the right edge of the box.
 
 ## 1.8 · Nov 26, 2026
 Settings. The sun/moon button at the top is now a **Settings** (gear) button.
