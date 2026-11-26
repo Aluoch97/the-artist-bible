@@ -98,10 +98,10 @@
       "id": "bmi_live_exists",
       "statement": "BMI Live lets BMI members who perform their own songs report live shows for royalties (setlists online or in the BMI app).",
       "appliesTo": "guides/royalties-collection",
-      "url": "https://www.bmi.com/live",
+      "url": "https://www.bmi.com",
       "automated": false,
       "humanCheckedOn": "2026-11",
-      "howToCheck": "BMI blocks automated visitors. Open bmi.com/live and confirm BMI Live still exists, is for performing songwriters who are BMI members, and that setlists are reported online or in the app."
+      "howToCheck": "BMI blocks automated visitors. Open bmi.com and look for BMI Live (the old bmi.com/live address no longer works) and confirm it still exists, is for performing songwriters who are BMI members, and that setlists are reported online or in the app."
     },
     {
       "id": "ascap_onstage_exists",

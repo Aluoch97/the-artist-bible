@@ -13,7 +13,7 @@ export function DateInput({ className, value, ...props }: Omit<InputHTMLAttribut
         type="date"
         value={value}
         className={cn(
-          'block h-12 w-full min-w-0 max-w-full rounded-xl border border-border bg-bg px-4 text-left text-base text-fg focus-visible:border-accent',
+          'flex h-12 w-full min-w-0 max-w-full rounded-xl border border-border bg-bg px-4 text-left text-base text-fg focus-visible:border-accent',
           empty && 'text-transparent',
           className,
         )}

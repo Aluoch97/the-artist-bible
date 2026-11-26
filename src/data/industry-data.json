@@ -130,8 +130,8 @@
     },
     {
       "id": "bmi_live",
-      "label": "BMI Live",
-      "url": "https://www.bmi.com/live"
+      "label": "BMI (BMI Live)",
+      "url": "https://www.bmi.com"
     }
   ],
   "releaseTypeSteps": {
