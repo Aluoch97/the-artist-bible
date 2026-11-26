@@ -55,7 +55,7 @@ export function ReleaseBudget() {
 
       <StepHeading n={3} title="Streams to earn it back" hint="A range, using the same rough rates as the streaming estimate." />
       {total > 0 ? (
-        <ul className="divide-y divide-border rounded-2xl border border-border bg-surface text-[15px]">
+        <ul className="divide-y divide-border rounded-2xl border border-border bg-surface text-[0.9375rem]">
           {platforms.map((p) => (
             <li key={p.id} className="flex items-baseline justify-between gap-3 px-4 py-2.5">
               <span>{p.name}</span>
@@ -64,7 +64,7 @@ export function ReleaseBudget() {
           ))}
         </ul>
       ) : (
-        <p className="rounded-2xl border border-border bg-surface p-4 text-[15px] text-muted">Add some costs above to see this.</p>
+        <p className="rounded-2xl border border-border bg-surface p-4 text-[0.9375rem] text-muted">Add some costs above to see this.</p>
       )}
       <p className="mt-3 text-sm text-muted">
         These numbers assume every dollar of streaming income is yours. Splits and distributor fees lower it. Try the <Link to="/streams" className="font-semibold text-fg underline underline-offset-4">streaming earnings estimate</Link> to include them.

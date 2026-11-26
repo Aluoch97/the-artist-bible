@@ -48,7 +48,7 @@ export function StreamingCalculator() {
         description="Type in your stream counts to see roughly what they pay. It is only an estimate, and it runs on your device."
       />
 
-      <aside className="mb-6 flex gap-3 rounded-2xl border border-gold/40 bg-gold/10 p-4 text-[15px]">
+      <aside className="mb-6 flex gap-3 rounded-2xl border border-gold/40 bg-gold/10 p-4 text-[0.9375rem]">
         <Info className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden="true" />
         <p>
           <strong>Treat this as a range, not a promise.</strong> {note} Rates last reviewed {reviewedLabel(reviewed)}. For exact numbers, check your distributor&apos;s earnings report.
@@ -92,8 +92,8 @@ export function StreamingCalculator() {
           <>
             <p className="text-sm font-bold text-muted">About</p>
             <p className="font-display text-3xl font-extrabold leading-tight text-accent">{range(lo, hi)}</p>
-            <p className="mt-1 text-[15px] text-muted">from {count(totalStreams)} {totalStreams === 1 ? 'stream' : 'streams'} for you, after the shares above.</p>
-            <ul className="mt-4 divide-y divide-border text-[15px]">
+            <p className="mt-1 text-[0.9375rem] text-muted">from {count(totalStreams)} {totalStreams === 1 ? 'stream' : 'streams'} for you, after the shares above.</p>
+            <ul className="mt-4 divide-y divide-border text-[0.9375rem]">
               {rows.filter((r) => r.n > 0).map((r) => (
                 <li key={r.id} className="flex items-baseline justify-between gap-3 py-2">
                   <span className="min-w-0">{r.name} <span className="text-muted">({count(r.n)})</span></span>
@@ -103,7 +103,7 @@ export function StreamingCalculator() {
             </ul>
           </>
         ) : (
-          <p className="text-[15px] text-muted">Enter some streams above and your estimate shows up here.</p>
+          <p className="text-[0.9375rem] text-muted">Enter some streams above and your estimate shows up here.</p>
         )}
       </div>
 
@@ -113,7 +113,7 @@ export function StreamingCalculator() {
         <Input id={`${uid}-goal`} inputMode="decimal" value={goal} onChange={(e) => setGoal(e.target.value)} />
       </div>
       {target > 0 && keep > 0 && (
-        <ul className="mt-3 divide-y divide-border rounded-2xl border border-border bg-surface text-[15px]">
+        <ul className="mt-3 divide-y divide-border rounded-2xl border border-border bg-surface text-[0.9375rem]">
           {platforms.map((p) => (
             <li key={p.id} className="flex items-baseline justify-between gap-3 px-4 py-2.5">
               <span>{p.name}</span>

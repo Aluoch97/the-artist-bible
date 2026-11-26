@@ -52,7 +52,7 @@ export function DistributorCompare() {
   return (
     <div className="not-prose my-8 rounded-3xl border border-border bg-surface p-4 sm:p-5">
       <h3 className="font-display text-xl font-bold">What will each one really cost me?</h3>
-      <p className="mt-1 text-[15px] text-muted">
+      <p className="mt-1 text-[0.9375rem] text-muted">
         Open each company&apos;s fee page and type in what it says. The math runs on your device and nothing is saved or sent anywhere. Estimates only.
       </p>
 
@@ -105,7 +105,7 @@ export function DistributorCompare() {
                   )}
                 </div>
               </div>
-              <p className="mt-3 text-[15px]" aria-live="polite">
+              <p className="mt-3 text-[0.9375rem]" aria-live="polite">
                 About <strong>{money(res.total)}</strong> over {nYears} {nYears === 1 ? 'year' : 'years'}
                 <span className="text-muted"> ({money(res.fees)} in fees{res.cut > 0 ? ` + ${money(res.cut)} kept by them` : ''})</span>
               </p>

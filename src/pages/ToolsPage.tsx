@@ -36,7 +36,7 @@ export function ToolsPage() {
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block text-lg font-bold leading-snug">{title}</span>
-                <span className="mt-0.5 block text-[15px] text-muted">{description}</span>
+                <span className="mt-0.5 block text-[0.9375rem] text-muted">{description}</span>
               </span>
               <ArrowRight className="mt-2.5 h-5 w-5 shrink-0 text-muted transition-transform group-hover:translate-x-1 group-hover:text-accent" aria-hidden="true" />
             </Link>

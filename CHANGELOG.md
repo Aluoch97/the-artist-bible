@@ -4,6 +4,12 @@ Short version numbers: 1.0, 1.1, 1.2 ... A small change goes up by one step; a b
 The newest version is on top, and it is the number shown in /admin (Account). Write each entry in plain words.
 To release: add a new `## x.y · date` block at the top of this file in the same change. The build picks it up by itself.
 
+## 1.7 · Nov 26, 2026
+Settings. The sun/moon button at the top is now a **Settings** (gear) button.
+- Pick light, dark or match my device, and make the text smaller, larger or largest.
+- Higher contrast, underlined links, a plainer background (no frosted glass or glow) and reduce motion.
+- Reset to defaults. Choices are saved on your device and applied before the page shows, so there is no flash.
+
 ## 1.4 · Nov 26, 2026
 A way to report a security problem is now published at /.well-known/security.txt. Nothing looks different in the app.
 

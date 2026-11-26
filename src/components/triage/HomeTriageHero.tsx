@@ -43,7 +43,7 @@ function TriageCard({ to, title, hint, icon: Icon, gradient, meta, progress }: T
         </span>
       </div>
       <h2 className="relative mt-4 text-xl font-extrabold leading-snug">{title}</h2>
-      <p className="relative mt-1 text-[15px] text-[#43260f]">{hint}</p>
+      <p className="relative mt-1 text-[0.9375rem] text-[#43260f]">{hint}</p>
       <div className="relative mt-4 flex items-center gap-3">
         <span className="rounded-full bg-white/60 px-3 py-1 text-xs font-bold">{meta}</span>
         {progress !== null && (
@@ -83,7 +83,7 @@ export function HomeTriageHero() {
         <h1 id="home-title" className="relative font-display text-[1.45rem] font-bold leading-[1.1] tracking-tight min-[360px]:text-[1.75rem] sm:text-5xl">
           What are you <span className="text-[#7a2f04]">working on?</span>
         </h1>
-        <p className="relative mt-3 text-[15px] font-medium text-[#43260f] min-[360px]:text-base sm:text-lg">Pick one. Everything here is free, and it keeps working without a signal once it has loaded.</p>
+        <p className="relative mt-3 text-[0.9375rem] font-medium text-[#43260f] min-[360px]:text-base sm:text-lg">Pick one. Everything here is free, and it keeps working without a signal once it has loaded.</p>
         <img
           src="/hero-art.webp"
           alt=""
@@ -115,7 +115,7 @@ export function HomeTriageHero() {
         <Link to="/guides/start-here" className="mb-4 flex items-center justify-between gap-3 rounded-3xl border border-accent/50 bg-accent/10 p-4 backdrop-blur-sm transition-colors hover:bg-accent/15">
           <span>
             <span className="block font-bold">New to this? Start here</span>
-            <span className="text-[15px] text-muted">A short path from your first song to getting paid.</span>
+            <span className="text-[0.9375rem] text-muted">A short path from your first song to getting paid.</span>
           </span>
           <ChevronRight className="h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
         </Link>
@@ -158,21 +158,21 @@ export function HomeTriageHero() {
             <BookOpen className="mt-0.5 h-6 w-6 shrink-0 text-accent" aria-hidden="true" />
             <span>
               <span className="block font-bold">Guides</span>
-              <span className="text-[15px] text-muted">Seven short guides, from your first release to getting paid.</span>
+              <span className="text-[0.9375rem] text-muted">Seven short guides, from your first release to getting paid.</span>
             </span>
           </Link>
           <Link to="/red-flags" className="flex items-start gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-pink/70">
             <ShieldAlert className="mt-0.5 h-6 w-6 shrink-0 text-pink" aria-hidden="true" />
             <span>
               <span className="block font-bold">Red flags</span>
-              <span className="text-[15px] text-muted">Got a contract or a DM that feels off? Decode it here.</span>
+              <span className="text-[0.9375rem] text-muted">Got a contract or a DM that feels off? Decode it here.</span>
             </span>
           </Link>
           <Link to="/tools" className="flex items-start gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-accent/70">
             <Wrench className="mt-0.5 h-6 w-6 shrink-0 text-accent" aria-hidden="true" />
             <span>
               <span className="block font-bold">All tools</span>
-              <span className="text-[15px] text-muted">Songs, shows, press kit, budget, streaming estimate and more.</span>
+              <span className="text-[0.9375rem] text-muted">Songs, shows, press kit, budget, streaming estimate and more.</span>
             </span>
           </Link>
         </div>

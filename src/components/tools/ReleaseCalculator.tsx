@@ -67,7 +67,7 @@ function TimelineStrip({ steps, completed, nextId }: { steps: PlannedMilestone[]
                   {isRelease ? 'Release day' : `${m.weeksOut} ${m.weeksOut === 1 ? 'week' : 'weeks'} before`}: {m.label}. {state === 'done' ? 'Done.' : state === 'behind' ? 'Behind.' : state === 'next' ? 'Next up.' : 'Coming up.'}
                 </span>
                 <span className={cn('text-xs font-bold leading-tight', isNext && !done ? 'text-accent' : 'text-fg')}>{shortDate(m.due).replace(/^\w+, /, '')}</span>
-                <span className="-mt-1 text-[11px] leading-none text-muted">{isRelease ? 'Release' : isNext && !done ? 'Next' : ''}</span>
+                <span className="-mt-1 text-[0.6875rem] leading-none text-muted">{isRelease ? 'Release' : isNext && !done ? 'Next' : ''}</span>
               </a>
             </li>
           );
@@ -176,7 +176,7 @@ function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boole
               <label
                 key={o.value}
                 className={cn(
-                  'flex h-12 cursor-pointer items-center justify-center rounded-full border text-[15px] font-bold transition-colors has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-gold',
+                  'flex h-12 cursor-pointer items-center justify-center rounded-full border text-[0.9375rem] font-bold transition-colors has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-gold',
                   type === o.value ? 'border-accent bg-accent text-accent-fg' : 'border-border bg-bg text-muted hover:text-fg',
                 )}
               >
@@ -271,7 +271,7 @@ function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boole
                         <Badge variant={m.weeksOut === 0 ? 'accent' : 'neutral'}>{m.weeksOut === 0 ? 'Release day' : `${m.weeksOut} ${m.weeksOut === 1 ? 'week' : 'weeks'} before`}</Badge>
                         {overdue && <Badge variant="warn">Behind</Badge>}
                       </span>
-                      <span className={cn('mt-1 block text-[15px]', isDone && 'text-muted line-through')}>{m.label}</span>
+                      <span className={cn('mt-1 block text-[0.9375rem]', isDone && 'text-muted line-through')}>{m.label}</span>
                     </span>
                   </label>
                 </li>
@@ -281,12 +281,12 @@ function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boole
 
           {planWords.length > 0 && (
             <details className="no-print mt-4 rounded-2xl border border-border bg-surface p-4">
-              <summary className="min-h-11 cursor-pointer text-[15px] font-bold text-accent">Words used in this plan ({planWords.length})</summary>
+              <summary className="min-h-11 cursor-pointer text-[0.9375rem] font-bold text-accent">Words used in this plan ({planWords.length})</summary>
               <dl className="mt-2 space-y-3">
                 {planWords.map((w) => (
                   <div key={w.id}>
                     <dt className="font-bold">{w.term}</dt>
-                    <dd className="text-[15px] text-muted">{w.meaning}</dd>
+                    <dd className="text-[0.9375rem] text-muted">{w.meaning}</dd>
                   </div>
                 ))}
               </dl>

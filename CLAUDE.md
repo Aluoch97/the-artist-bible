@@ -247,7 +247,7 @@ Guardrails that keep it consistent with the non-negotiables:
 ---
 
 ## 10. Theming (added after v1)
-Two themes, both warm and built around the logo: **dark** (warm brown, the original studio feel) and **light** (lighter, peachier). The device setting decides by default; a header sun/moon button and About > Appearance override it.
+Two themes, both warm and built around the logo: **dark** (warm brown, the original studio feel) and **light** (lighter, peachier). The device setting decides by default; the header **Settings** (gear) button opens the Settings dialog, where the person can choose Match my device / Light / Dark.
 * Tokens live in `src/index.css` (`:root` = dark, `:root[data-theme='light']`, plus a no-JS fallback that follows the device). Never hardcode colors in components; use the tokens (`bg-bg`, `text-fg`, `text-accent`, ...).
 * `public/theme-init.js` runs before first paint (kept external because the CSP forbids inline scripts) so there is no flash of the wrong theme. Preference is stored in `artist_bible_ui_v1` (UI only), never in `artist_bible_v1`.
 * Orange is the brand accent; **green means success** and must not be replaced by the accent. Check contrast in both themes (axe) after any palette change.
@@ -286,3 +286,11 @@ Glass-and-gradient look inspired by modern course apps, in the logo's colors: a 
 * Learn has three tabs (Guides, Red flags, Words). Home shows the three starting cards and a short "More to explore" row (Guides, Red flags, All tools); there is no separate progress list.
 * **Pages load on demand:** every page except Home is `React.lazy` in `src/App.tsx`, and guide bodies load per chapter (`src/content/index.ts` uses `?frontmatter`, handled by the small plugin in `vite.config.ts`, so lists read only the front matter). All chunks are still precached for offline use. Keep new pages lazy.
 * **CSP:** `style-src 'self'` (no inline styles). Style through Tailwind classes or the DOM `style` property; never write `style="..."` in markup or set it with `setAttribute('style', ...)`.
+
+---
+
+## 16. Settings dialog and display options (added Nov 26, 2026, owner request)
+* The header **Settings** (gear) button replaced the sun/moon toggle. It opens `src/components/layout/SettingsDialog.tsx` (native `<dialog>`, opened through `src/lib/settingsDialog.ts` so the About page can open it too; About has no duplicate controls).
+* Options: Appearance (light/dark/match device), Text size (Smaller, Standard, Larger, Largest = html font-size 90 / 100 / 112.5 / 125%), Higher contrast, Underline links, Plainer background (solid cards, no glass or glow), Reduce motion (on and locked when the device already asks for less motion), Reset to defaults.
+* Stored in `artist_bible_ui_v1` (UI only, never in `artist_bible_v1`), applied as `data-text`, `data-motion`, `data-contrast`, `data-links` and `data-plain` on `<html>` by `src/hooks/useDisplayPrefs.ts` and, before first paint, by `public/theme-init.js`. The rules live in `src/index.css` next to the theme tokens.
+* **Use rem, not px, for text sizes** (`text-[0.9375rem]`, not `text-[15px]`), or the Text size choice will not scale that text. Tested: all pages at 320px with Largest text and every option on, in both themes: no sideways scroll, no serious axe findings.

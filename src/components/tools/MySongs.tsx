@@ -63,7 +63,7 @@ export function MySongs() {
       )}
 
       {songs.length === 0 ? (
-        <p className="mt-8 rounded-2xl border border-border bg-surface p-5 text-[15px] text-muted">
+        <p className="mt-8 rounded-2xl border border-border bg-surface p-5 text-[0.9375rem] text-muted">
           No songs yet. Add your first song above. For each one you can tick off the splits and the three places that pay you:
           your PRO, The MLC and SoundExchange. <Link to="/audit" className="font-semibold text-fg underline underline-offset-4">Not joined yet? Start with Get Paid.</Link>
         </p>
@@ -99,7 +99,7 @@ export function MySongs() {
                     </fieldset>
 
                     <details className="mt-3">
-                      <summary className="min-h-11 cursor-pointer py-2.5 text-[15px] font-bold text-accent">Codes and notes</summary>
+                      <summary className="min-h-11 cursor-pointer py-2.5 text-[0.9375rem] font-bold text-accent">Codes and notes</summary>
                       <div className="grid grid-cols-1 gap-3 pb-1 sm:grid-cols-3">
                         <Field label="ISRC" value={s.isrc} maxLength={30} onChange={(e) => updateSong(s.id, { isrc: e.target.value })} />
                         <Field label="UPC" value={s.upc} maxLength={30} onChange={(e) => updateSong(s.id, { upc: e.target.value })} />
