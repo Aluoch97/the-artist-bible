@@ -233,7 +233,18 @@ input[type='date'] {
 }
 input[type='date']::-webkit-datetime-edit { padding: 0; }
 input[type='date']::-webkit-date-and-time-value { text-align: left; min-height: 1.5em; margin: 0; }
-input[type='date']::-webkit-calendar-picker-indicator { opacity: 0.75; }
+/* Pin the calendar icon to the right edge. In the flex box above, desktop Chrome left it right after the text, on top of the "Tap to choose a date" hint. */
+input[type='date'] { position: relative; }
+input[type='date']::-webkit-calendar-picker-indicator {
+  opacity: 0.75;
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: -0.625rem 0 0;
+  padding: 0;
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
