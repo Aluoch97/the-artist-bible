@@ -4,6 +4,9 @@ Short version numbers: 1.0, 1.1, 1.2 ... A small change goes up by one step; a b
 The newest version is on top, and it is the number shown in /admin (Account). Write each entry in plain words.
 To release: add a new `## x.y · date` block at the top of this file in the same change. The build picks it up by itself.
 
+## 1.7 · Nov 26, 2026
+A more immersive Tools tab. A colourful banner, tools grouped by what you are trying to do (Protect yourself, Keep track, Know your numbers, Get noticed), bright tiles like the Home cards, and small badges that show your own progress (songs, shows, budget).
+
 ## 1.6 · Nov 26, 2026
 The BMI link on the Live show log page and in the Royalties guide now opens the BMI home page. The old BMI Live address was a dead end.
 
