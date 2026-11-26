@@ -1,8 +1,9 @@
-import { AlertTriangle, CalendarCheck, CalendarPlus, Check, Flag, Link2, PartyPopper, Plus, Printer, Trash2 } from 'lucide-react';
+import { AlertTriangle, CalendarCheck, CalendarPlus, Check, Flag, Link2, PartyPopper, Download, Plus, Trash2 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { startNewRelease as startNewReleaseAction, useLocalProgress } from '../../hooks/useLocalProgress';
 import { copyText } from '../../lib/clipboard';
+import { downloadReleasePlanPdf } from '../../lib/pdf';
 import { buildIcs, downloadIcs } from '../../lib/ics';
 import { daysBetween, formatLongDate, formatISOForDisplay, toISODate, parseISODate, todayISO } from '../../lib/dates';
 import { milestonesFor, planRelease, relativeDays, type PlannedMilestone } from '../../lib/release';
@@ -130,6 +131,19 @@ function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boole
   const completed = saved && targetDate && saved.releaseDate === date ? saved.completedMilestoneIds : [];
   const canCheck = Boolean(saved && saved.releaseDate === date);
   const doneCount = milestones.filter((m) => completed.includes(m.id)).length;
+  const [pdfBusy, setPdfBusy] = useState(false);
+  const [pdfError, setPdfError] = useState('');
+  const downloadPdf = async () => {
+    setPdfBusy(true);
+    setPdfError('');
+    try {
+      await downloadReleasePlanPdf({ title, type, releaseDate: date, steps: milestones, completedIds: completed });
+    } catch {
+      setPdfError('Could not build the PDF. Try again, or use Add to calendar.');
+    } finally {
+      setPdfBusy(false);
+    }
+  };
   const addToCalendar = () => {
     const name = title.trim() || 'Release';
     const events = milestones.map((m) => ({
@@ -306,13 +320,14 @@ function ReleaseForm({ onNew, allowLink }: { onNew: () => void; allowLink: boole
             <Button onClick={addToCalendar}>
               <CalendarPlus className="h-4 w-4" aria-hidden="true" /> Add to calendar
             </Button>
-            <Button onClick={() => window.print()}>
-              <Printer className="h-4 w-4" aria-hidden="true" /> Print / Save PDF
+            <Button onClick={downloadPdf} disabled={pdfBusy}>
+              <Download className="h-4 w-4" aria-hidden="true" /> {pdfBusy ? 'Making PDF…' : 'Download PDF'}
             </Button>
             <Button variant="ghost" onClick={onNew}>
               <Plus className="h-4 w-4" aria-hidden="true" /> Start another release
             </Button>
           </div>
+          {pdfError && <p role="alert" className="mt-2 text-sm font-semibold text-bad">{pdfError}</p>}
           <p className="sr-only" role="status">{copied === 'ok' ? 'Shareable link copied to clipboard' : ''}</p>
           <p className="mt-3 text-xs text-muted">Dates use your local time zone. Shared links carry only the title, type and date, never your checkmarks.</p>
         </div>
