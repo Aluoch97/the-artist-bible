@@ -1,6 +1,7 @@
 import type { jsPDF } from 'jspdf';
 import type { EpkDraft, SplitSheetDraft } from '../types/bible';
-import { formatISOForDisplay, todayISO } from './dates';
+import { formatISOForDisplay, formatLongDate, todayISO } from './dates';
+import type { PlannedMilestone } from './release';
 import { fmtPct, sumPct } from './splitSheet';
 
 /* jsPDF's built-in fonts only cover Latin-1. Names are the whole point of a split sheet, so anything
@@ -273,4 +274,100 @@ export async function downloadEpkPdf(epk: EpkDraft): Promise<void> {
   doc.setFontSize(8);
   doc.text('Made with The Artist Bible', margin, pageH - 30);
   doc.save(`${fileSlug(name)}-press-kit.pdf`);
+}
+
+export interface ReleasePlanPdfInput {
+  title: string;
+  type: string;
+  /** YYYY-MM-DD */
+  releaseDate: string;
+  steps: PlannedMilestone[];
+  completedIds: string[];
+}
+
+/** The release plan as a PDF: every step with its due date and whether it is done. Same on-demand jsPDF loading as the others. */
+export async function downloadReleasePlanPdf(input: ReleasePlanPdfInput): Promise<void> {
+  const { jsPDF: PDF } = await import('jspdf');
+  const doc = new PDF({ unit: 'pt', format: 'letter' });
+  const pageW = doc.internal.pageSize.getWidth();
+  const pageH = doc.internal.pageSize.getHeight();
+  const margin = 54;
+  const contentW = pageW - margin * 2;
+  let y = margin;
+  const ensure = (needed: number): void => {
+    if (y + needed > pageH - margin - 24) {
+      doc.addPage();
+      y = margin;
+    }
+  };
+
+  const name = input.title.trim() || 'Untitled release';
+  const typeLabel = input.type === 'ep' ? 'EP' : input.type.charAt(0).toUpperCase() + input.type.slice(1);
+  line(doc, 'RELEASE PLAN', margin, y, { size: 12, bold: true });
+  y += 28;
+  line(doc, name, margin, y, { size: 24, bold: true, maxW: contentW });
+  y += 22;
+  line(doc, `${typeLabel}  |  Release day: ${formatISOForDisplay(input.releaseDate)}`, margin, y, { size: 12, maxW: contentW });
+  y += 16;
+  const done = input.steps.filter((m) => input.completedIds.includes(m.id)).length;
+  line(doc, `${done} of ${input.steps.length} steps done  |  Printed ${formatISOForDisplay(todayISO())}`, margin, y, { size: 10, maxW: contentW });
+  y += 14;
+  doc.setLineWidth(1);
+  doc.line(margin, y, margin + contentW, y);
+  y += 22;
+
+  const dateX = margin + 22;
+  const stepX = margin + 150;
+  const stepW = contentW - 150;
+  for (const m of input.steps) {
+    const isDone = input.completedIds.includes(m.id);
+    ensure(44);
+    // Tick box
+    doc.setLineWidth(0.8);
+    doc.rect(margin, y - 9, 11, 11);
+    if (isDone) {
+      doc.setLineWidth(1.4);
+      doc.line(margin + 2, y - 3, margin + 5, y);
+      doc.line(margin + 5, y, margin + 10, y - 8);
+    }
+    const when = m.weeksOut === 0 ? 'Release day' : `${m.weeksOut} ${m.weeksOut === 1 ? 'week' : 'weeks'} before`;
+    line(doc, formatLongDate(m.due), dateX, y, { size: 10, bold: true, maxW: 124 });
+    line(doc, when, dateX, y + 12, { size: 8, maxW: 124 });
+    const rows = wrapped(doc, m.label, stepX, y, { size: 10, maxW: stepW }, 13);
+    const status = isDone ? 'Done' : m.daysFromNow < 0 ? 'Behind' : '';
+    if (status) {
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.setTextColor(isDone ? 20 : 170, isDone ? 110 : 40, isDone ? 60 : 40);
+      doc.text(status.toUpperCase(), stepX, y + rows * 13 + 1);
+      doc.setTextColor(0);
+    }
+    y += Math.max(rows * 13 + (status ? 12 : 0), 26) + 12;
+    doc.setLineWidth(0.3);
+    doc.setDrawColor(200);
+    doc.line(margin, y - 8, margin + contentW, y - 8);
+    doc.setDrawColor(0);
+  }
+
+  y += 6;
+  ensure(40);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(90);
+  const note = doc.splitTextToSize(
+    'Dates are counted back from your release day in your local time zone. This plan is a planning aid, not legal or financial advice.',
+    contentW,
+  ) as string[];
+  doc.text(note, margin, y);
+
+  const pages = doc.getNumberOfPages();
+  for (let p = 1; p <= pages; p++) {
+    doc.setPage(p);
+    doc.setFontSize(8);
+    doc.setTextColor(120);
+    doc.text('Generated via The Artist Bible', margin, pageH - 30);
+    doc.text(`Page ${p} of ${pages}`, pageW - margin, pageH - 30, { align: 'right' });
+  }
+
+  doc.save(`release-plan-${fileSlug(input.title)}.pdf`);
 }

@@ -4,6 +4,9 @@ Short version numbers: 1.0, 1.1, 1.2 ... A small change goes up by one step; a b
 The newest version is on top, and it is the number shown in /admin (Account). Write each entry in plain words.
 To release: add a new `## x.y · date` block at the top of this file in the same change. The build picks it up by itself.
 
+## 1.10 · Nov 26, 2026
+Fixed: **Download PDF** on the Release page. The old Print / Save PDF button did nothing on phones and in the installed app. It now saves a real PDF of your plan (every step with its date, ticked boxes for the ones you have done, and "Behind" on late steps), the same way the split sheet and press kit already do.
+
 ## 1.9 · Nov 26, 2026
 Fixed: on a computer, the little calendar icon in every date box sat on top of the "Tap to choose a date" hint. It now sits at the right edge of the box.
 
