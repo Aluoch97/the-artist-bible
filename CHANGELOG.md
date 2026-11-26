@@ -4,6 +4,9 @@ Short version numbers: 1.0, 1.1, 1.2 ... A small change goes up by one step; a b
 The newest version is on top, and it is the number shown in /admin (Account). Write each entry in plain words.
 To release: add a new `## x.y · date` block at the top of this file in the same change. The build picks it up by itself.
 
+## 1.12 · Nov 26, 2026
+The PDFs are colorful and carry the Artist Bible look. The release plan, split sheet and press kit now have a warm gradient header with the logo artwork, colored step cards with tick circles and a progress bar (release plan), colored bars showing each person's share (split sheet), numbered tracks and link chips (press kit), and a colored footer on every page.
+
 ## 1.10 · Nov 26, 2026
 Fixed: **Download PDF** on the Release page. The old Print / Save PDF button did nothing on phones and in the installed app. It now saves a real PDF of your plan (every step with its date, ticked boxes for the ones you have done, and "Behind" on late steps), the same way the split sheet and press kit already do.
 
