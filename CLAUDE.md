@@ -294,3 +294,11 @@ Glass-and-gradient look inspired by modern course apps, in the logo's colors: a 
 * Options: Appearance (light/dark/match device), Text size (Smaller, Standard, Larger, Largest = html font-size 90 / 100 / 112.5 / 125%), Higher contrast, Underline links, Plainer background (solid cards, no glass or glow), Reduce motion (on and locked when the device already asks for less motion), Reset to defaults.
 * Stored in `artist_bible_ui_v1` (UI only, never in `artist_bible_v1`), applied as `data-text`, `data-motion`, `data-contrast`, `data-links` and `data-plain` on `<html>` by `src/hooks/useDisplayPrefs.ts` and, before first paint, by `public/theme-init.js`. The rules live in `src/index.css` next to the theme tokens.
 * **Use rem, not px, for text sizes** (`text-[0.9375rem]`, not `text-[15px]`), or the Text size choice will not scale that text. Tested: all pages at 320px with Largest text and every option on, in both themes: no sideways scroll, no serious axe findings.
+
+## "nucheck" (Nick's name for the full check, Nov 28, 2026, same in all apps)
+When Nick says "nucheck" (or "full check"), run ALL of these and report each as its own row, saying what was run now versus only judged from the code:
+1. **Scripted case check**: the CASE and SCRIPTED lists (compliance, accessibility, security, efficiency; search/SEO, cross-device, regression, content integrity, performance, third-party audit, error tracking, data privacy and legal).
+2. **Does this make sense**: use it like a first-time visitor. Is each screen's purpose clear, the order sensible, the words true to what the button does, nothing contradicting itself?
+3. **Trust pass**: honest claims, privacy text matching what really happens, clear before asking for money, data or permissions, errors that say what went wrong, nothing that looks broken or half-finished.
+4. **Professional pass**: consistent spelling, wording and spacing; no placeholder or test text; icons, favicons and share previews right; nothing unfinished next to Nick's other apps.
+5. **Redundancy check**: a feature, text or idea lives in ONE place and everything else links to it. Look for duplicate screens, settings, buttons, copy and code paths, and two ways to do the same thing.
